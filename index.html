@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SMU MBAI Team Building Session</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description"
+    content="Unified Analysis Tool for SMU MBAI Team Building Session - Topic Opportunity, Data Simulation, and Decision Analysis.">
+  <meta name="author" content="SMU MBAI Team">
+
+  <!-- Google Fonts for premium typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Reference to the external stylesheet -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Reference to the external script -->
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- 1. HEADER COMPONENT -->
+    <header>
+      <div class="header-top">
+        <span class="eyebrow" id="org-eyebrow">SMU Master of Science in Business AI (MBAI)</span>
+        <span class="badge-pill" id="version-badge">v1.0.1</span>
+      </div>
+      <h1 id="main-title">SMU MBAI Team Building Session </h1>
+      <p class="subtitle" id="main-subtitle">A Unified Tool to Analyze the Data Collected From (Name of the Application)
+      </p>
+      <hr class="header-rule">
+      <div class="byline-row">
+        <span id="byline-author">Names of Team Members</span>
+        <span id="byline-date">Date of Session</span>
+      </div>
+
+      <!-- Color Token Swap Flag -->
+      <div class="color-warning-flag" id="color-swap-flag">
+        <span>⚠️ <strong>Color Palette Verification:</strong> The colors rendered here represent the standard SMU Navy
+          (<code>#182B49</code>) and Gold (<code>#B08D57</code>). Check if these are fully verified against the
+          <code>smutools</code> R package tokens prior to shipping.</span>
+      </div>
+    </header>
+
+    <!-- 2. TAB BAR NAVIGATION -->
+    <nav class="tab-bar" aria-label="Reference Card Navigation">
+      <button class="tab-btn active" data-tab="overview">Overview</button>
+      <button class="tab-btn" data-tab="wrangle">01 Topic Opportunity</button>
+      <button class="tab-btn" data-tab="viz">02 Data Simulation</button>
+      <button class="tab-btn" data-tab="publish">03 Decision Analysis</button>
+    </nav>
+
+    <!-- 3. OVERVIEW PANEL (Default Active View) -->
+    <section class="tab-panel active" id="panel-overview" aria-labelledby="overview-title">
+      <h2 id="overview-title">Reference Overview</h2>
+
+      <!-- Chat Placeholder Bar -->
+      <div class="chat-bar-container">
+        <form id="chat-form" onsubmit="event.preventDefault(); handleChat();">
+          <input type="text" id="chat-input" placeholder="Ask a question about the MBAI team building data...">
+          <button type="submit" class="chat-btn-submit">Ask</button>
+        </form>
+      </div>
+
+      <!-- A. Note Box
+      <div class="note-box">
+        <span class="note-label">MBAI Team Building Session Guide</span>
+        <p>Welcome to the unified analysis suite for the SMU MBAI cohort. This interface brings together business
+          intelligence tools to model data from our session, simulate user profiles, and perform decision sorting based
+          on mathematical preferences.</p>
+        <p>By applying standardized tools such as the Opportunity Algorithm and Cosine Similarity, we examine
+          preferences and cohort behaviors scientifically, demonstrating core concepts of algorithmic analysis and
+          business AI matching.</p>
+        <p>Interact with the tabs above to explore opportunities, edit simulated user records, or analyze clusters of
+          cohort preferences in real time.</p>
+        <span class="attribution">— SMU MBAI Academic Leadership</span>
+      </div> -->
+
+      <!-- A. Note Box -->
+      <div class="note-box">
+        <span class="note-label">Why we're showing you this</span>
+        <p>We're not here to walk you through how to build these tools. Half of you could build them faster than we did.
+          What we want to slow down, together, on day zero, are the two questions we think actually decide whether any
+          of this matters: what should we build, and who is it actually for.</p>
+        <p>The Opportunity Algorithm makes us name what's underserved before we fall for a solution we just think is
+          cool. The Simulation tab makes "the user" a person with specific, occasionally annoying behavioral data
+          instead of a vibe we're projecting onto. The Cosine Similarity tool checks whether the cohort we think we're
+          building for actually shares a preference — because if they don't, we're not solving one problem, we're
+          solving three and pretending it's one.</p>
+        <p>Our bet for today: speed of experimentation beats speed of execution. We'd rather rule out five bad
+          directions before lunch than polish one we never tested. This is the start of the questions, not the start of
+          the answers — so if something we try today falls apart, that's not a bad demo, that's the point.</p>
+        <span class="attribution">— Team [X], Day 0 Orientation</span>
+      </div>
+
+      <!-- B. Summary Table describing Tabs 01-03 -->
+      <h3>Module Capabilities & Index</h3>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Input</th>
+              <th>Output</th>
+              <th>Best Use</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>01 Topic Opportunity</strong></td>
+              <td>Importance (0-10) & Satisfaction (0-10)</td>
+              <td class="tint-yes">Live Score, Classification & Heatmap</td>
+              <td>Identifying product backlog ideas or feature opportunities</td>
+            </tr>
+            <tr>
+              <td><strong>02 Data Simulation</strong></td>
+              <td>20 editable user metric profiles</td>
+              <td class="tint-yes">Simulated database & JSON export</td>
+              <td>Testing analytics, session paths, and tags logic</td>
+            </tr>
+            <tr>
+              <td><strong>03 Decision Analysis</strong></td>
+              <td>25 deterministic N-dimensional preference vectors</td>
+              <td class="tint-no">NxN similarity matrix & closest pairs</td>
+              <td>Matching team partners or sorting allocation choices</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- C. 2-Column "House Rules" Grid -->
+      <h3>Interactive Module Rules</h3>
+      <div class="house-rules-grid">
+        <div class="rule-card">
+          <div class="micro-heading">01. Opportunity Scoring</div>
+          <p>Score opportunities using Importance and Satisfaction. Ripe sectors (high importance, low satisfaction) are
+            colored green.</p>
+        </div>
+        <div class="rule-card">
+          <div class="micro-heading">02. Data Simulation</div>
+          <p>Adjust behavior metrics and interest tags. All inputs are editable inline. Export to download valid JSON
+            data structure.</p>
+        </div>
+        <div class="rule-card">
+          <div class="micro-heading">03. Cosine Matching</div>
+          <p>Toggle similarity views to sort people. The matrix dynamically calculates proximity. Self-pairs highlight
+            along the diagonal.</p>
+        </div>
+        <div class="rule-card">
+          <div class="micro-heading">04. Session Integrity</div>
+          <p>All analysis runs client-side in the browser. Clear or reload the page to restore seed values to default.
+          </p>
+        </div>
+      </div>
+
+      <!-- D. Attention Callout -->
+      <div class="attention-callout">
+        <span class="attention-label">ATTENTION: ETHICAL DATA POLICIES</span>
+        <p>ALL DATA RENDERED AND GENERATED WITHIN THIS COHORT WORKSPACE MUST COMPLY WITH THE SMU ACADEMIC HONESTY
+          DIRECTIVES AND BUSINESS AI PRIVACY AND ANONYMIZATION PROTOCOLS. DO NOT EXPORT OR LOAD PERSONALLY IDENTIFIABLE
+          INFORMATION (PII).</p>
+      </div>
+
+      <!-- E. Numbered Rules List -->
+      <h3>Session Execution Workflow</h3>
+      <ul class="numbered-rules-list">
+        <li>
+          <span class="lead-in">Align Priorities:</span> Use Tab 01 to review opportunity gaps for ideas gathered during
+          the initial brainstorming stage.
+        </li>
+        <li>
+          <span class="lead-in">Simulate Cohorts:</span> Use Tab 02 to generate, modify, and review synthetic customer
+          data points for simulation testing.
+        </li>
+        <li>
+          <span class="lead-in">Formulate Teams:</span> Use Tab 03 to review similarity groups and match members
+          according to complementary vectors.
+        </li>
+      </ul>
+    </section>
+
+    <!-- 4. PER-TOPIC PANELS -->
+
+    <!-- Tab 01: Topic Opportunity -->
+    <section class="tab-panel" id="panel-wrangle" aria-labelledby="wrangle-title">
+      <h2 id="wrangle-title">Opportunity Algorithm</h2>
+      <p class="panel-intro">Score any user or customer need by how important it is versus how satisfied people
+        currently are.</p>
+
+      <div class="code-block formula-box">
+        Importance + max(Importance - Satisfaction, 0) = <span>Opportunity</span>
+      </div>
+
+      <div class="sliders-container">
+        <div class="sliders-row">
+          <div class="slider-control">
+            <label for="slider-importance" class="slider-label">Importance</label>
+            <div class="slider-input-container">
+              <input type="range" id="slider-importance" min="0" max="10" value="7">
+              <span class="slider-val" id="val-importance">7</span>
+            </div>
+          </div>
+          <div class="slider-control">
+            <label for="slider-satisfaction" class="slider-label">Satisfaction</label>
+            <div class="slider-input-container">
+              <input type="range" id="slider-satisfaction" min="0" max="10" value="3">
+              <span class="slider-val" id="val-satisfaction">3</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live display of Score and Classification -->
+      <div class="score-display">
+        <div class="score-num" id="opportunity-score">11</div>
+        <div class="score-band" id="opportunity-band">MODERATE</div>
+      </div>
+
+      <!-- Heatmap grid table (Importance 10->0, Satisfaction 0->10) -->
+      <div style="overflow-x: auto; width: 100%;">
+        <table class="opportunity-heatmap-table" id="opportunity-heatmap">
+          <!-- Rendered in script.js -->
+        </table>
+      </div>
+
+      <!-- Heatmap Legend -->
+      <div class="heatmap-legend-row">
+        <div class="legend-item">
+          <div class="legend-color-box cell-band-ripe"></div>
+          <span>15–20 Ripe Opportunity</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color-box cell-band-high"></div>
+          <span>12–14 High Opportunity</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color-box cell-band-moderate"></div>
+          <span>10–11 Moderate</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color-box cell-band-low"></div>
+          <span>0–9 Low / Over-served</span>
+        </div>
+      </div>
+
+      <div class="gotcha-box">
+        <span class="gotcha-title">Gotcha:</span> High satisfaction scores always drive the second term in the formula
+        to 0. An area with high satisfaction cannot score as high opportunity even with high importance.
+      </div>
+    </section>
+
+    <!-- Tab 02: Data Simulation -->
+    <section class="tab-panel" id="panel-viz" aria-labelledby="viz-title">
+      <h2 id="viz-title">Data Simulation — 20 Users</h2>
+      <p class="panel-intro">Edit values directly, randomize for quick fills, then export JSON for a similarity or
+        clustering script.</p>
+
+      <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 16px;">
+        <strong>interest_tags:</strong> comma-separated subset of food, outdoors, arts, sports, professional, language,
+        other |
+        <strong>behavior metrics:</strong> session_duration_sec, page_views, scroll_depth_pct, rage_clicks, dead_clicks,
+        click_count
+      </p>
+
+      <div class="toolbar-buttons">
+        <button class="btn-toolbar" id="btn-rand-all">🎲 Randomize All 20</button>
+        <button class="btn-toolbar btn-toolbar-secondary" id="btn-add-user">+ Add User</button>
+        <button class="btn-toolbar" id="btn-export-json">📥 Export JSON</button>
+      </div>
+
+      <div class="sim-table-container">
+        <table class="sim-table" id="sim-table">
+          <thead>
+            <tr>
+              <th style="width: 30px;">#</th>
+              <th style="width: 70px;">user_id</th>
+              <th style="width: 100px;">name</th>
+              <th>interest_tags</th>
+              <th style="width: 80px;">session_sec</th>
+              <th style="width: 65px;">views</th>
+              <th style="width: 65px;">scroll_%</th>
+              <th style="width: 65px;">rage</th>
+              <th style="width: 65px;">dead</th>
+              <th style="width: 65px;">clicks</th>
+              <th style="width: 40px;"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Populated via script.js -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="sim-status-line" id="sim-status">20 users in table.</div>
+
+      <div class="gotcha-box">
+        <span class="gotcha-title">Gotcha:</span> Tags are parsed as comma-separated values. Make sure tags match the
+        allowed tags vocabulary to avoid classification gaps in downstream analysis.
+      </div>
+    </section>
+
+    <!-- Tab 03: Decision Analysis -->
+    <section class="tab-panel" id="panel-publish" aria-labelledby="publish-title">
+      <h2 id="publish-title">Who Behaves/Thinks Like Whom</h2>
+      <p class="panel-intro">Every person becomes a vector across the ventures. Cosine similarity measures whether two
+        people share the same shape of preference, regardless of how generous or stingy either was overall.</p>
+
+      <div class="json-import-bar">
+        <label for="json-import-input" class="json-import-label">Import JSON</label>
+        <input type="file" id="json-import-input" accept="application/json,.json">
+        <span class="json-import-status" id="json-import-status">Using seeded demo data (25 people, 8 groups)</span>
+      </div>
+
+      <div class="mode-toggles">
+        <button class="toggle-btn active" id="btn-mode-customer">Customer preference</button>
+        <button class="toggle-btn" id="btn-mode-capital">Capital allocation</button>
+        <button class="toggle-btn" id="btn-mode-similarity">Order by similarity</button>
+        <button class="toggle-btn" id="btn-mode-group">Order by group</button>
+      </div>
+
+      <div class="similarity-matrix-container">
+        <table class="similarity-grid" id="similarity-matrix">
+          <!-- Rendered dynamically in script.js -->
+        </table>
+
+        <!-- Heatmap Legend -->
+        <div class="legend-container">
+          <span id="legend-min">0.48</span>
+          <div class="legend-gradient"></div>
+          <span id="legend-max">0.98</span>
+          <span class="legend-help">colour stretched to range present · hover for true cosine · click a row to open that
+            person</span>
+        </div>
+      </div>
+
+      <h3>Closest Pairs</h3>
+      <div class="closest-pairs-grid" id="closest-pairs">
+        <!-- Populated dynamically in script.js -->
+      </div>
+
+      <div class="gotcha-box">
+        <span class="gotcha-title">Gotcha:</span> Cosine similarity ignores the magnitude of vector values. A user
+        rating everything 10 will have a 1.0 similarity with a user rating everything 1, provided the relative shapes
+        match.
+      </div>
+    </section>
+
+  </div>
+
+</body>
+
+</html>
