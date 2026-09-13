@@ -32,329 +32,2029 @@
     <header>
       <div class="header-top">
         <span class="eyebrow" id="org-eyebrow">SMU Master of Science in Business AI (MBAI)</span>
-        <span class="badge-pill" id="version-badge">v1.0.1</span>
+        <span class="badge-pill" id="version-badge">v1.0.0</span>
       </div>
-      <h1 id="main-title">SMU MBAI Team Building Session </h1>
-      <p class="subtitle" id="main-subtitle">A Unified Tool to Analyze the Data Collected From (Name of the Application)
+      <h1 id="main-title">MGMT 6110: Group 2 Task </h1>
+      <p class="subtitle" id="main-subtitle">A unified tool to walk through and <strong>unpack</strong> our Problem Set 2 together 
       </p>
       <hr class="header-rule">
       <div class="byline-row">
-        <span id="byline-author">Names of Team Members</span>
-        <span id="byline-date">Date of Session</span>
+        <span id="byline-author">Zi Ming, Yi Ming, Keziah, Gillian </span>
+        <span id="byline-date">16 September 2026</span>
       </div>
 
-      <!-- Color Token Swap Flag -->
+      <!-- Color Token Swap Flag
       <div class="color-warning-flag" id="color-swap-flag">
         <span>⚠️ <strong>Color Palette Verification:</strong> The colors rendered here represent the standard SMU Navy
           (<code>#182B49</code>) and Gold (<code>#B08D57</code>). Check if these are fully verified against the
           <code>smutools</code> R package tokens prior to shipping.</span>
       </div>
-    </header>
+    </header> -->
 
-    <!-- 2. TAB BAR NAVIGATION -->
-    <nav class="tab-bar" aria-label="Reference Card Navigation">
-      <button class="tab-btn active" data-tab="overview">Overview</button>
-      <button class="tab-btn" data-tab="wrangle">01 Topic Opportunity</button>
-      <button class="tab-btn" data-tab="viz">02 Data Simulation</button>
-      <button class="tab-btn" data-tab="publish">03 Decision Analysis</button>
-    </nav>
+      <!-- 2. TAB BAR NAVIGATION
+      <nav class="tab-bar" aria-label="Reference Card Navigation">
+        <button class="tab-btn active" data-tab="overview">Overview</button>
+        <button class="tab-btn" data-tab="wrangle">1 | Reveal</button>
+        <button class="tab-btn" data-tab="viz">2 | Break it</button>
+        <button class="tab-btn" data-tab="fix">3 | Fix it</button>
+        <button class="tab-btn" data-tab="publish">4 | Application</button>
+      </nav> -->
+      <nav class="tab-bar">
+        <button class="tab-btn active" data-tab="overview">
+      <span class="tab-label">Overview</span>
+        </button>
+        <button class="tab-btn" data-tab="wrangle">
+    <span class="tab-num">01</span><span class="tab-label">Reveal</span>
+        </button>
+        <button class="tab-btn" data-tab="viz">
+    <span class="tab-num">02</span><span class="tab-label">Break it</span>
+        </button>
+        <button class="tab-btn" data-tab="fix">
+    <span class="tab-num">03</span><span class="tab-label">Fix it</span>
+        </button>
+        <button class="tab-btn" data-tab="publish">
+    <span class="tab-num">04</span><span class="tab-label">Application</span>
+        </button>
+      </nav>
 
-    <!-- 3. OVERVIEW PANEL (Default Active View) -->
-    <section class="tab-panel active" id="panel-overview" aria-labelledby="overview-title">
-      <h2 id="overview-title">Reference Overview</h2>
+      <!-- 3. OVERVIEW PANEL (Default Active View) -->
+      <section class="tab-panel active" id="panel-overview" aria-labelledby="overview-title">
+        <h2 id="overview-title">Visit our Product Here</h2>
 
-      <!-- Chat Placeholder Bar -->
-      <div class="chat-bar-container">
-        <form id="chat-form" onsubmit="event.preventDefault(); handleChat();">
-          <input type="text" id="chat-input" placeholder="Ask a question about the MBAI team building data...">
-          <button type="submit" class="chat-btn-submit">Ask</button>
-        </form>
-      </div>
-
-      <!-- A. Note Box
-      <div class="note-box">
-        <span class="note-label">MBAI Team Building Session Guide</span>
-        <p>Welcome to the unified analysis suite for the SMU MBAI cohort. This interface brings together business
-          intelligence tools to model data from our session, simulate user profiles, and perform decision sorting based
-          on mathematical preferences.</p>
-        <p>By applying standardized tools such as the Opportunity Algorithm and Cosine Similarity, we examine
-          preferences and cohort behaviors scientifically, demonstrating core concepts of algorithmic analysis and
-          business AI matching.</p>
-        <p>Interact with the tabs above to explore opportunities, edit simulated user records, or analyze clusters of
-          cohort preferences in real time.</p>
-        <span class="attribution">— SMU MBAI Academic Leadership</span>
-      </div> -->
-
-      <!-- A. Note Box -->
-      <div class="note-box">
-        <span class="note-label">Why we're showing you this</span>
-        <p>We're not here to walk you through how to build these tools. Half of you could build them faster than we did.
-          What we want to slow down, together, on day zero, are the two questions we think actually decide whether any
-          of this matters: what should we build, and who is it actually for.</p>
-        <p>The Opportunity Algorithm makes us name what's underserved before we fall for a solution we just think is
-          cool. The Simulation tab makes "the user" a person with specific, occasionally annoying behavioral data
-          instead of a vibe we're projecting onto. The Cosine Similarity tool checks whether the cohort we think we're
-          building for actually shares a preference — because if they don't, we're not solving one problem, we're
-          solving three and pretending it's one.</p>
-        <p>Our bet for today: speed of experimentation beats speed of execution. We'd rather rule out five bad
-          directions before lunch than polish one we never tested. This is the start of the questions, not the start of
-          the answers — so if something we try today falls apart, that's not a bad demo, that's the point.</p>
-        <span class="attribution">— Team [X], Day 0 Orientation</span>
-      </div>
-
-      <!-- B. Summary Table describing Tabs 01-03 -->
-      <h3>Module Capabilities & Index</h3>
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Item</th>
-              <th>Input</th>
-              <th>Output</th>
-              <th>Best Use</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>01 Topic Opportunity</strong></td>
-              <td>Importance (0-10) & Satisfaction (0-10)</td>
-              <td class="tint-yes">Live Score, Classification & Heatmap</td>
-              <td>Identifying product backlog ideas or feature opportunities</td>
-            </tr>
-            <tr>
-              <td><strong>02 Data Simulation</strong></td>
-              <td>20 editable user metric profiles</td>
-              <td class="tint-yes">Simulated database & JSON export</td>
-              <td>Testing analytics, session paths, and tags logic</td>
-            </tr>
-            <tr>
-              <td><strong>03 Decision Analysis</strong></td>
-              <td>25 deterministic N-dimensional preference vectors</td>
-              <td class="tint-no">NxN similarity matrix & closest pairs</td>
-              <td>Matching team partners or sorting allocation choices</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- C. 2-Column "House Rules" Grid -->
-      <h3>Interactive Module Rules</h3>
-      <div class="house-rules-grid">
-        <div class="rule-card">
-          <div class="micro-heading">01. Opportunity Scoring</div>
-          <p>Score opportunities using Importance and Satisfaction. Ripe sectors (high importance, low satisfaction) are
-            colored green.</p>
+        <!-- Chat Placeholder Bar -->
+        <div class="chat-bar-container">
+          <form id="chat-form" onsubmit="event.preventDefault(); handleVisit();">
+            <input type="text" id="chat-input" placeholder="input our final vercel link here...">
+            <button type="submit" class="chat-btn-submit">Visit</button>
+          </form>
         </div>
-        <div class="rule-card">
-          <div class="micro-heading">02. Data Simulation</div>
-          <p>Adjust behavior metrics and interest tags. All inputs are editable inline. Export to download valid JSON
-            data structure.</p>
+
+        <!-- A. Note Box -->
+        <div class="note-box">
+          <span class="note-label">Why we're showing you this</span>
+          <p>Last week we built a screen. Looks nice. This week, we'll put something true behind it. That sounds like a small step but it isn't—so let's be honest about why. 
+            Up to now, everything our product claimed was something we decided. We typed the number, or the agent invented it, and either way it was ours. 
+
+          <p>From this week, our product depends on something we don't control (yet, but hopefully soon when we build our own A-a-a-S). A
+            service run by people who have never heard of you, who can be slow, or empty, or down, or can decide your credential expired at three in the morning (hopefully not to us).</p>
+          
+          <p>That changes what 'finished' means. A screen either renders or it doesn't. A service that calls another service has states, and we have to decide about them in advance.
+            So here's the thing we most want you to take from this set: most of the work is not entirely about the code. Most of the work is deciding what your product says when the data isn't there</p>
+          <p>We have the data now. We need to reverse engineer our approach to build a UI. Not just any random UI, but someone that will serve our users well. 
+            Well since we are in business school, we will focus on <strong>monetization</strong>. How about selling some convenience to our users. We will start from there.</p>
+          <p>Our bet for today: speed of <strong>experimentation beats speed of execution</strong>. We'd rather rule out five bad
+            directions as a team, rather than polish one we never tested. This is the start of the questions, not the start
+            of the answers—so if something we try today falls apart, that's not a bad demo, that's the point. We will walk you through this—rest assured.</p>
+          <span class="attribution">~ Group 2 &middot; Week 4 Problem Solving Leadership Session</span>
         </div>
-        <div class="rule-card">
-          <div class="micro-heading">03. Cosine Matching</div>
-          <p>Toggle similarity views to sort people. The matrix dynamically calculates proximity. Self-pairs highlight
-            along the diagonal.</p>
+
+        <!-- B. Summary Table describing Tabs 01-03 -->
+        <h3>Each tab at a glance</h3>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Input</th>
+                <th>Output</th>
+                <th>Best Use</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>1. Reveal</strong></td>
+                <td>Google AI Studio -> Github -> Vercel </td>
+                <td class="tint-yes">Preview of Build -> Management of Codebase -> Hosted Deployment (with API KEY control)</td>
+                <td>Showing a live product where the credential is provably server-side and absent from the repo</td>
+              </tr>
+              <tr>
+                <td><strong>2. BREAK IT</strong></td>
+                <td>We will intentionally break it to test the resilience of our backend</td>
+                <td class="tint-yes">Four distinguishable screen states: loading, empty, refused, unreachable—plus the <code>/api/health</code> verdict</td>
+                <td>Proving the back end fails in sentences a user can act on, not in a blank screen</td>
+              </tr>
+              <tr>
+                <td><strong>3. Application</strong></td>
+                <td>The same product, re-pointed at HR, Operations and Finance & Accounting</td>
+                <td class="tint-no">What changes in data, risk and oversight—and the one industry we would not ship in</td>
+                <td>Testing whether the design survives a change of stakes, or only worked because nothing was riding on it</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div class="rule-card">
-          <div class="micro-heading">04. Session Integrity</div>
-          <p>All analysis runs client-side in the browser. Clear or reload the page to restore seed values to default.
+
+        <!-- C. 2-Column "House Rules" Grid
+        <h3>Interactive Module Rules</h3>
+        <div class="house-rules-grid">
+          <div class="rule-card">
+            <div class="micro-heading">01. Opportunity Scoring</div>
+            <p>Score opportunities using Importance and Satisfaction. Ripe sectors (high importance, low satisfaction)
+              are
+              colored green.</p>
+          </div>
+          <div class="rule-card">
+            <div class="micro-heading">02. Data Simulation</div>
+            <p>Adjust behavior metrics and interest tags. All inputs are editable inline. Export to download valid JSON
+              data structure.</p>
+          </div>
+          <div class="rule-card">
+            <div class="micro-heading">03. Cosine Matching</div>
+            <p>Toggle similarity views to sort people. The matrix dynamically calculates proximity. Self-pairs highlight
+              along the diagonal.</p>
+          </div>
+          <div class="rule-card">
+            <div class="micro-heading">04. Session Integrity</div>
+            <p>All analysis runs client-side in the browser. Clear or reload the page to restore seed values to default.
+            </p>
+          </div>
+        </div> -->
+       <!-- C. The four states -->
+<h3>The four states every back end has</h3>
+<p class="glance-lede">A screen either renders or it doesn't. A service that calls another service has four
+  situations, and your user needs a different sentence for each one. Three of the four are things
+  they can actually act on—which is why a spinner isn't an answer.</p>
+
+<div class="house-rules-grid">
+  <div class="rule-card state-neutral">
+    <div class="card-head">
+      <div class="micro-heading">01. Loading</div>
+      <span class="status-chip">no status yet</span>
+    </div>
+    <p>The request is in flight. The only state where "wait" is the right advice—and the only one
+      most products ever bother to design. Some take some time to get approved.</p>
+  </div>
+
+  <div class="rule-card state-ok">
+    <div class="card-head">
+      <div class="micro-heading">02. Empty (but OK)</div>
+      <span class="status-chip">200 OK</span>
+    </div>
+    <p>The source answered and there is <strong>nothing to show</strong>. Not an error. A Singapore feed at midnight
+      is quiet, not broken, and the screen has to say so in words.(like there should not be buses or trains at 3am right—so rightfully so)</p>
+  </div>
+
+  <div class="rule-card state-bad">
+    <div class="card-head">
+      <div class="micro-heading">03. Refused</div>
+      <span class="status-chip">401 / 403 / 404</span>
+    </div>
+    <p>A credential was sent and rejected. The user can't fix this, but they can tell us—so the
+      screen's job is to say plainly that nothing on it is current.</p>
+  </div>
+
+  <div class="rule-card state-warn">
+    <div class="card-head">
+      <div class="micro-heading">04. Unreachable</div>
+      <span class="status-chip">no response · we return 503</span>
+    </div>
+    <p>We couldn't reach the provider at all. Different cause, different sentence, same rule:
+      never a blank space where a number belongs.</p>
+  </div>
+</div>
+
+
+        <!-- D. Attention Callout
+        <div class="attention-callout">
+          <span class="attention-label">ATTENTION: ETHICAL DATA POLICIES</span>
+          <p>ALL DATA RENDERED AND GENERATED WITHIN THIS COHORT WORKSPACE MUST COMPLY WITH THE SMU ACADEMIC HONESTY
+            DIRECTIVES AND BUSINESS AI PRIVACY AND ANONYMIZATION PROTOCOLS. DO NOT EXPORT OR LOAD PERSONALLY
+            IDENTIFIABLE
+            INFORMATION (PII).</p>
+        </div> -->
+
+        <!-- D. Attention Callout -->
+         <div class="attention-callout">
+          <span class="attention-label">THE ONE RULE WITH A CONSEQUENCE OUTSIDE THIS ROOM</span>
+          <p>THE KEY LIVES IN A VERCEL ENVIRONMENT VARIABLE. THE CALL HAPPENS INSIDE <code>/api</code>.
+            THE PAGE ONLY EVER TALKS TO OUR OWN ADDRESS. NO VARIABLE NAME BEGINS <code>VITE_</code>—THAT
+            PREFIX WRITES THE VALUE INTO THE PAGE EVERY VISITOR DOWNLOADS, WITH NO WARNING, PUBLIC FROM
+            THE MOMENT YOU DEPLOY.</p>
+        </div>
+
+        <!-- E. Numbered Rules List
+        <h3>Session Execution Workflow</h3>
+        <ul class="numbered-rules-list">
+          <li>
+            <span class="lead-in">Align Priorities:</span> Use Tab 01 to review opportunity gaps for ideas gathered
+            during
+            the initial brainstorming stage.
+          </li>
+          <li>
+            <span class="lead-in">Simulate Cohorts:</span> Use Tab 02 to generate, modify, and review synthetic customer
+            data points for simulation testing.
+          </li>
+          <li>
+            <span class="lead-in">Formulate Teams:</span> Use Tab 03 to review similarity groups and match members
+            according to complementary vectors.
+          </li>
+        </ul>
+      </section> -->
+      <!-- E. Run of show -->
+    <h3>How the next 25 minutes go</h3>
+    <ul class="numbered-rules-list">
+    <li>
+      <span class="lead-in">Reveal:</span> We run the product live on the real URL, end to end—Google
+    AI Studio to GitHub to Vercel. Then we show the credential is configured without ever showing
+    its value.
+      </li>
+     <li>
+    <span class="lead-in">Break it:</span> We point it at something that doesn't exist, then pull
+    the credential, while you watch. Four states, four sentences. If it falls apart in a way we
+    didn't rehearse, oh boy... but apparently Prof said that's the better demo.
+  </li>
+  <li>
+    <span class="lead-in">Application:</span> The same product re-pointed at HR, Operations and
+    Finance &amp; Accounting—what changes in data, in risk, in oversight. Including the one where
+    we would not ship it, and why.
+  </li>
+</ul>
+      </section>
+
+      <!-- 4. PER-TOPIC PANELS -->
+
+      <!-- Tab 01: Topic Opportunity -->
+      <section class="tab-panel" id="panel-wrangle" aria-labelledby="wrangle-title">
+        <h2 id="wrangle-title">Reveal—what the key is, and where it may be read</h2>
+        <p class="panel-intro">Every service below was called by hand before it was written about. The tiers are not
+          about quality; they are about what the service asks of you before it answers, and what that means for where
+          the credential is allowed to live.</p>
+
+        <!-- A. Collapsible key reference -->
+        <h3>Key reference</h3>
+        <div class="keyref">
+
+          <details class="keyref-item">
+            <summary>
+              <span class="keyref-title">Tier one · nothing but a URL</span>
+              <span class="keyref-tag">no signup</span>
+            </summary>
+            <div class="keyref-body">
+              <p><strong>Open-Meteo</strong> (weather and geocoding), <strong>Frankfurter</strong> (ECB exchange
+                rates), <strong>Nager.Date</strong> (public holidays), <strong>World Bank</strong> (country
+                indicators), <strong>Wikipedia</strong> (summaries). No key, no account, no card — you paste the URL
+                into a browser and the data comes back.</p>
+              <p>Route them through <code>/api</code> anyway. Not for secrecy — there is nothing to hide — but so
+                every feed in the product is cached in one place, fails in one shape, and is read by one piece of
+                code. The day a keyless service starts asking for a key, you change one file.</p>
+            </div>
+          </details>
+
+          <details class="keyref-item">
+            <summary>
+              <span class="keyref-title">Tier two · a key, by email, no card</span>
+              <span class="keyref-tag">minutes</span>
+            </summary>
+            <div class="keyref-body">
+              <p><code>LTA_ACCOUNT_KEY</code> (Singapore bus, train and traffic feeds),
+                <code>NASA_API_KEY</code>, <code>GUARDIAN_API_KEY</code>, <code>PEXELS_API_KEY</code>,
+                <code>ALPHAVANTAGE_API_KEY</code>. You fill in a form, the key arrives by email, and you are working
+                inside ten minutes. No payment details at any point.</p>
+              <p>All five are read <strong>inside <code>/api</code> only</strong>. The browser asks your own route for
+                data; your route asks the provider and attaches the key. A key that reaches the browser has been
+                published, whether or not anyone has looked yet.</p>
+            </div>
+          </details>
+
+          <details class="keyref-item">
+            <summary>
+              <span class="keyref-title">Tier three · making something happen</span>
+              <span class="keyref-tag">forms and email</span>
+            </summary>
+            <div class="keyref-body">
+              <p><code>WEB3FORMS_KEY</code> is the one exception that lives in browser code, because it can do
+                exactly one thing: deliver a form submission to the inbox that owns it. It cannot read your data,
+                spend your money, or be turned into anything else. That narrowness is the whole reason it is safe to
+                expose — not convenience.</p>
+              <p><code>RESEND_API_KEY</code> is the opposite and is server-side only. It sends mail as you. On the
+                shared sender you can only write to your own account address; sending to anyone else requires a
+                domain you have verified.</p>
+            </div>
+          </details>
+
+          <details class="keyref-item">
+            <summary>
+              <span class="keyref-title">Do not build on these</span>
+              <span class="keyref-tag">tested and rejected</span>
+            </summary>
+            <div class="keyref-body">
+              <p><strong>NewsAPI.org</strong> — the free plan forbids production use, so it works in development and
+                stops at the deployed URL. <strong>REST Countries</strong> — returns success codes on failure, which
+                means your error states never fire and the screen lies quietly.</p>
+              <p>Also: anything served over <strong>http-only</strong>, which a browser on an https page will refuse
+                to load; and any endpoint a tutorial names without naming its host, because you cannot check the
+                terms of a service you cannot identify.</p>
+            </div>
+          </details>
+
+        </div>
+
+        <div class="table-container keytable">
+          <table>
+            <thead>
+              <tr>
+                <th>Variable Name</th>
+                <th>Service</th>
+                <th>Where It May Be Read</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>LTA_ACCOUNT_KEY</code></td>
+                <td>LTA DataMall — bus, train, traffic</td>
+                <td class="tint-yes">Inside <code>/api</code> only</td>
+              </tr>
+              <tr>
+                <td><code>NASA_API_KEY</code></td>
+                <td>NASA open APIs — imagery, APOD</td>
+                <td class="tint-yes">Inside <code>/api</code> only</td>
+              </tr>
+              <tr>
+                <td><code>GUARDIAN_API_KEY</code></td>
+                <td>The Guardian — articles and search</td>
+                <td class="tint-yes">Inside <code>/api</code> only</td>
+              </tr>
+              <tr>
+                <td><code>PEXELS_API_KEY</code></td>
+                <td>Pexels — stock photography</td>
+                <td class="tint-yes">Inside <code>/api</code> only</td>
+              </tr>
+              <tr>
+                <td><code>ALPHAVANTAGE_API_KEY</code></td>
+                <td>Alpha Vantage — market and FX series</td>
+                <td class="tint-yes">Inside <code>/api</code> only</td>
+              </tr>
+              <tr>
+                <td><code>RESEND_API_KEY</code></td>
+                <td>Resend — transactional email</td>
+                <td class="tint-yes">Inside <code>/api</code> only</td>
+              </tr>
+              <tr>
+                <td><code>ONEMAP_TOKEN</code></td>
+                <td>OneMap SG — expires every three days</td>
+                <td class="tint-yes">Inside <code>/api</code> only</td>
+              </tr>
+              <tr>
+                <td><code>WEB3FORMS_KEY</code></td>
+                <td>Web3Forms — form delivery</td>
+                <td class="tint-no">Browser — the single exception</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="attention-callout">
+          <span class="attention-label">ATTENTION: NO VARIABLE NAME BEGINS VITE_</span>
+          <p>THE VITE_ PREFIX IS AN INSTRUCTION TO THE BUILD TOOL TO WRITE THE VALUE INTO THE BUNDLE THAT EVERY
+            VISITOR DOWNLOADS. THERE IS NO WARNING AND NO ERROR. THE KEY IS PUBLIC FROM THE MOMENT YOU DEPLOY, AND
+            REMAINS PUBLIC IN EVERY CACHE AND CLONE OF THAT BUILD AFTER YOU ROTATE IT.</p>
+        </div>
+
+        <!-- B. Three worked examples -->
+        <h3>Three worked examples you can try right now.</h3>
+
+        <div class="example-stack">
+
+          <details class="rule-card example-card">
+            <summary class="card-head">
+              <div class="micro-heading">01. Singapore, with a key</div>
+              <span class="status-chip">carparks + buses</span>
+            </summary>
+            <div class="example-body">
+              <p class="proves"><strong>What it proves:</strong> the credential is provably server-side, and "no lots
+                data" reads differently on screen from "we were refused".</p>
+              <ul class="endpoint-list">
+                <li><code>data.gov.sg</code> carpark availability — keyless, the main feed</li>
+                <li><code>LTA DataMall</code> bus arrival — needs <code>LTA_ACCOUNT_KEY</code>, so something in the demo
+                  can actually be refused in front of an audience</li>
+              </ul>
+              <div class="state-grid">
+                <div class="rule-card state-neutral state-line">
+                  <span class="status-chip">loading</span>
+                  <p>Checking the carpark feed — usually about two seconds.</p>
+                </div>
+                <div class="rule-card state-ok state-line">
+                  <span class="status-chip">200 OK</span>
+                  <p>The feed answered, but no lot counts were published for this carpark in the last update.</p>
+                </div>
+                <div class="rule-card state-bad state-line">
+                  <span class="status-chip">401 / 403</span>
+                  <p>Our bus key was refused, so arrival times are not current. Carpark lots below are unaffected.</p>
+                </div>
+                <div class="rule-card state-warn state-line">
+                  <span class="status-chip">503</span>
+                  <p>We could not reach LTA at all. Nothing on this panel is live — try again in a minute.</p>
+                </div>
+              </div>
+              <div class="prompt-head">
+                <span class="prompt-label">Prompt</span>
+                <button type="button" class="copybtn" data-target="prompt-ex1">Copy</button>
+              </div>
+              <pre class="code-block" id="prompt-ex1">ROLE
+You are building a small production web app on Vercel, not a snippet. Assume a public URL.
+
+GOAL
+One page for a driver heading into town: for a chosen carpark, show how many lots are free
+right now and when the next buses reach the stop outside it, so they can decide drive or bus
+before leaving the house.
+
+OUTPUT
+/api/carparks.js  fetch data.gov.sg carpark availability, return {updatedAt, lots:[...]}
+/api/bus.js       fetch LTA DataMall bus arrival, read LTA_ACCOUNT_KEY from process.env
+/api/health.js    return {ok, keyConfigured: Boolean(process.env.LTA_ACCOUNT_KEY)}
+index.html        two panels, each rendering its own four states independently
+Endpoints:
+  https://api.data.gov.sg/v1/transport/carpark-availability?date_time=2026-09-12T09:00:00
+  https://datamall2.mytransport.sg/ltaodataservice/v3/BusArrival?BusStopCode=83139
+  LTA requires the request header  AccountKey: &lt;LTA_ACCOUNT_KEY&gt;
+
+GUARDRAILS
+- LTA_ACCOUNT_KEY is read only inside /api. It never appears in client code, in a query
+  string, or anywhere in a response body.
+- No environment variable name begins VITE_.
+- Cache each upstream response for 60 seconds and print "as of HH:MM" beside the numbers.
+- Four states, four distinct sentences. Never a spinner that has no end condition.
+- /api/health reports keyConfigured as true or false and never the value itself.
+
+CHECKS
+1. curl both endpoints by hand before writing any UI code.
+2. View source on the deployed page and search for the key. Expect zero hits.
+3. Open /api/health. Expect {"ok":true,"keyConfigured":true}.
+4. Unset LTA_ACCOUNT_KEY and redeploy: the bus panel must say refused in words, and the
+   carpark panel must keep working.</pre>
+            </div>
+
+          </details>
+
+          <details class="rule-card example-card">
+            <summary class="card-head">
+              <div class="micro-heading">02. Overseas, keyless</div>
+              <span class="status-chip">zero credentials</span>
+            </summary>
+            <div class="example-body">
+              <p class="proves"><strong>What it proves:</strong> a genuinely useful product with no credentials at all —
+                and that "empty" is a real state, not a bug. A two-character search or an unlisted country returns
+                nothing, and the screen has to say so.</p>
+              <ul class="endpoint-list">
+                <li>Open-Meteo geocoding — city name to coordinates</li>
+                <li>Open-Meteo forecast — seven days, daily highs, lows and rain probability</li>
+                <li>Nager.Date — public holidays for the destination country</li>
+              </ul>
+              <p class="framing"><strong>For an HR audience:</strong> this is the tool an HR team reaches for when
+                planning an offsite, or checking whether a long weekend in one market collides with a working week in
+                another.</p>
+              <div class="state-grid">
+                <div class="rule-card state-neutral state-line">
+                  <span class="status-chip">loading</span>
+                  <p>Looking up that city and pulling the seven-day outlook.</p>
+                </div>
+                <div class="rule-card state-ok state-line">
+                  <span class="status-chip">200 OK</span>
+                  <p>No city matched that search. Try the full name — two letters is not enough to match on.</p>
+                </div>
+                <div class="rule-card state-bad state-line">
+                  <span class="status-chip">4xx</span>
+                  <p>That country is not in the holiday list, so the calendar below is blank on purpose.</p>
+                </div>
+                <div class="rule-card state-warn state-line">
+                  <span class="status-chip">503</span>
+                  <p>The forecast service did not respond. Nothing here is current — try again shortly.</p>
+                </div>
+              </div>
+              <div class="prompt-head">
+                <span class="prompt-label">Prompt</span>
+                <button type="button" class="copybtn" data-target="prompt-ex2">Copy</button>
+              </div>
+              <pre class="code-block" id="prompt-ex2">ROLE
+You are building a small production web app on Vercel with no credentials of any kind.
+
+GOAL
+A quick-getaway planner for an HR team: type a city, see the next seven days of weather and
+any public holidays in that country, so they can pick an offsite date or spot a long-weekend
+clash across markets before booking anything.
+
+OUTPUT
+/api/geocode.js   Open-Meteo geocoding, city name to {name, country, lat, lon, countryCode}
+/api/forecast.js  Open-Meteo 7-day daily forecast for those coordinates
+/api/holidays.js  Nager.Date public holidays for that country code and year
+index.html        search box, 7-day strip, holiday list, all four states per panel
+Endpoints:
+  https://geocoding-api.open-meteo.com/v1/search?name=Penang&amp;count=5&amp;language=en
+  https://api.open-meteo.com/v1/forecast?latitude=5.41&amp;longitude=100.34&amp;daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&amp;timezone=auto&amp;forecast_days=7
+  https://date.nager.at/api/v3/PublicHolidays/2026/MY
+
+GUARDRAILS
+- There is no key here, so there is nothing to leak — but the calls still happen in /api, so
+  caching and error handling live in one place if a key ever appears.
+- No environment variable name begins VITE_.
+- Cache geocoding for 24 hours and the forecast for 30 minutes.
+- Four states, four distinct sentences. An empty result is a sentence, never a blank panel.
+- /api/health reports {ok:true, keyConfigured:false} — this product needs no key.
+- Footer must credit Open-Meteo with a link, CC-BY 4.0, non-commercial use.
+
+CHECKS
+1. Call all three endpoints by hand first and read the raw JSON shapes.
+2. Search "Pe" — confirm the empty state renders as a sentence, not a spinner.
+3. Ask for a country Nager.Date does not list and confirm the holiday panel explains itself.
+4. Open /api/health and confirm it answers without any key being set.</pre>
+            </div>
+
+          </details>
+
+          <details class="rule-card example-card">
+            <summary class="card-head">
+              <div class="micro-heading">03. Example 1 plus a form</div>
+              <span class="status-chip">the one browser key</span>
+            </summary>
+            <div class="example-body">
+              <p class="proves"><strong>What it proves:</strong> the difference between the single key that may sit in
+                browser code and every other key that may not — and that the form owns four states of its own, separate
+                from the data panel's.</p>
+              <ul class="endpoint-list">
+                <li>Everything from example 1, unchanged</li>
+                <li>Web3Forms submit — called directly from the browser with
+                  <code>WEB3FORMS_KEY</code></li>
+              </ul>
+              <div class="state-grid">
+                <div class="rule-card state-neutral state-line">
+                  <span class="status-chip">submitting</span>
+                  <p>Sending your address — do not close this tab yet.</p>
+                </div>
+                <div class="rule-card state-ok state-line">
+                  <span class="status-chip">success</span>
+                  <p>You are on the list. The first digest arrives tomorrow at 7am.</p>
+                </div>
+                <div class="rule-card state-bad state-line">
+                  <span class="status-chip">rejected</span>
+                  <p>That address was not accepted. Check for a typo and send it again.</p>
+                </div>
+                <div class="rule-card state-warn state-line">
+                  <span class="status-chip">unreachable</span>
+                  <p>We could not reach the form service. Nothing was saved — please try again.</p>
+                </div>
+              </div>
+              <div class="prompt-head">
+                <span class="prompt-label">Prompt</span>
+                <button type="button" class="copybtn" data-target="prompt-ex3">Copy</button>
+              </div>
+              <pre class="code-block" id="prompt-ex3">ROLE
+You are extending the carpark app from example 1 with a signup form, on Vercel.
+
+GOAL
+A commuter who checked the carpark once wants it daily: one email field under the lots panel
+subscribes them to a 7am digest for the carpark they were looking at, and tells them plainly
+whether the subscription worked.
+
+OUTPUT
+index.html        the example 1 panels, plus a form posting to Web3Forms from the browser
+/api/bus.js       unchanged, still reads LTA_ACCOUNT_KEY server-side
+/api/health.js    {ok, keyConfigured} for the LTA key only
+Endpoints:
+  https://api.web3forms.com/submit   POST JSON {access_key, email, carpark}
+  https://api.data.gov.sg/v1/transport/carpark-availability?date_time=2026-09-12T09:00:00
+
+GUARDRAILS
+- WEB3FORMS_KEY is the single exception: it belongs in browser code because it can only
+  deliver a message to the inbox that owns it. Say so in a comment beside it.
+- LTA_ACCOUNT_KEY stays inside /api and is never sent to the browser for any reason.
+- No environment variable name begins VITE_.
+- Cache the carpark feed for 60 seconds; the form is never cached.
+- The form has its own four states — submitting, success, rejected, unreachable — rendered
+  separately from the data panel's four, as four distinct sentences.
+- /api/health reports keyConfigured for LTA without revealing the value.
+
+CHECKS
+1. POST to Web3Forms by hand with curl before wiring the form.
+2. View source: WEB3FORMS_KEY is visible by design, LTA_ACCOUNT_KEY must not appear at all.
+3. Submit an invalid address and confirm the rejected sentence renders, not a silent reset.
+4. Block api.web3forms.com in devtools and confirm the unreachable sentence appears.</pre>
+            </div>
+
+          </details>
+
+        </div>
+
+        <div class="gotcha-box">
+          <span class="gotcha-title">Gotcha:</span> Rotating a leaked key does not un-publish it. Anything already
+          scraped from a deployed bundle keeps working until the old key is revoked at the provider — which is a
+          different action from issuing a new one.
+        </div>
+      </section>
+
+      <!-- Tab 02: Data Simulation -->
+      <section class="tab-panel" id="panel-viz" aria-labelledby="viz-title">
+        <h2 id="viz-title">Break it — what the screen says when it doesn't work</h2>
+        <p class="panel-intro">Four breaks, performed live, in this order. Each one is a deliberate act with a
+          predicted sentence attached.</p>
+
+        <!-- A. The premise -->
+        <div class="note-box">
+          <span class="note-label">The premise</span>
+          <p>Reveal proved the thing works. That is the least interesting claim we can make — anyone can demo a
+            product working, and every demo you have ever seen was a demo of something working.</p>
+          <p>The only interesting question is what the screen says when it doesn't. A spinner that never resolves, a
+            blank panel where a number belongs, a silent fallback to stale data: none of those are bugs in the
+            ordinary sense. The code ran. Someone simply never decided what the user should be told.</p>
+          <p>So this tab is not a testing exercise. It is a product decision, made four times, out loud.</p>
+          <span class="attribution">~ Four breaks, four sentences</span>
+        </div>
+
+        <!-- B. The four breaks -->
+        <h3>The four breaks</h3>
+        <p class="break-grid-intro">Each card opens. Inside is the prompt that engineers that failure on purpose, what
+          is actually happening underneath, and the guard that prevents it.</p>
+        <div class="house-rules-grid">
+
+          <div class="rule-card state-neutral">
+            <button type="button" class="card-head break-toggle" id="break-btn-1"
+              aria-expanded="false" aria-controls="break-panel-1">
+              <span class="micro-heading">01. Loading</span>
+              <span class="status-chip">no status yet</span>
+            </button>
+            <div class="break-lines">
+              <div class="break-line">
+                <span class="break-label">We do</span>
+                <span class="break-text">Throttle the network to slow 3G in devtools and reload the page.</span>
+              </div>
+              <div class="break-line">
+                <span class="break-label">Provider returns</span>
+                <span class="break-text">Nothing yet — there is no status code to read, because no response has
+                  arrived.</span>
+              </div>
+              <div class="break-line">
+                <span class="break-label">User sees</span>
+                <span class="break-text quote">"Checking the carpark feed — usually about two seconds."</span>
+              </div>
+              <div class="break-line">
+                <span class="break-label">Why that sentence</span>
+                <span class="break-text">It is the only state where "wait" is honest advice — and the only one most
+                  products bother to design.</span>
+              </div>
+            </div>
+            <div class="break-expand state-neutral" id="break-panel-1" role="region"
+              aria-labelledby="break-btn-1">
+              <div class="break-expand-inner">
+
+                <div class="prompt-head">
+                  <span class="prompt-label">Engineer this failure</span>
+                  <button type="button" class="copybtn" data-target="break-prompt-1">Copy</button>
+                </div>
+                <pre class="code-block" id="break-prompt-1">ROLE
+You are a senior full-stack developer. The project is a static site deployed to Vercel from
+GitHub — no build step, no framework. Serverless functions live at the project root in api/,
+as siblings of package.json, never inside src/. package.json needs "type": "module", or the
+handlers are named .mjs.
+
+GOAL
+Two halves, in one pass — you need a working app before you can break it.
+1. The build: a panel showing live carpark availability for a short watched list of
+   CarParkIDs, read from data.gov.sg through our own api/ route.
+2. The break: make the response artificially slow so the loading state is visible. Add a
+   query parameter ?delay=8000 that, when present, awaits that many milliseconds before
+   returning. Load /api/sites?delay=8000 and confirm the loading SENTENCE appears rather
+   than a spinner.
+
+OUTPUT
+api/sites.js   GET https://api.data.gov.sg/v1/transport/carpark-availability
+api/health.js  {ok, keyConfigured: false, checkedAt} — this service takes no key
+index.html     one panel, and these four states as four literal sentences:
+  loading      "Checking the carpark feed, usually about two seconds."
+  empty        "The feed answered, but no lots are listed for this carpark right now."
+  refused      does not exist for this service — it takes no credential. Do not write it.
+  unreachable  "We couldn't reach the carpark feed. Nothing here is live — try again in a
+               minute."
+
+GUARDRAILS
+- The ?delay parameter applies ONLY when process.env.NODE_ENV !== 'production'. Put the
+  reason in a comment beside the guard: a production endpoint that accepts a client-supplied
+  delay is a denial of service handed to anyone who reads the URL.
+- data.gov.sg is keyless, so this feed can be UNREACHABLE but never REFUSED. Do not add an
+  environment variable and do not emit a refused sentence.
+- Check response.ok BEFORE reading any body.
+- Cast every number at the boundary. Never render NaN, null or undefined as a lot count.
+- No variable name starts with VITE_. No new npm packages, no database, no login.
+
+CONTEXT
+No environment variable — this service takes no credential.
+Cache-Control: s-maxage=60, stale-while-revalidate=120
+Real response shapes: see "Reference responses" below on this page. Copy the block for this
+service and paste it here before sending.</pre>
+
+
+              </div>
+            </div>
+          </div>
+
+          <div class="rule-card state-ok">
+            <button type="button" class="card-head break-toggle" id="break-btn-2"
+              aria-expanded="false" aria-controls="break-panel-2">
+              <span class="micro-heading">02. Empty</span>
+              <span class="status-chip">200 OK</span>
+            </button>
+            <div class="break-lines">
+              <div class="break-line">
+                <span class="break-label">We do</span>
+                <span class="break-text">Ask for a carpark that exists but has no data published, or a bus stop at
+                  3am.</span>
+              </div>
+              <div class="break-line">
+                <span class="break-label">Provider returns</span>
+                <span class="break-text">200 OK, with an empty array in the body.</span>
+              </div>
+              <div class="break-line">
+                <span class="break-label">User sees</span>
+                <span class="break-text quote">"The feed answered, but no lots are listed for this carpark right
+                  now."</span>
+              </div>
+              <div class="break-line">
+                <span class="break-label">Why that sentence</span>
+                <span class="break-text">This is the dangerous one. A success code, nothing in the body, nothing
+                  thrown. It reaches real users precisely because nothing anywhere reports it as a problem.</span>
+              </div>
+            </div>
+            <div class="break-expand state-ok" id="break-panel-2" role="region"
+              aria-labelledby="break-btn-2">
+              <div class="break-expand-inner">
+
+                <div class="prompt-head">
+                  <span class="prompt-label">Engineer this failure</span>
+                  <button type="button" class="copybtn" data-target="break-prompt-2">Copy</button>
+                </div>
+                <pre class="code-block" id="break-prompt-2">ROLE
+You are a senior full-stack developer. The project is a static site deployed to Vercel from
+GitHub — no build step, no framework. Serverless functions live at the project root in api/,
+as siblings of package.json, never inside src/. package.json needs "type": "module", or the
+handlers are named .mjs.
+
+GOAL
+Two halves, in one pass — you need a working app before you can break it.
+1. The build: a panel showing live carpark availability for a short watched list of
+   CarParkIDs, read from data.gov.sg through our own api/ route.
+2. The break: add a ?force=empty parameter that returns a valid 200 response with an empty
+   array in the body — same envelope, same headers, no records. Then confirm the screen
+   distinguishes "the feed answered and there is nothing to show" from "the feed failed".
+   Also test the real version: request a CarParkID that is in the watched list but absent
+   from today's payload.
+
+OUTPUT
+api/sites.js   GET https://api.data.gov.sg/v1/transport/carpark-availability
+api/health.js  {ok, keyConfigured: false, checkedAt} — this service takes no key
+index.html     one panel, and these four states as four literal sentences:
+  loading      "Checking the carpark feed, usually about two seconds."
+  empty        "The feed answered, but no lots are listed for this carpark right now."
+  refused      does not exist for this service — it takes no credential. Do not write it.
+  unreachable  "We couldn't reach the carpark feed. Nothing here is live — try again in a
+               minute."
+
+GUARDRAILS
+- The ?force=empty parameter applies ONLY when process.env.NODE_ENV !== 'production'. Put
+  the reason in a comment beside the guard: a production endpoint that lets any caller force
+  an empty response is a denial of service handed to anyone who reads the URL.
+- A carpark reporting zero available lots is FULL. A carpark absent from the response is
+  UNKNOWN. These are different states and must never share a sentence.
+- data.gov.sg is keyless, so this feed can be UNREACHABLE but never REFUSED. Do not add an
+  environment variable and do not emit a refused sentence.
+- Check response.ok BEFORE reading any body, and check array length before rendering.
+- No variable name starts with VITE_. No new npm packages, no database, no login.
+
+CONTEXT
+No environment variable — this service takes no credential.
+Cache-Control: s-maxage=60, stale-while-revalidate=120
+Real response shapes: see "Reference responses" below on this page. Copy the block for this
+service and paste it here before sending.</pre>
+
+
+              </div>
+            </div>
+          </div>
+
+          <div class="rule-card state-bad">
+            <button type="button" class="card-head break-toggle" id="break-btn-3"
+              aria-expanded="false" aria-controls="break-panel-3">
+              <span class="micro-heading">03. Refused</span>
+              <span class="status-chip">401 / 403 / 404</span>
+            </button>
+            <div class="break-lines">
+              <div class="break-line">
+                <span class="break-label">We do</span>
+                <span class="break-text">Rename the environment variable in Vercel and redeploy, while you
+                  watch.</span>
+              </div>
+              <div class="break-line">
+                <span class="break-label">Provider returns</span>
+                <span class="break-text">401 with an empty body. Our <code>/api</code> catches it and returns
+                  503.</span>
+              </div>
+              <div class="break-line">
+                <span class="break-label">User sees</span>
+                <span class="break-text quote">"Our key was refused, so nothing on this panel is current — please
+                  tell us if it stays this way."</span>
+              </div>
+              <div class="break-line">
+                <span class="break-label">Why that sentence</span>
+                <span class="break-text">The user cannot fix this, but they can tell us — so the screen's job is to
+                  say plainly that nothing on it is current.</span>
+              </div>
+            </div>
+            <div class="break-expand state-bad" id="break-panel-3" role="region"
+              aria-labelledby="break-btn-3">
+              <div class="break-expand-inner">
+
+                <div class="prompt-head">
+                  <span class="prompt-label">Engineer this failure</span>
+                  <button type="button" class="copybtn" data-target="break-prompt-3">Copy</button>
+                </div>
+                <pre class="code-block" id="break-prompt-3">ROLE
+You are a senior full-stack developer. The project is a static site deployed to Vercel from
+GitHub — no build step, no framework. Serverless functions live at the project root in api/,
+as siblings of package.json, never inside src/. package.json needs "type": "module", or the
+handlers are named .mjs.
+
+GOAL
+Two halves, in one pass — you need a working app before you can break it.
+1. The build: a panel showing the next buses at a chosen stop, read from LTA DataMall
+   through our own api/ route, with the credential server-side.
+2. The break: rename the Vercel environment variable LTA_ACCOUNT_KEY to LTA_ACCOUNT_KEY_OLD
+   and redeploy. Confirm the refused sentence appears, /api/health reports
+   keyConfigured: false, and no key material appears anywhere in any response. Then rename
+   it back and redeploy again.
+   Faster for a live demo: keep a second preview deployment with the variable absent and
+   switch browser tabs — a redeploy takes 30 to 60 seconds and you do not want dead air.
+
+OUTPUT
+api/bus.js     GET https://datamall2.mytransport.sg/ltaodataservice/v3/BusArrival
+               with the request header AccountKey: <LTA_ACCOUNT_KEY>
+api/health.js  {ok, keyConfigured, checkedAt} — reports WHETHER, never WHAT
+index.html     one panel, and these four states as four literal sentences:
+  loading      "Checking the bus feed, usually about two seconds."
+  empty        "The feed answered, but no buses are listed for this stop right now."
+  refused      "Our key was refused, so nothing on this panel is current — please tell us
+               if it stays this way."
+  unreachable  "We couldn't reach LTA at all. Nothing here is live — try again in a minute."
+
+GUARDRAILS
+- Guard BEFORE the fetch: if LTA_ACCOUNT_KEY is missing or empty, return 503 and do not call
+  LTA at all. An unset variable is interpolated as the string "undefined" and LTA answers 401
+  exactly as it would for a wrong key.
+- LTA returns an EMPTY BODY on 401, so response.json() on a failed reply throws. Check
+  response.ok BEFORE reading any body.
+- The header name is exactly AccountKey. Any other capitalisation returns 404, not 401.
+- NextBus2 and NextBus3 arrive as objects whose fields are empty strings when there is no
+  such bus. Treat an empty EstimatedArrival as no bus and omit it. Never emit NaN as a minute.
+- Read the key via process.env inside api/ only, never in browser code. No variable name
+  starts with VITE_. Never print the key, or any part of it, in a response or a log.
+- No new npm packages, no database, no login.
+
+CONTEXT
+Environment variable: LTA_ACCOUNT_KEY, set only in Vercel, passed as the AccountKey header.
+Cache-Control: s-maxage=20, stale-while-revalidate=40
+Real response shapes: see "Reference responses" below on this page. Copy the block for this
+service and paste it here before sending.</pre>
+
+
+              </div>
+            </div>
+          </div>
+
+          <div class="rule-card state-warn">
+            <button type="button" class="card-head break-toggle" id="break-btn-4"
+              aria-expanded="false" aria-controls="break-panel-4">
+              <span class="micro-heading">04. Unreachable</span>
+              <span class="status-chip">no response · we return 503</span>
+            </button>
+            <div class="break-lines">
+              <div class="break-line">
+                <span class="break-label">We do</span>
+                <span class="break-text">Point <code>/api</code> at a hostname that does not resolve.</span>
+              </div>
+              <div class="break-line">
+                <span class="break-label">Provider returns</span>
+                <span class="break-text">Nothing at all. A timeout, or a DNS failure before any connection is
+                  made.</span>
+              </div>
+              <div class="break-line">
+                <span class="break-label">User sees</span>
+                <span class="break-text quote">"We couldn't reach the provider at all. Nothing here is live — try
+                  again in a minute."</span>
+              </div>
+              <div class="break-line">
+                <span class="break-label">Why that sentence</span>
+                <span class="break-text">Different cause, different sentence, same rule — never a blank space where a
+                  number belongs.</span>
+              </div>
+            </div>
+            <div class="break-expand state-warn" id="break-panel-4" role="region"
+              aria-labelledby="break-btn-4">
+              <div class="break-expand-inner">
+
+                <div class="prompt-head">
+                  <span class="prompt-label">Engineer this failure</span>
+                  <button type="button" class="copybtn" data-target="break-prompt-4">Copy</button>
+                </div>
+                <pre class="code-block" id="break-prompt-4">ROLE
+You are a senior full-stack developer. The project is a static site deployed to Vercel from
+GitHub — no build step, no framework. Serverless functions live at the project root in api/,
+as siblings of package.json, never inside src/. package.json needs "type": "module", or the
+handlers are named .mjs.
+
+GOAL
+Two halves, in one pass — you need a working app before you can break it.
+1. The build: a panel showing the next buses at a chosen stop, read from LTA DataMall
+   through our own api/ route, with the credential server-side.
+2. The break: temporarily point the hostname at a domain that does not resolve —
+   datamall2.mytransport.invalid — and redeploy. Confirm the unreachable sentence appears
+   and names the time of the last good reading. Then test the timeout path separately with
+   an AbortController set to a 2000ms ceiling against the real host.
+   No-deploy alternative: open devtools, set the network to Offline, and reload.
+
+OUTPUT
+api/bus.js     GET https://datamall2.mytransport.sg/ltaodataservice/v3/BusArrival
+               with the request header AccountKey: <LTA_ACCOUNT_KEY>
+api/health.js  {ok, keyConfigured, upstream:{reachable, status, ms}, checkedAt}
+index.html     one panel, and these four states as four literal sentences:
+  loading      "Checking the bus feed, usually about two seconds."
+  empty        "The feed answered, but no buses are listed for this stop right now."
+  refused      "Our key was refused, so nothing on this panel is current — please tell us
+               if it stays this way."
+  unreachable  "We couldn't reach LTA at all. Last good reading was at HH:MM — nothing on
+               this screen has updated since."
+
+GUARDRAILS
+- Wrap the fetch in try/catch with an explicit AbortController timeout. Distinguish a
+  timeout from a connection failure in the log, even though the user-facing sentence is the
+  same for both.
+- Always keep and display the time of the last good reading. A user who knows the data is
+  40 minutes old can still act on it; a user staring at a blank panel cannot.
+- There is no status code when nothing answers. The only code in play is the one our own
+  function returns — return 503, not 500.
+- Guard BEFORE the fetch on a missing LTA_ACCOUNT_KEY, and check response.ok BEFORE reading
+  any body.
+- Read the key via process.env inside api/ only, never in browser code. No variable name
+  starts with VITE_. Never print the key, or any part of it, in a response or a log.
+- No new npm packages, no database, no login.
+
+CONTEXT
+Environment variable: LTA_ACCOUNT_KEY, set only in Vercel, passed as the AccountKey header.
+Cache-Control: s-maxage=20, stale-while-revalidate=40
+Real response shapes: see "Reference responses" below on this page. Copy the block for this
+service and paste it here before sending.</pre>
+
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- B2. Check your own credential -->
+        <h3>Check your own credential</h3>
+        <p class="cred-intro">Pick your service and your machine. We'll give you the exact line to paste, what a good
+          answer looks like, and what each failure means.</p>
+
+        <div class="cred-controls">
+          <div class="cred-control">
+            <span class="cred-control-label" id="cred-service-label">Service</span>
+            <div class="mode-toggles" id="cred-services" role="group" aria-labelledby="cred-service-label">
+              <button type="button" class="toggle-btn" data-service="lta" aria-pressed="false">LTA DataMall</button>
+              <button type="button" class="toggle-btn" data-service="datagov"
+                aria-pressed="false">data.gov.sg</button>
+              <button type="button" class="toggle-btn" data-service="meteo" aria-pressed="false">Open-Meteo</button>
+              <button type="button" class="toggle-btn" data-service="guardian" aria-pressed="false">Guardian</button>
+              <button type="button" class="toggle-btn" data-service="nasa" aria-pressed="false">NASA</button>
+              <button type="button" class="toggle-btn" data-service="alphavantage" aria-pressed="false">Alpha
+                Vantage</button>
+            </div>
+          </div>
+
+          <div class="cred-control">
+            <span class="cred-control-label" id="cred-platform-label">Platform</span>
+            <div class="mode-toggles" id="cred-platforms" role="group" aria-labelledby="cred-platform-label">
+              <button type="button" class="toggle-btn" data-platform="mac" aria-pressed="false">macOS /
+                Linux</button>
+              <button type="button" class="toggle-btn" data-platform="ps" aria-pressed="false">Windows
+                PowerShell</button>
+              <button type="button" class="toggle-btn" data-platform="cmd" aria-pressed="false">Windows CMD</button>
+            </div>
+          </div>
+
+          <div class="cred-control cred-control-action">
+            <button type="button" class="btn-toolbar" id="btn-cred-show">Show the command</button>
+          </div>
+        </div>
+
+        <p class="cred-error" id="err-cred" hidden>Pick a service and a platform first.</p>
+
+        <div class="cred-output" id="cred-output" hidden>
+
+          <div class="cred-warning" id="cred-warning" hidden>
+            <span class="cred-warning-label" id="cred-warning-label"></span>
+            <p id="cred-warning-text"></p>
+          </div>
+
+          <div class="prompt-head">
+            <span class="prompt-label">Paste this in your terminal</span>
+            <button type="button" class="copybtn" data-target="cred-command">Copy</button>
+          </div>
+          <pre class="code-block" id="cred-command"></pre>
+
+          <div class="cred-reads" id="cred-reads"></div>
+
+          <div class="note-box cred-checks">
+            <span class="note-label">What to check</span>
+            <div id="cred-checks"></div>
+          </div>
+
+          <div class="prompt-head">
+            <span class="prompt-label">Paste this into your coding tool</span>
+            <button type="button" class="copybtn" data-target="cred-rgogc">Copy</button>
+          </div>
+          <pre class="code-block" id="cred-rgogc"></pre>
+
+        </div>
+
+        <!-- B3. Reference responses -->
+        <details class="keyref-item ref-block">
+          <summary>
+            <span class="keyref-title">Reference responses</span>
+            <span class="keyref-tag">paste into a prompt</span>
+          </summary>
+          <div class="keyref-body">
+            <p>Each prompt above asks for the real response shape. Capture it by hand, paste it into the
+              matching block below, and it is there for every prompt afterwards. <strong>Do not invent a
+                response body.</strong> A fabricated shape here is worse than an empty one, because
+              someone will build on it and lose an hour to field names that do not exist.</p>
+
+            <div class="ref-item">
+              <div class="prompt-head">
+                <span class="prompt-label">LTA DataMall · CarParkAvailabilityv2</span>
+                <button type="button" class="copybtn" data-target="ref-lta-ok">Copy</button>
+              </div>
+              <p class="ref-note">Note whether AvailableLots comes back quoted as a string or as a number.</p>
+              <pre class="code-block" id="ref-lta-ok">[PASTE THE REAL RESPONSE HERE — captured by hand on DATE]</pre>
+            </div>
+
+            <div class="ref-item">
+              <div class="prompt-head">
+                <span class="prompt-label">LTA DataMall · the 401</span>
+                <button type="button" class="copybtn" data-target="ref-lta-401">Copy</button>
+              </div>
+              <p class="ref-note">Headers plus an EMPTY body — which is why response.ok is checked before .json().</p>
+              <pre class="code-block" id="ref-lta-401">[PASTE THE REAL RESPONSE HERE — captured by hand on DATE]</pre>
+            </div>
+
+            <div class="ref-item">
+              <div class="prompt-head">
+                <span class="prompt-label">data.gov.sg · two-hr-forecast</span>
+                <button type="button" class="copybtn" data-target="ref-datagov">Copy</button>
+              </div>
+              <p class="ref-note">Wrapped as {"code":0,"data":{...},"errorMsg":""}, and area_metadata key order VARIES between entries — some list longitude first.</p>
+              <pre class="code-block" id="ref-datagov">[PASTE THE REAL RESPONSE HERE — captured by hand on DATE]</pre>
+            </div>
+
+            <div class="ref-item">
+              <div class="prompt-head">
+                <span class="prompt-label">Alpha Vantage · TIME_SERIES_DAILY</span>
+                <button type="button" class="copybtn" data-target="ref-av-ok">Copy</button>
+              </div>
+              <p class="ref-note">Closes are STRINGS, and dates are object keys rather than array entries.</p>
+              <pre class="code-block" id="ref-av-ok">[PASTE THE REAL RESPONSE HERE — captured by hand on DATE]</pre>
+            </div>
+
+            <div class="ref-item">
+              <div class="prompt-head">
+                <span class="prompt-label">Alpha Vantage · rate-limited</span>
+                <button type="button" class="copybtn" data-target="ref-av-limit">Copy</button>
+              </div>
+              <p class="ref-note">200 OK carrying an "Information" key and no data at all.</p>
+              <pre class="code-block" id="ref-av-limit">[PASTE THE REAL RESPONSE HERE — captured by hand on DATE]</pre>
+            </div>
+
+            <div class="ref-item">
+              <div class="prompt-head">
+                <span class="prompt-label">Guardian · search</span>
+                <button type="button" class="copybtn" data-target="ref-guardian">Copy</button>
+              </div>
+              <p class="ref-note">The envelope is nested under "response", with "total" alongside the results.</p>
+              <pre class="code-block" id="ref-guardian">[PASTE THE REAL RESPONSE HERE — captured by hand on DATE]</pre>
+            </div>
+          </div>
+        </details>
+
+        <!-- C. The 401 vs 404 pair -->
+        <h3>401 vs 404 — the pair that looks identical</h3>
+        <div class="compare-grid">
+          <div class="rule-card compare-card">
+            <div class="card-head">
+              <div class="micro-heading">401</div>
+              <span class="status-chip">rejected</span>
+            </div>
+            <p>A value arrived and was rejected. The request reached the provider, carried something in the key
+              position, and the provider said no to that something.</p>
+          </div>
+          <div class="rule-card compare-card">
+            <div class="card-head">
+              <div class="micro-heading">404</div>
+              <span class="status-chip">never arrived</span>
+            </div>
+            <p>The header never arrived at all. As far as the provider is concerned you asked for a route that does
+              not exist, because an unauthenticated request is routed nowhere.</p>
+          </div>
+        </div>
+
+        <p>Both return <strong>empty bodies</strong>. From the outside they are identical: no message, no hint, no
+          difference in what your <code>catch</code> block receives. And an unset environment variable does not throw
+          — it is interpolated as the string <code>"undefined"</code>, which lands in exactly the same place a wrong
+          key would, and produces exactly the same silence.</p>
+
+        <div class="prompt-head">
+          <span class="prompt-label">Read the headers</span>
+          <button type="button" class="copybtn" data-target="break-curl">Copy</button>
+        </div>
+        <pre class="code-block" id="break-curl"># -i prints the response headers, -s hides the progress meter
+curl -is "https://datamall2.mytransport.sg/ltaodataservice/v3/BusArrival?BusStopCode=83139" \
+  -H "AccountKey: $LTA_ACCOUNT_KEY" | head -12
+
+# key correct
+HTTP/2 200
+content-type: application/json;charset=utf-8
+
+# key wrong — a value arrived, and was rejected
+HTTP/2 401
+content-length: 0
+
+# header missing entirely — the variable was never set
+HTTP/2 404
+content-length: 0
+
+# Run this in the terminal, not the browser console. The console collapses the
+# response to its body, and the body is empty in both failures — the status line
+# is the only thing that tells the two apart.</pre>
+
+        <!-- D. /api/health, live -->
+        <h3>/api/health, live</h3>
+        <p>One endpoint, called on stage, answering the only question the room actually cares about: is the
+          credential configured, and is the provider answering us right now?</p>
+
+        <div class="prompt-head">
+          <span class="prompt-label">GET /api/health</span>
+          <button type="button" class="copybtn" data-target="break-health">Copy</button>
+        </div>
+        <pre class="code-block" id="break-health">{
+  "status": "ok",
+  "keyConfigured": true,
+  "upstream": {
+    "reachable": true,
+    "status": 200,
+    "ms": 412
+  },
+  "message": "Key is configured and the provider answered in 412ms.",
+  "checkedAt": "2026-09-12T09:31:04.118Z"
+}</pre>
+
+        <ul class="numbered-rules-list">
+          <li>
+            <span class="lead-in">Open /api/health:</span> it reports <code>keyConfigured: true</code>. The key
+            exists, and the provider is answering with it.
+          </li>
+          <li>
+            <span class="lead-in">Search the repository for the variable name:</span> nothing. Not in a config file,
+            not in a commit, not in the history.
+          </li>
+          <li>
+            <span class="lead-in">View source on the live page:</span> nothing. Search the bundle, search the network
+            tab, search every response body — the value is in none of them.
+          </li>
+        </ul>
+
+        <div class="attention-callout">
+          <span class="attention-label">ATTENTION: THE HEALTH ENDPOINT REPORTS WHETHER, NEVER WHAT</span>
+          <p>NO PREFIX. NO LAST FOUR CHARACTERS. NO LENGTH, NO HASH, NO MASKED STRING. A FINGERPRINT FEELS HELPFUL
+            WHILE YOU ARE DEBUGGING AND IS EXACTLY WHAT A SCREENSHOT OF THIS PAGE LEAKS — INCLUDING THE SCREENSHOT
+            SOMEONE IN THIS ROOM IS ABOUT TO TAKE.</p>
+        </div>
+
+        <!-- E. The working sequence -->
+        <h3>The working sequence</h3>
+        <p>Follow along. Tick each one as you go.</p>
+
+        <div class="checklist" id="breakit-checklist">
+          <div class="checklist-row">
+            <input type="checkbox" id="chk-step-1">
+            <label for="chk-step-1">
+              <span class="checklist-title">01</span>
+              <span class="checklist-step">Open a fresh session in your coding tool.</span>
+            </label>
+          </div>
+          <div class="checklist-row">
+            <input type="checkbox" id="chk-step-2">
+            <label for="chk-step-2">
+              <span class="checklist-title">02</span>
+              <span class="checklist-step">Copy the whole prompt from one break card above.</span>
+            </label>
+          </div>
+          <div class="checklist-row">
+            <input type="checkbox" id="chk-step-3">
+            <label for="chk-step-3">
+              <span class="checklist-title">03</span>
+              <span class="checklist-step">Copy the matching block from Reference responses into it where it asks.</span>
+            </label>
+          </div>
+          <div class="checklist-row">
+            <input type="checkbox" id="chk-step-4">
+            <label for="chk-step-4">
+              <span class="checklist-title">04</span>
+              <span class="checklist-step">Send it. You now have a working panel and one deliberate failure in the same build.</span>
+            </label>
+          </div>
+          <div class="checklist-row">
+            <input type="checkbox" id="chk-step-5">
+            <label for="chk-step-5">
+              <span class="checklist-title">05</span>
+              <span class="checklist-step">Open Fix it and apply the guard. Confirm the screen changes its sentence.</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="checklist-foot">
+          <span class="checklist-count" id="breakit-count" role="status" aria-live="polite">0 of 5 verified</span>
+          <button type="button" class="checklist-reset" id="breakit-reset">Reset</button>
+        </div>
+
+        <p class="checklist-note">Each card is a complete build. You do not need the other three to run this one.</p>
+
+        <!-- F. Placeholder -->
+        <div class="note-box">
+          <span class="note-label">What we got wrong</span>
+          <!-- written by hand, do not generate -->
+        </div>
+
+        <script>
+          (function () {
+            const list = document.getElementById('breakit-checklist');
+            const count = document.getElementById('breakit-count');
+            const reset = document.getElementById('breakit-reset');
+            if (!list || !count || !reset) return;
+
+            const boxes = list.querySelectorAll('input[type="checkbox"]');
+
+            // No storage — this resets on refresh, by design
+            const render = () => {
+              const done = Array.prototype.filter.call(boxes, b => b.checked).length;
+              count.textContent = done + ' of ' + boxes.length + ' verified';
+              count.classList.toggle('is-complete', done === boxes.length);
+            };
+
+            list.addEventListener('change', render);
+            reset.addEventListener('click', () => {
+              Array.prototype.forEach.call(boxes, b => { b.checked = false; });
+              render();
+              boxes[0].focus();
+            });
+
+            render();
+          })();
+        </script>
+      </section>
+
+      <!-- Tab 03: Fix it -->
+      <section class="tab-panel" id="panel-fix" aria-labelledby="fix-title">
+        <h2 id="fix-title">Fix it — the guard that catches each one</h2>
+        <p class="panel-intro">Four breaks, four root causes, four guards. Each fix is a few lines, and each one
+          turns a silent failure into a sentence.</p>
+
+        <div class="fix-stack">
+
+          <article class="rule-card state-neutral fix-card">
+            <div class="card-head">
+              <div class="micro-heading">01. Loading</div>
+              <span class="status-chip">no status yet</span>
+            </div>
+
+            <div class="fix-sub">Root cause</div>
+            <p>Nothing has gone wrong. There is no status code because no response has arrived. The failure is
+              that most products show a spinner here, which tells the user nothing about which of four situations
+              they are in.</p>
+
+            <div class="prompt-head">
+              <span class="prompt-label">Solution</span>
+              <button type="button" class="copybtn" data-target="fix-code-1">Copy</button>
+            </div>
+            <pre class="code-block" id="fix-code-1">// Loading is a sentence, not a spinner. Name the source and a rough duration.
+function renderLoading(el, source = 'the carpark feed', expectSec = 2) {
+  el.textContent = `Checking ${source}, usually about ${expectSec} seconds.`;
+
+  // If it runs long, say so rather than implying it is about to arrive
+  return setTimeout(() => {
+    el.textContent = `Still waiting on ${source}. It has been longer than usual — nothing on this screen has updated yet.`;
+  }, expectSec * 1000 * 3);
+}
+
+// Always clear the timer when the request settles, whichever way it settles
+const slowTimer = renderLoading(panelEl);
+try {
+  const data = await load();
+  render(data);
+} finally {
+  clearTimeout(slowTimer);
+}</pre>
+
+            <div class="fix-sub">How you know it worked</div>
+            <p class="fix-know">The panel names the feed and a rough duration instead of spinning, and says so again if it runs long.</p>
+          </article>
+
+          <article class="rule-card state-ok fix-card">
+            <div class="card-head">
+              <div class="micro-heading">02. Empty</div>
+              <span class="status-chip">200 OK</span>
+            </div>
+
+            <div class="fix-sub">Root cause</div>
+            <p>This is the dangerous one. HTTP 200, <code>response.ok</code> is true, nothing throws, and the body is
+              empty. Every layer of the stack reports success. The screen goes blank because nobody wrote a sentence
+              for the case where the request worked and the answer was nothing.</p>
+
+            <div class="prompt-head">
+              <span class="prompt-label">Solution</span>
+              <button type="button" class="copybtn" data-target="fix-code-2">Copy</button>
+            </div>
+            <pre class="code-block" id="fix-code-2">// 200 OK with an empty body is a success, not an error. It needs its own sentence.
+function toPanelState(rows) {
+  if (!Array.isArray(rows) || rows.length === 0) {
+    return {
+      state: 'empty',
+      message: 'The feed answered, but no lots are listed for this carpark right now.'
+    };
+  }
+  return { state: 'ok', rows };
+}
+
+// FULL and UNKNOWN are different facts and must never share a sentence
+function lotsSentence(carparkId, rows) {
+  const row = rows.find(r => r.CarParkID === carparkId);
+
+  if (!row) {
+    return `${carparkId}: not in this update — we do not know how full it is.`;  // UNKNOWN
+  }
+
+  const lots = Number(row.AvailableLots);           // arrives quoted, cast at the boundary
+  if (!Number.isFinite(lots)) {
+    return `${carparkId}: the feed sent a lot count we could not read.`;
+  }
+  if (lots === 0) {
+    return `${carparkId}: full — zero lots available.`;                          // FULL
+  }
+  return `${carparkId}: ${lots} lots available.`;
+}</pre>
+
+            <div class="fix-sub">How you know it worked</div>
+            <p class="fix-know">A carpark with zero lots reads "full"; a carpark missing from the update reads "we do not know" — two different sentences where there was one blank space.</p>
+          </article>
+
+          <article class="rule-card state-bad fix-card">
+            <div class="card-head">
+              <div class="micro-heading">03. Refused</div>
+              <span class="status-chip">401 / 403 / 404</span>
+            </div>
+
+            <div class="fix-sub">Root cause</div>
+            <p>401 means a value arrived and was rejected. 404 means the header never arrived at all. Both come back
+              from LTA with <strong>empty bodies</strong>, so from the outside they are identical — and an unset
+              variable is sent as the string <code>"undefined"</code>, which lands in exactly the same place as a
+              wrong key. This is why the guard fires before the fetch, and why <code>/api/health</code> exists at
+              all.</p>
+
+            <div class="prompt-head">
+              <span class="prompt-label">Solution</span>
+              <button type="button" class="copybtn" data-target="fix-code-3">Copy</button>
+            </div>
+            <pre class="code-block" id="fix-code-3">// The guard fires BEFORE the fetch. An unset variable is sent as the string
+// "undefined" and LTA answers 401 exactly as it would for a wrong key.
+const key = process.env.LTA_ACCOUNT_KEY;
+
+if (typeof key !== 'string' || key.trim() === '') {
+  return res.status(503).json({
+    state: 'refused',
+    error: 'LTA_ACCOUNT_KEY is not set. Add it in Vercel and redeploy.'
+  });
+}
+
+const r = await fetch(url, { headers: { AccountKey: key } });
+
+// LTA returns an EMPTY BODY on 401, so .json() here would throw and crash the function
+if (!r.ok) {
+  return res.status(503).json({
+    state: 'refused',
+    upstream: r.status              // 401 rejected a value, 404 never saw the header
+  });
+}
+
+const data = await r.json();        // only now is this safe
+
+// health reports WHETHER, never WHAT
+export function health() {
+  return { ok: true, keyConfigured: Boolean(process.env.LTA_ACCOUNT_KEY) };
+}</pre>
+
+            <div class="fix-sub">How you know it worked</div>
+            <p class="fix-know">Pull the variable and the panel says it was refused instead of showing a crashed function, and /api/health flips to keyConfigured: false.</p>
+          </article>
+
+          <article class="rule-card state-warn fix-card">
+            <div class="card-head">
+              <div class="micro-heading">04. Unreachable</div>
+              <span class="status-chip">no response · we return 503</span>
+            </div>
+
+            <div class="fix-sub">Root cause</div>
+            <p>There is no status code to read, because nothing answered. DNS failure, timeout, or the provider is
+              simply down. The only code in play is the one our own function decides to return.</p>
+
+            <div class="prompt-head">
+              <span class="prompt-label">Solution</span>
+              <button type="button" class="copybtn" data-target="fix-code-4">Copy</button>
+            </div>
+            <pre class="code-block" id="fix-code-4">// Nothing answered, so there is no status code to read. The only code in play is
+// the one this function decides to return.
+const ctrl = new AbortController();
+const timer = setTimeout(() => ctrl.abort(), 4000);
+
+try {
+  const r = await fetch(url, { headers, signal: ctrl.signal });
+  if (!r.ok) return res.status(503).json({ state: 'refused', upstream: r.status });
+
+  const data = await r.json();
+  lastGood = { at: new Date().toISOString(), data };   // keep the last good reading
+  return res.status(200).json({ state: 'ok', ...lastGood });
+
+} catch (err) {
+  // Same sentence for the user, different cause in the log
+  return res.status(503).json({
+    state: 'unreachable',
+    reason: err.name === 'AbortError' ? 'timeout' : 'connect',
+    lastGoodAt: lastGood?.at ?? null
+  });
+
+} finally {
+  clearTimeout(timer);
+}</pre>
+
+            <div class="fix-sub">How you know it worked</div>
+            <p class="fix-know">Go offline in devtools and the panel names the time of the last good reading rather than going blank.</p>
+          </article>
+
+        </div>
+
+        <div class="note-box">
+          <span class="note-label">Guards, not fixes</span>
+          <p>Every one of these is a guard, not a fix. The provider still fails. What changes is whether the
+            screen says so.</p>
+        </div>
+      </section>
+
+      <!-- Tab 03: Decision Analysis -->
+      <section class="tab-panel" id="panel-publish" aria-labelledby="publish-title">
+        <h2 id="publish-title">Application — the same product, somewhere it matters more</h2>
+        <p class="panel-intro">Say what you said out loud, pick the industry and the service, and this hands back a
+          complete build instruction. Nothing here calls anything — it is string templating in your browser.</p>
+
+        <!-- A. Framing block -->
+        <div class="note-box">
+          <span class="note-label">The ask</span>
+          <p>Move your product into another industry and say concretely what changes — in the data, in the risk, and
+            in the oversight. Not "it would be similar but for HR". Concretely.</p>
+          <p>The benchmark: a commuter board becomes a ward-supplies board. The data stops being bus timings and
+            becomes patient-adjacent. The risk stops being a missed bus and becomes a missed dose. The oversight moves
+            from nobody at all to a named clinician who signs off. Three sentences, three real changes.</p>
+          <p>That is the level of specificity being asked for. If your version of those three sentences would survive
+            being read back to you by someone who works in that industry, you have done the exercise.</p>
+          <span class="attribution">~ Data, risk, oversight — name all three</span>
+        </div>
+
+        <!-- B. The input form -->
+        <form id="rgogc-form" novalidate>
+
+          <h3>1 · What the team actually said</h3>
+          <p class="field-hint">Verbatims, not summaries. The generated prompt quotes these back with attribution.</p>
+          <div class="verbatim-rows" id="verbatim-rows"></div>
+          <div class="toolbar-buttons">
+            <button type="button" class="btn-toolbar btn-toolbar-secondary" id="btn-add-person">+ Add person</button>
+          </div>
+          <p class="field-error" id="err-verbatims" hidden>Add at least one verbatim with something in the quote
+            field.</p>
+
+          <h3>2 · Industry</h3>
+          <p class="field-hint">Pick one. This is the lens the whole output is written through.</p>
+          <div class="mode-toggles" id="industry-toggles" role="group" aria-label="Industry">
+            <button type="button" class="toggle-btn" data-industry="hr" aria-pressed="false">HR</button>
+            <button type="button" class="toggle-btn" data-industry="fin" aria-pressed="false">Finance &amp;
+              Accounting</button>
+            <button type="button" class="toggle-btn" data-industry="ops" aria-pressed="false">Operations</button>
+          </div>
+          <p class="field-error" id="err-industry" hidden>Choose one industry.</p>
+
+          <h3>3 · The claim sentence</h3>
+          <p class="claim-sentence">
+            My screen tells the user
+            <input type="text" class="inline-input" id="claim-text" size="34"
+              placeholder="how many lots are free at Marina Square" aria-label="the claim your screen makes">,
+            which right now is
+            <select class="inline-select" id="claim-origin" aria-label="where the value comes from today">
+              <option value="typed in by me">typed in by me</option>
+              <option value="made up by the agent">made up by the agent</option>
+            </select>,
+            and to be true it would have to come from
+            <input type="text" class="inline-input" id="claim-source" size="28"
+              placeholder="the live carpark availability feed" aria-label="the source it would have to come from">.
           </p>
-        </div>
-      </div>
+          <p class="field-error" id="err-claim" hidden>Fill in both the claim and the source.</p>
 
-      <!-- D. Attention Callout -->
-      <div class="attention-callout">
-        <span class="attention-label">ATTENTION: ETHICAL DATA POLICIES</span>
-        <p>ALL DATA RENDERED AND GENERATED WITHIN THIS COHORT WORKSPACE MUST COMPLY WITH THE SMU ACADEMIC HONESTY
-          DIRECTIVES AND BUSINESS AI PRIVACY AND ANONYMIZATION PROTOCOLS. DO NOT EXPORT OR LOAD PERSONALLY IDENTIFIABLE
-          INFORMATION (PII).</p>
-      </div>
-
-      <!-- E. Numbered Rules List -->
-      <h3>Session Execution Workflow</h3>
-      <ul class="numbered-rules-list">
-        <li>
-          <span class="lead-in">Align Priorities:</span> Use Tab 01 to review opportunity gaps for ideas gathered during
-          the initial brainstorming stage.
-        </li>
-        <li>
-          <span class="lead-in">Simulate Cohorts:</span> Use Tab 02 to generate, modify, and review synthetic customer
-          data points for simulation testing.
-        </li>
-        <li>
-          <span class="lead-in">Formulate Teams:</span> Use Tab 03 to review similarity groups and match members
-          according to complementary vectors.
-        </li>
-      </ul>
-    </section>
-
-    <!-- 4. PER-TOPIC PANELS -->
-
-    <!-- Tab 01: Topic Opportunity -->
-    <section class="tab-panel" id="panel-wrangle" aria-labelledby="wrangle-title">
-      <h2 id="wrangle-title">Opportunity Algorithm</h2>
-      <p class="panel-intro">Score any user or customer need by how important it is versus how satisfied people
-        currently are.</p>
-
-      <div class="code-block formula-box">
-        Importance + max(Importance - Satisfaction, 0) = <span>Opportunity</span>
-      </div>
-
-      <div class="sliders-container">
-        <div class="sliders-row">
-          <div class="slider-control">
-            <label for="slider-importance" class="slider-label">Importance</label>
-            <div class="slider-input-container">
-              <input type="range" id="slider-importance" min="0" max="10" value="7">
-              <span class="slider-val" id="val-importance">7</span>
-            </div>
+          <h3>4 · API service</h3>
+          <p class="field-hint">Pick one. This decides the endpoints, the cache, the licence line and half the
+            guardrails.</p>
+          <div class="house-rules-grid" id="service-cards">
+            <button type="button" class="rule-card service-card" data-service="lta" aria-pressed="false">
+              <span class="card-head">
+                <span class="micro-heading">A. LTA DataMall bus arrival</span>
+                <span class="status-chip">LTA_ACCOUNT_KEY</span>
+              </span>
+              <span class="service-desc">Singapore, live transport — the credentialed one, so something can actually
+                be refused.</span>
+            </button>
+            <button type="button" class="rule-card service-card" data-service="meteo" aria-pressed="false">
+              <span class="card-head">
+                <span class="micro-heading">B. Open-Meteo + Nager.Date</span>
+                <span class="status-chip">no key</span>
+              </span>
+              <span class="service-desc">Worldwide weather and public holidays — a real product with zero
+                credentials.</span>
+            </button>
+            <button type="button" class="rule-card service-card" data-service="web3forms" aria-pressed="false">
+              <span class="card-head">
+                <span class="micro-heading">C. Web3Forms</span>
+                <span class="status-chip">browser-side, the exception</span>
+              </span>
+              <span class="service-desc">Capture a signup or a request — the one key that may sit in browser
+                code.</span>
+            </button>
           </div>
-          <div class="slider-control">
-            <label for="slider-satisfaction" class="slider-label">Satisfaction</label>
-            <div class="slider-input-container">
-              <input type="range" id="slider-satisfaction" min="0" max="10" value="3">
-              <span class="slider-val" id="val-satisfaction">3</span>
-            </div>
+          <p class="field-error" id="err-service" hidden>Pick one service.</p>
+
+          <div class="toolbar-buttons">
+            <button type="button" class="btn-toolbar" id="btn-generate">Generate RGOGC</button>
           </div>
+        </form>
+
+        <!-- C. The output -->
+        <div class="rgogc-output" id="rgogc-output" hidden>
+
+          <h3>Your RGOGC prompt</h3>
+          <div class="prompt-head">
+            <span class="prompt-label">Paste this into your coding tool</span>
+            <button type="button" class="copybtn" data-target="rgogc-prompt">Copy</button>
+          </div>
+          <pre class="code-block" id="rgogc-prompt"></pre>
+
+          <h3>Industry lens</h3>
+          <p class="field-hint">What the generator reasoned from.</p>
+          <div class="rule-card lens-card" id="lens-card"></div>
+
+          <h3>The same product, somewhere else</h3>
+          <div class="prompt-head">
+            <span class="prompt-label">For the write-up</span>
+            <button type="button" class="copybtn" data-target="elsewhere-block">Copy</button>
+          </div>
+          <pre class="code-block" id="elsewhere-block"></pre>
+
+          <h3>Where we would not ship this</h3>
+          <div class="prompt-head">
+            <span class="prompt-label">The refusal</span>
+            <button type="button" class="copybtn" data-target="refusal-block">Copy</button>
+          </div>
+          <pre class="code-block" id="refusal-block"></pre>
+
         </div>
-      </div>
-
-      <!-- Live display of Score and Classification -->
-      <div class="score-display">
-        <div class="score-num" id="opportunity-score">11</div>
-        <div class="score-band" id="opportunity-band">MODERATE</div>
-      </div>
-
-      <!-- Heatmap grid table (Importance 10->0, Satisfaction 0->10) -->
-      <div style="overflow-x: auto; width: 100%;">
-        <table class="opportunity-heatmap-table" id="opportunity-heatmap">
-          <!-- Rendered in script.js -->
-        </table>
-      </div>
-
-      <!-- Heatmap Legend -->
-      <div class="heatmap-legend-row">
-        <div class="legend-item">
-          <div class="legend-color-box cell-band-ripe"></div>
-          <span>15–20 Ripe Opportunity</span>
-        </div>
-        <div class="legend-item">
-          <div class="legend-color-box cell-band-high"></div>
-          <span>12–14 High Opportunity</span>
-        </div>
-        <div class="legend-item">
-          <div class="legend-color-box cell-band-moderate"></div>
-          <span>10–11 Moderate</span>
-        </div>
-        <div class="legend-item">
-          <div class="legend-color-box cell-band-low"></div>
-          <span>0–9 Low / Over-served</span>
-        </div>
-      </div>
-
-      <div class="gotcha-box">
-        <span class="gotcha-title">Gotcha:</span> High satisfaction scores always drive the second term in the formula
-        to 0. An area with high satisfaction cannot score as high opportunity even with high importance.
-      </div>
-    </section>
-
-    <!-- Tab 02: Data Simulation -->
-    <section class="tab-panel" id="panel-viz" aria-labelledby="viz-title">
-      <h2 id="viz-title">Data Simulation — 20 Users</h2>
-      <p class="panel-intro">Edit values directly, randomize for quick fills, then export JSON for a similarity or
-        clustering script.</p>
-
-      <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 16px;">
-        <strong>interest_tags:</strong> comma-separated subset of food, outdoors, arts, sports, professional, language,
-        other |
-        <strong>behavior metrics:</strong> session_duration_sec, page_views, scroll_depth_pct, rage_clicks, dead_clicks,
-        click_count
-      </p>
-
-      <div class="toolbar-buttons">
-        <button class="btn-toolbar" id="btn-rand-all">🎲 Randomize All 20</button>
-        <button class="btn-toolbar btn-toolbar-secondary" id="btn-add-user">+ Add User</button>
-        <button class="btn-toolbar" id="btn-export-json">📥 Export JSON</button>
-      </div>
-
-      <div class="sim-table-container">
-        <table class="sim-table" id="sim-table">
-          <thead>
-            <tr>
-              <th style="width: 30px;">#</th>
-              <th style="width: 70px;">user_id</th>
-              <th style="width: 100px;">name</th>
-              <th>interest_tags</th>
-              <th style="width: 80px;">session_sec</th>
-              <th style="width: 65px;">views</th>
-              <th style="width: 65px;">scroll_%</th>
-              <th style="width: 65px;">rage</th>
-              <th style="width: 65px;">dead</th>
-              <th style="width: 65px;">clicks</th>
-              <th style="width: 40px;"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Populated via script.js -->
-          </tbody>
-        </table>
-      </div>
-
-      <div class="sim-status-line" id="sim-status">20 users in table.</div>
-
-      <div class="gotcha-box">
-        <span class="gotcha-title">Gotcha:</span> Tags are parsed as comma-separated values. Make sure tags match the
-        allowed tags vocabulary to avoid classification gaps in downstream analysis.
-      </div>
-    </section>
-
-    <!-- Tab 03: Decision Analysis -->
-    <section class="tab-panel" id="panel-publish" aria-labelledby="publish-title">
-      <h2 id="publish-title">Who Behaves/Thinks Like Whom</h2>
-      <p class="panel-intro">Every person becomes a vector across the ventures. Cosine similarity measures whether two
-        people share the same shape of preference, regardless of how generous or stingy either was overall.</p>
-
-      <div class="json-import-bar">
-        <label for="json-import-input" class="json-import-label">Import JSON</label>
-        <input type="file" id="json-import-input" accept="application/json,.json">
-        <span class="json-import-status" id="json-import-status">Using seeded demo data (25 people, 8 groups)</span>
-      </div>
-
-      <div class="mode-toggles">
-        <button class="toggle-btn active" id="btn-mode-customer">Customer preference</button>
-        <button class="toggle-btn" id="btn-mode-capital">Capital allocation</button>
-        <button class="toggle-btn" id="btn-mode-similarity">Order by similarity</button>
-        <button class="toggle-btn" id="btn-mode-group">Order by group</button>
-      </div>
-
-      <div class="similarity-matrix-container">
-        <table class="similarity-grid" id="similarity-matrix">
-          <!-- Rendered dynamically in script.js -->
-        </table>
-
-        <!-- Heatmap Legend -->
-        <div class="legend-container">
-          <span id="legend-min">0.48</span>
-          <div class="legend-gradient"></div>
-          <span id="legend-max">0.98</span>
-          <span class="legend-help">colour stretched to range present · hover for true cosine · click a row to open that
-            person</span>
-        </div>
-      </div>
-
-      <h3>Closest Pairs</h3>
-      <div class="closest-pairs-grid" id="closest-pairs">
-        <!-- Populated dynamically in script.js -->
-      </div>
-
-      <div class="gotcha-box">
-        <span class="gotcha-title">Gotcha:</span> Cosine similarity ignores the magnitude of vector values. A user
-        rating everything 10 will have a 1.0 similarity with a user rating everything 1, provided the relative shapes
-        match.
-      </div>
-    </section>
+      </section>
 
   </div>
+
+  <!-- Tab 1 · one delegated listener for every .copybtn -->
+  <script>
+    document.addEventListener('click', function (e) {
+      const btn = e.target.closest('.copybtn');
+      if (!btn) return;
+
+      const pre = document.getElementById(btn.dataset.target);
+      if (!pre) return;
+
+      const done = (label, cls) => {
+        const original = btn.dataset.label || btn.innerText;
+        btn.dataset.label = original;
+        btn.innerText = label;
+        btn.classList.add(cls);
+        setTimeout(() => {
+          btn.innerText = original;
+          btn.classList.remove(cls);
+        }, 1400);
+      };
+
+      // innerText, not textContent — it respects the rendered line breaks
+      navigator.clipboard.writeText(pre.innerText)
+        .then(() => done('Copied', 'is-copied'))
+        .catch(() => done('Blocked', 'is-blocked'));
+    });
+
+    /* ----------------------------------------------------
+       Tab 3 · RGOGC generator
+       Pure client-side string templating. No fetch, no API, no credentials.
+       ---------------------------------------------------- */
+    (function () {
+      const form = document.getElementById('rgogc-form');
+      if (!form) return;
+
+      /* ---------- LOOKUP TABLE 1 — API SERVICE ---------- */
+      const SERVICES = {
+        lta: {
+          name: 'LTA DataMall bus arrival',
+          short: 'the LTA bus arrival feed',
+          endpoints: ['https://datamall2.mytransport.sg/ltaodataservice/v3/BusArrival'],
+          env: 'LTA_ACCOUNT_KEY',
+          envNote: 'sent as an HTTP header named exactly AccountKey',
+          cache: 's-maxage=20, stale-while-revalidate=40   (LTA refreshes every 20 seconds)',
+          refresh: 'every 20 seconds, matching the cache TTL',
+          functions: [
+            'api/bus-arrival.js  — GET https://datamall2.mytransport.sg/ltaodataservice/v3/BusArrival',
+            'api/health.js       — reports whether the key is configured, never its value'
+          ],
+          traps: [
+            'Guard BEFORE the fetch: if LTA_ACCOUNT_KEY is missing or empty, return 503 with\n  {"error":"LTA_ACCOUNT_KEY is not set. Add it in Vercel and redeploy."} and do not call\n  LTA at all. An unset variable is sent as the word "undefined" and LTA answers 401\n  exactly as it would for a wrong key.',
+            'Check response.ok BEFORE reading the body. LTA returns an empty body on 401, so\n  response.json() on a failed reply throws and crashes the function.',
+            'NextBus2 and NextBus3 come back as objects whose fields are empty strings when there\n  is no such bus. Treat an empty EstimatedArrival as no bus and omit it. Never emit NaN\n  or null as a minute.',
+            'An empty Services array means "no buses running", not an error.'
+          ],
+          licence: 'Contains information from LTA DataMall Bus Arrival, accessed [DATE], made available\n  under the terms of the Singapore Open Data Licence version 1.0,\n  data.gov.sg/open-data-licence.',
+          refusalReason: function (industry) {
+            return 'LTA DataMall is one provider, with no availability commitment and no notice period.\n' +
+              'A single-provider dependency that owes us nothing cannot carry a regulated ' + industry.label + '\n' +
+              'workflow. We will not put a ' + industry.label + ' decision behind a feed that can change or stop\n' +
+              'without telling us, because when it does there is no second source and no contract to\n' +
+              'point at.';
+          }
+        },
+        meteo: {
+          name: 'Open-Meteo + Nager.Date',
+          short: 'the forecast and holiday feeds',
+          endpoints: [
+            'https://geocoding-api.open-meteo.com/v1/search?name=&count=1',
+            'https://api.open-meteo.com/v1/forecast',
+            'https://date.nager.at/api/v3/PublicHolidays/{year}/{countryCode}'
+          ],
+          env: 'none — this is the point of choosing it',
+          envNote: 'there is no credential to leak, and that is the whole argument for this option',
+          cache: 's-maxage=900, stale-while-revalidate=1800',
+          refresh: 'every 15 minutes, matching the cache TTL',
+          functions: [
+            'api/geocode.js    — GET https://geocoding-api.open-meteo.com/v1/search?name=&count=1',
+            'api/forecast.js   — GET https://api.open-meteo.com/v1/forecast',
+            'api/holidays.js   — GET https://date.nager.at/api/v3/PublicHolidays/{year}/{countryCode}',
+            'api/health.js     — reports keyConfigured:false, because this product needs no key'
+          ],
+          traps: [
+            'Geocoding needs two or more characters; a shorter query returns nothing. That is an\n  empty state, not an error, and it needs its own sentence on screen.',
+            'A place name that matches nothing returns an empty results array — a different empty\n  state from "no forecast", and the two must not share a sentence.',
+            'Nager.Date does not cover every country. Call v3/AvailableCountries once and handle an\n  unlisted market explicitly.',
+            'Route every call through /api anyway, for caching and one shape of code — even though\n  there is no key to hide.'
+          ],
+          licence: 'Weather data by Open-Meteo.com — https://open-meteo.com — CC-BY 4.0. The free tier is\n  non-commercial: credit Open-Meteo in the footer with a link, and state in the write-up\n  that the licence is non-commercial.',
+          refusalReason: function (industry) {
+            return 'Open-Meteo\'s free tier is CC-BY 4.0 and non-commercial. A ' + industry.label + ' workflow is\n' +
+              'commercial the moment the business runs on it, so the licence does not permit the use\n' +
+              'we would be putting it to. We will not ship a ' + industry.label + ' screen on a data source we are\n' +
+              'not licensed to use for it. That is not a technical limit we can engineer around; it is\n' +
+              'the terms we agreed to by calling the endpoint.';
+          }
+        },
+        web3forms: {
+          name: 'Web3Forms',
+          short: 'the form endpoint',
+          endpoints: ['https://api.web3forms.com/submit  (POST)'],
+          env: 'WEB3FORMS_KEY',
+          envNote: 'the one key that lives in browser code, because it can do exactly one thing',
+          cache: 'none — a submission is never cached',
+          refresh: 'not applicable: this is a submission, not a feed',
+          functions: [
+            'index.html        — POST https://api.web3forms.com/submit directly from browser code',
+            'api/health.js     — reports whether the form is configured, never the key itself'
+          ],
+          traps: [
+            'THIS IS THE ONE KEY THAT LIVES IN BROWSER CODE, and only because it can do exactly one\n  thing: post to one inbox. Do NOT move it into /api. Add a code comment beside it saying\n  why this is the exception. Do not generalise from it to any other key.',
+            'The form has its own four states — submitting, success, rejected, unreachable —\n  rendered separately from any data panel on the same screen.',
+            'Never send personal data in a URL or query string. It is POST body only, always.'
+          ],
+          licence: 'Form delivery by Web3Forms. No data licence applies to the submission itself; the\n  content of the submission is yours and is subject to your own retention policy.',
+          refusalReason: function (industry) {
+            return 'A browser-side credential is acceptable for a newsletter. It is not acceptable anywhere\n' +
+              'the submission is person-identifiable or financially material, and in ' + industry.label + ' it is\n' +
+              'both. We will not put a key that any visitor can read in front of a form that collects\n' +
+              industry.label + ' data. Not behind a rate limit, not behind obscurity, not as an interim step.';
+          }
+        }
+      };
+
+      /* ---------- LOOKUP TABLE 2 — INDUSTRY LENS ---------- */
+      const INDUSTRIES = {
+        hr: {
+          label: 'HR',
+          becomes: 'shift coverage, leave clash, heat-stress advisory, cross-border payroll exposure',
+          data: 'person-identifiable, and often special-category — health, pay, performance. Open data becomes personal data under PDPA the moment it is joined to a roster.',
+          risk: 'a discriminatory or adverse employment outcome, plus breach exposure that follows named individuals.',
+          oversight: 'an HR business partner, a documented appeal route, and a rule that no system output alone decides anything about a person.',
+          empty_means: '"roster data has not synced" — never "nobody is available".',
+          empty_state: 'Roster data has not synced, so this list is incomplete. It does not mean nobody is available.',
+          rank: 2
+        },
+        fin: {
+          label: 'Finance & Accounting',
+          becomes: 'month-end revaluation, inflation-adjusted forecasting, mark-to-market, adverse-media screening',
+          data: 'financially material and subject to retention rules. You need the value AS AT a date, not the latest value, and you must store which one you used.',
+          risk: 'misstatement, restatement, audit finding. A silent string-to-number cast renders a chart, throws nothing, and produces a wrong number.',
+          oversight: 'maker-checker with a named reviewer, segregation of duties, and an immutable log.',
+          empty_means: '"we have no value for that date" — and any fallback must be a recorded decision, never something the code does quietly.',
+          empty_state: 'We have no value for that date. Nothing has been substituted in its place.',
+          rank: 3
+        },
+        ops: {
+          label: 'Operations',
+          becomes: 'dock utilisation, inbound ETA, yard or crane stand-down, asset availability',
+          data: 'machine and sensor telemetry at much higher frequency. The cache TTL stops being politeness and becomes a safety parameter.',
+          risk: 'downtime cost per minute, or a physical-safety call made on stale data.',
+          oversight: 'a duty shift supervisor with authority to override, plus an audit trail of what the screen said at the moment of the decision.',
+          empty_means: '"the sensor is dead" — which is the opposite of reassuring.',
+          empty_state: 'The sensor is not reporting. This is not an all-clear — treat the asset as unknown.',
+          rank: 1
+        }
+      };
+
+      /* ---------- 1. Team verbatims ---------- */
+      const rows = document.getElementById('verbatim-rows');
+
+      function addRow() {
+        const row = document.createElement('div');
+        row.className = 'verbatim-row';
+        row.innerHTML =
+          '<input type="text" class="v-name" placeholder="Name" aria-label="Name">' +
+          '<textarea class="v-quote" rows="2" placeholder="What they actually said, word for word" aria-label="What they said"></textarea>' +
+          '<button type="button" class="btn-remove-user v-remove" aria-label="Remove this person">&times;</button>';
+        rows.appendChild(row);
+        syncRemoveButtons();
+        return row;
+      }
+
+      function syncRemoveButtons() {
+        const all = rows.querySelectorAll('.verbatim-row');
+        all.forEach((r, i) => {
+          // a remove control on each row after the first
+          r.querySelector('.v-remove').hidden = (i === 0);
+        });
+      }
+
+      rows.addEventListener('click', function (e) {
+        const btn = e.target.closest('.v-remove');
+        if (!btn) return;
+        const all = rows.querySelectorAll('.verbatim-row');
+        if (all.length === 1) return;
+        btn.closest('.verbatim-row').remove();
+        syncRemoveButtons();
+      });
+
+      document.getElementById('btn-add-person').addEventListener('click', function () {
+        addRow().querySelector('.v-name').focus();
+      });
+
+      addRow();
+
+      /* ---------- 2. Industry, single-select ---------- */
+      let industryKey = null;
+      const industryToggles = document.getElementById('industry-toggles');
+
+      industryToggles.addEventListener('click', function (e) {
+        const btn = e.target.closest('.toggle-btn');
+        if (!btn) return;
+        const key = btn.dataset.industry;
+        const clearing = (industryKey === key);
+        industryKey = clearing ? null : key;
+        industryToggles.querySelectorAll('.toggle-btn').forEach(b => {
+          const on = !clearing && b.dataset.industry === key;
+          b.classList.toggle('active', on);
+          b.setAttribute('aria-pressed', String(on));
+        });
+      });
+
+      /* ---------- 4. Service, single-select ---------- */
+      let serviceKey = null;
+      const serviceCards = document.getElementById('service-cards');
+
+      serviceCards.addEventListener('click', function (e) {
+        const card = e.target.closest('.service-card');
+        if (!card) return;
+        const key = card.dataset.service;
+        const clearing = (serviceKey === key);
+        serviceKey = clearing ? null : key;
+        serviceCards.querySelectorAll('.service-card').forEach(c => {
+          const on = !clearing && c.dataset.service === key;
+          c.classList.toggle('is-selected', on);
+          c.setAttribute('aria-pressed', String(on));
+        });
+      });
+
+      /* ---------- Validation ---------- */
+      function setError(id, show) {
+        document.getElementById(id).hidden = !show;
+        return !show;
+      }
+
+      function collectVerbatims() {
+        return Array.prototype.map.call(rows.querySelectorAll('.verbatim-row'), r => ({
+          name: r.querySelector('.v-name').value.trim(),
+          quote: r.querySelector('.v-quote').value.trim()
+        })).filter(v => v.quote !== '');
+      }
+
+      /* ---------- Assembly helpers ---------- */
+      function bullets(list, indent) {
+        return list.map(t => indent + '- ' + t).join('\n');
+      }
+
+      function numbered(list, indent) {
+        return list.map((t, i) => indent + (i + 1) + '. ' + t).join('\n');
+      }
+
+      function buildPrompt(d) {
+        const svc = d.service;
+        const ind = d.industry;
+        const lead = d.verbatims[0];
+        const attribution = lead.name || 'The team';
+
+        const out = [];
+
+        out.push('ROLE: You are a senior full-stack developer working in this existing project.');
+        out.push('  Everything you build is read by a ' + ind.label + ' audience, so write it for ' + ind.label + ' —');
+        out.push('  where this product becomes ' + ind.becomes + '.');
+        out.push('');
+
+        out.push('GOAL: Build the screen that makes this claim true.');
+        out.push('  The claim: my screen tells the user ' + d.claim + '.');
+        out.push('  Today that value is ' + d.origin + '. To be true it has to come from ' + d.source + '.');
+        out.push('  ' + attribution + ' put it this way: "' + lead.quote + '" — that is the recurring');
+        out.push('  decision this screen has to settle, for a ' + ind.label + ' audience.');
+        out.push('');
+        out.push('  Build one serverless function per endpoint, plus a health endpoint:');
+        out.push(numbered(svc.functions, '  '));
+        out.push('');
+        out.push('  Then one on-screen panel that refreshes ' + svc.refresh + '.');
+        out.push('  When there is nothing to show it says, in words, not as a blank space:');
+        out.push('  "' + ind.empty_state + '"');
+        out.push('  In ' + ind.label + ', empty means ' + ind.empty_means);
+        out.push('');
+
+        out.push('OUTPUT:');
+        out.push('  The handlers listed above, at the project root as siblings of package.json.');
+        out.push('  Never inside src/. package.json needs "type": "module", or name the files .mjs.');
+        out.push('  Cache-Control on every data route: ' + svc.cache);
+        out.push('');
+        out.push('  Footer licence line, verbatim:');
+        out.push('  ' + svc.licence);
+        out.push('');
+        out.push('  Every screen that works today must keep working. Do not rewrite what is already');
+        out.push('  there to suit the new files.');
+        out.push('');
+
+        out.push('GUARDRAILS:');
+        out.push(bullets(svc.traps, '  '));
+        out.push('  - Never write the key into any file, comment or README.');
+        out.push('  - Never create a variable whose name starts with VITE_.');
+        out.push('  - Never call the provider from browser code.');
+        out.push('  - Never print the key, or any part of it, in a response or a log.');
+        out.push('  - No new npm packages. No database. No login.');
+        out.push('  - ' + ind.label + ' oversight is a build constraint, not a footnote: ' + ind.oversight);
+        out.push('    Build the screen so that constraint is possible — show what the user saw and when.');
+        if (d.serviceKey === 'web3forms') {
+          out.push('  - THE EXCEPTION, STATED ONCE: WEB3FORMS_KEY is the only key in this project that');
+          out.push('    belongs in browser code. Every other key in every other file stays server-side.');
+          out.push('    Do not cite this line as a precedent for anything else.');
+        }
+        out.push('');
+
+        out.push('CONTEXT:');
+        out.push('  Deployed on Vercel from GitHub. The key lives only in a Vercel environment variable');
+        out.push('  named ' + svc.env + ' — ' + svc.envNote + '.');
+        out.push('');
+        out.push('  Four screen states, four distinct sentences, written for ' + ind.label + ':');
+        out.push('  1. Loading      "Checking ' + svc.short + ' — this usually takes a second or two."');
+        out.push('  2. Empty        "' + ind.empty_state + '"');
+        out.push('  3. Refused      "We were refused by the provider, so nothing here is current. ' + ind.label + ' has');
+        out.push('                   been notified and no decision should be made from this screen."');
+        out.push('  4. Unreachable  "We could not reach the provider at all. This is not an all-clear —');
+        out.push('                   treat every value on this screen as unknown."');
+        out.push('');
+        out.push('  PASTE 15-25 LINES OF THE REAL RESPONSE HERE — I called the endpoint by hand before');
+        out.push('  building on it:');
+        out.push('  [paste here]');
+        out.push('');
+        out.push('  What the team actually said:');
+        d.verbatims.forEach(v => {
+          out.push('  "' + v.quote + '"');
+          out.push('      — ' + (v.name || 'unattributed'));
+        });
+
+        return out.join('\n');
+      }
+
+      function buildElsewhere(d) {
+        const ind = d.industry;
+        return [
+          'THE SAME PRODUCT, SOMEWHERE ELSE — ' + ind.label.toUpperCase(),
+          '',
+          'The screen that tells the user ' + d.claim + ' becomes, in ' + ind.label + ', ' + ind.becomes + '.',
+          'The data changes first: it is ' + ind.data,
+          'The risk changes with it: ' + ind.risk,
+          'And the oversight that did not exist before now has to: ' + ind.oversight,
+          '',
+          'Same claim, same ' + d.source + ' behind it, same four states — but an empty panel now means',
+          ind.empty_means
+        ].join('\n');
+      }
+
+      function buildRefusal(d) {
+        const others = Object.keys(INDUSTRIES)
+          .filter(k => k !== d.industryKey)
+          .map(k => INDUSTRIES[k])
+          .sort((a, b) => b.rank - a.rank);
+        const harder = others[0];
+        const softer = others[1];
+
+        return [
+          'WHERE WE WOULD NOT SHIP THIS',
+          '',
+          'Two industries we left on the table: ' + harder.label + ' and ' + softer.label + '. We would not ship this',
+          'build into either one as it stands, and ' + harder.label + ' is the harder refusal — that is the one',
+          'we are naming.',
+          '',
+          d.service.refusalReason(harder),
+          '',
+          'What is actually at stake there: ' + harder.risk,
+          'What would have to exist first: ' + harder.oversight,
+          '',
+          'The code is not the problem. The same code would run in ' + harder.label + ' exactly as it runs here,',
+          'and that is the trap — it would look like it was working. The accountability is what is',
+          'missing, and nothing we write on a screen creates it.'
+        ].join('\n');
+      }
+
+      function buildLens(ind) {
+        return '<div class="card-head"><div class="micro-heading">' + ind.label +
+          '</div><span class="status-chip">industry lens</span></div>' +
+          '<div class="lens-line"><span class="lens-label">Becomes</span><span class="lens-text">' + ind.becomes + '</span></div>' +
+          '<div class="lens-line"><span class="lens-label">Data</span><span class="lens-text">' + ind.data + '</span></div>' +
+          '<div class="lens-line"><span class="lens-label">Risk</span><span class="lens-text">' + ind.risk + '</span></div>' +
+          '<div class="lens-line"><span class="lens-label">Oversight</span><span class="lens-text">' + ind.oversight + '</span></div>' +
+          '<div class="lens-line"><span class="lens-label">Empty means</span><span class="lens-text">' + ind.empty_means + '</span></div>';
+      }
+
+      /* ---------- Generate ---------- */
+      document.getElementById('btn-generate').addEventListener('click', function () {
+        const verbatims = collectVerbatims();
+        const claim = document.getElementById('claim-text').value.trim();
+        const source = document.getElementById('claim-source').value.trim();
+        const origin = document.getElementById('claim-origin').value;
+
+        let ok = true;
+        ok = setError('err-verbatims', verbatims.length === 0) && ok;
+        ok = setError('err-industry', !industryKey) && ok;
+        ok = setError('err-claim', claim === '' || source === '') && ok;
+        ok = setError('err-service', !serviceKey) && ok;
+        if (!ok) return;
+
+        const d = {
+          verbatims: verbatims,
+          claim: claim,
+          source: source,
+          origin: origin,
+          industryKey: industryKey,
+          industry: INDUSTRIES[industryKey],
+          serviceKey: serviceKey,
+          service: SERVICES[serviceKey]
+        };
+
+        document.getElementById('rgogc-prompt').textContent = buildPrompt(d);
+        document.getElementById('lens-card').innerHTML = buildLens(d.industry);
+        document.getElementById('elsewhere-block').textContent = buildElsewhere(d);
+        document.getElementById('refusal-block').textContent = buildRefusal(d);
+
+        const output = document.getElementById('rgogc-output');
+        output.hidden = false;
+        output.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    })();
+  </script>
 
 </body>
 
