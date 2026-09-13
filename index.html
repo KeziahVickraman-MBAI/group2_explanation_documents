@@ -1568,8 +1568,8 @@ try {
           <p class="field-error" id="err-claim" hidden>Fill in both the claim and the source.</p>
 
           <h3>4 · API service</h3>
-          <p class="field-hint">Pick one. This decides the endpoints, the cache, the licence line and half the
-            guardrails.</p>
+          <p class="field-hint">Pick one or more — they combine. This decides the endpoints, the cache, the licence
+            lines and half the guardrails.</p>
           <div class="house-rules-grid" id="service-cards">
             <button type="button" class="rule-card service-card" data-service="lta" aria-pressed="false">
               <span class="card-head">
@@ -1595,8 +1595,16 @@ try {
               <span class="service-desc">Capture a signup or a request — the one key that may sit in browser
                 code.</span>
             </button>
+            <button type="button" class="rule-card service-card" data-service="beyond" aria-pressed="false">
+              <span class="card-head">
+                <span class="micro-heading">D. Beyond Singapore</span>
+                <span class="status-chip">NASA · Alpha Vantage · Guardian</span>
+              </span>
+              <span class="service-desc">Imagery, market prices and news archive — three keys by email, each one a
+                query parameter, and each with a trap of its own.</span>
+            </button>
           </div>
-          <p class="field-error" id="err-service" hidden>Pick one service.</p>
+          <p class="field-error" id="err-service" hidden>Pick at least one service.</p>
 
           <div class="toolbar-buttons">
             <button type="button" class="btn-toolbar" id="btn-generate">Generate RGOGC</button>
@@ -1674,6 +1682,7 @@ try {
       const SERVICES = {
         lta: {
           name: 'LTA DataMall bus arrival',
+          refusalRank: 1,
           short: 'the LTA bus arrival feed',
           endpoints: ['https://datamall2.mytransport.sg/ltaodataservice/v3/BusArrival'],
           env: 'LTA_ACCOUNT_KEY',
@@ -1701,6 +1710,7 @@ try {
         },
         meteo: {
           name: 'Open-Meteo + Nager.Date',
+          refusalRank: 2,
           short: 'the forecast and holiday feeds',
           endpoints: [
             'https://geocoding-api.open-meteo.com/v1/search?name=&count=1',
@@ -1734,6 +1744,7 @@ try {
         },
         web3forms: {
           name: 'Web3Forms',
+          refusalRank: 4,
           short: 'the form endpoint',
           endpoints: ['https://api.web3forms.com/submit  (POST)'],
           env: 'WEB3FORMS_KEY',
@@ -1755,6 +1766,41 @@ try {
               'the submission is person-identifiable or financially material, and in ' + industry.label + ' it is\n' +
               'both. We will not put a key that any visitor can read in front of a form that collects\n' +
               industry.label + ' data. Not behind a rate limit, not behind obscurity, not as an interim step.';
+          }
+        },
+        beyond: {
+          name: 'Beyond Singapore — NASA, Alpha Vantage, Guardian',
+          refusalRank: 3,
+          short: 'the imagery, market and news feeds',
+          endpoints: [
+            'https://api.nasa.gov/planetary/apod',
+            'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY',
+            'https://content.guardianapis.com/search'
+          ],
+          env: 'NASA_API_KEY, ALPHAVANTAGE_API_KEY and GUARDIAN_API_KEY',
+          envNote: 'each one a query parameter — api_key=, apikey= and api-key= respectively, so the whole URL is the secret, not just the value',
+          cache: 's-maxage=3600 for NASA, s-maxage=60 for market data, s-maxage=600 for news',
+          refresh: 'on demand, each feed cached to its own TTL',
+          functions: [
+            'api/nasa.js     — GET https://api.nasa.gov/planetary/apod?api_key=<NASA_API_KEY>',
+            'api/markets.js  — GET https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=<ALPHAVANTAGE_API_KEY>',
+            'api/news.js     — GET https://content.guardianapis.com/search?q=<term>&show-fields=body&api-key=<GUARDIAN_API_KEY>',
+            'api/health.js   — reports which of the three keys are configured, never their values'
+          ],
+          traps: [
+            'All three pass the key in the QUERY STRING, so the whole URL is a secret, not just the\n  value. Build every URL inside api/ and never log a full URL, not even on an error path.',
+            'ALPHA VANTAGE, THE TRAP: when rate-limited it returns 200 OK with an "Information" key\n  and no data. response.ok is true and nothing throws. Check for "Information" or "Note"\n  BEFORE looking for data. Closes arrive as STRINGS and dates are object keys, not array\n  entries — cast at the boundary. Roughly one request per second on the free tier.',
+            'NASA: a 403 body names the actual cause — API_KEY_INVALID, OVER_RATE_LIMIT or\n  API_KEY_MISSING. Read it and map each to a different sentence. The Earth imagery\n  endpoints (earth/assets, earth/imagery) time out regularly while apod answers 200 on the\n  same key, so test apod first to tell a dead service from a dead key, and treat a timeout\n  as unreachable rather than refused.',
+            'GUARDIAN: the envelope is nested under "response" with "total" alongside the results.\n  Ask for show-fields=body, not trailText. A freshly issued key can 403 until it is\n  activated after signup, which is not the same failure as a wrong key.'
+          ],
+          licence: 'NASA imagery is generally public domain, but individual items carry their own credit —\n  check each one. Content from the Guardian Open Platform, accessed [DATE]; the free tier\n  is non-commercial, capped at 500 calls a day, and requires attribution to The Guardian.\n  Alpha Vantage free tier is non-commercial and rate-limited to roughly one request per\n  second.',
+          refusalReason: function (industry) {
+            return 'Two of these three run on non-commercial free tiers with hard caps — the Guardian at 500\n' +
+              'calls a day, Alpha Vantage at roughly one request a second. A ' + industry.label + ' workflow is\n' +
+              'commercial the moment the business runs on it, and a cap that small is not a rate limit,\n' +
+              'it is an outage scheduled for the first busy morning. We will not put a ' + industry.label + '\n' +
+              'decision behind an allowance we would exceed by lunchtime, on a licence that does not\n' +
+              'cover the use in the first place.';
           }
         }
       };
@@ -1849,20 +1895,23 @@ try {
       });
 
       /* ---------- 4. Service, single-select ---------- */
-      let serviceKey = null;
+      // Multi-select: services combine, so each card toggles on its own
+      const serviceKeys = [];
       const serviceCards = document.getElementById('service-cards');
 
       serviceCards.addEventListener('click', function (e) {
         const card = e.target.closest('.service-card');
         if (!card) return;
         const key = card.dataset.service;
-        const clearing = (serviceKey === key);
-        serviceKey = clearing ? null : key;
-        serviceCards.querySelectorAll('.service-card').forEach(c => {
-          const on = !clearing && c.dataset.service === key;
-          c.classList.toggle('is-selected', on);
-          c.setAttribute('aria-pressed', String(on));
-        });
+        const at = serviceKeys.indexOf(key);
+        const on = at === -1;
+        if (on) {
+          serviceKeys.push(key);          // selection order is kept
+        } else {
+          serviceKeys.splice(at, 1);
+        }
+        card.classList.toggle('is-selected', on);
+        card.setAttribute('aria-pressed', String(on));
       });
 
       /* ---------- Validation ---------- */
@@ -1887,8 +1936,13 @@ try {
         return list.map((t, i) => indent + (i + 1) + '. ' + t).join('\n');
       }
 
+      function listPhrase(parts) {
+        if (parts.length === 1) return parts[0];
+        return parts.slice(0, -1).join(', ') + ' and ' + parts[parts.length - 1];
+      }
+
       function buildPrompt(d) {
-        const svc = d.service;
+        const svcs = d.services;
         const ind = d.industry;
         const lead = d.verbatims[0];
         const attribution = lead.name || 'The team';
@@ -1906,10 +1960,15 @@ try {
         out.push('  ' + attribution + ' put it this way: "' + lead.quote + '" — that is the recurring');
         out.push('  decision this screen has to settle, for a ' + ind.label + ' audience.');
         out.push('');
-        out.push('  Build one serverless function per endpoint, plus a health endpoint:');
-        out.push(numbered(svc.functions, '  '));
+        out.push('  Build one serverless function per endpoint, plus a single health endpoint:');
+        const handlers = [];
+        svcs.forEach(s => s.functions.forEach(f => {
+          if (!f.startsWith('api/health.js')) handlers.push(f);
+        }));
+        handlers.push('api/health.js   — reports which keys are configured, never their values');
+        out.push(numbered(handlers, '  '));
         out.push('');
-        out.push('  Then one on-screen panel that refreshes ' + svc.refresh + '.');
+        svcs.forEach(s => out.push('  The ' + s.name + ' panel refreshes ' + s.refresh + '.'));
         out.push('  When there is nothing to show it says, in words, not as a blank space:');
         out.push('  "' + ind.empty_state + '"');
         out.push('  In ' + ind.label + ', empty means ' + ind.empty_means);
@@ -1918,17 +1977,25 @@ try {
         out.push('OUTPUT:');
         out.push('  The handlers listed above, at the project root as siblings of package.json.');
         out.push('  Never inside src/. package.json needs "type": "module", or name the files .mjs.');
-        out.push('  Cache-Control on every data route: ' + svc.cache);
+        out.push('  Cache-Control, per route:');
+        svcs.forEach(s => out.push('    ' + s.name + ': ' + s.cache));
         out.push('');
-        out.push('  Footer licence line, verbatim:');
-        out.push('  ' + svc.licence);
+        out.push('  Footer licence lines, verbatim:');
+        svcs.forEach(s => {
+          out.push('  ' + s.licence);
+          out.push('');
+        });
+        out.pop();
         out.push('');
         out.push('  Every screen that works today must keep working. Do not rewrite what is already');
         out.push('  there to suit the new files.');
         out.push('');
 
         out.push('GUARDRAILS:');
-        out.push(bullets(svc.traps, '  '));
+        svcs.forEach(s => {
+          if (svcs.length > 1) out.push('  --- ' + s.name + ' ---');
+          out.push(bullets(s.traps, '  '));
+        });
         out.push('  - Never write the key into any file, comment or README.');
         out.push('  - Never create a variable whose name starts with VITE_.');
         out.push('  - Never call the provider from browser code.');
@@ -1936,7 +2003,7 @@ try {
         out.push('  - No new npm packages. No database. No login.');
         out.push('  - ' + ind.label + ' oversight is a build constraint, not a footnote: ' + ind.oversight);
         out.push('    Build the screen so that constraint is possible — show what the user saw and when.');
-        if (d.serviceKey === 'web3forms') {
+        if (d.serviceKeys.indexOf('web3forms') !== -1) {
           out.push('  - THE EXCEPTION, STATED ONCE: WEB3FORMS_KEY is the only key in this project that');
           out.push('    belongs in browser code. Every other key in every other file stays server-side.');
           out.push('    Do not cite this line as a precedent for anything else.');
@@ -1944,11 +2011,18 @@ try {
         out.push('');
 
         out.push('CONTEXT:');
-        out.push('  Deployed on Vercel from GitHub. The key lives only in a Vercel environment variable');
-        out.push('  named ' + svc.env + ' — ' + svc.envNote + '.');
+        out.push('  Deployed on Vercel from GitHub. Keys live only in Vercel environment variables:');
+        svcs.forEach(s => {
+          if (s.env.indexOf('none') === 0) {
+            out.push('    ' + s.name + ': no credential — ' + s.envNote + '.');
+          } else {
+            out.push('    ' + s.env + ' (' + s.name + ') — ' + s.envNote + '.');
+          }
+        });
         out.push('');
         out.push('  Four screen states, four distinct sentences, written for ' + ind.label + ':');
-        out.push('  1. Loading      "Checking ' + svc.short + ' — this usually takes a second or two."');
+        out.push('  1. Loading      "Checking ' + listPhrase(svcs.map(s => s.short)) + ' — this usually');
+        out.push('                   takes a second or two."');
         out.push('  2. Empty        "' + ind.empty_state + '"');
         out.push('  3. Refused      "We were refused by the provider, so nothing here is current. ' + ind.label + ' has');
         out.push('                   been notified and no decision should be made from this screen."');
@@ -1998,7 +2072,7 @@ try {
           'build into either one as it stands, and ' + harder.label + ' is the harder refusal — that is the one',
           'we are naming.',
           '',
-          d.service.refusalReason(harder),
+          d.services.slice().sort((a, b) => b.refusalRank - a.refusalRank)[0].refusalReason(harder),
           '',
           'What is actually at stake there: ' + harder.risk,
           'What would have to exist first: ' + harder.oversight,
@@ -2030,7 +2104,7 @@ try {
         ok = setError('err-verbatims', verbatims.length === 0) && ok;
         ok = setError('err-industry', !industryKey) && ok;
         ok = setError('err-claim', claim === '' || source === '') && ok;
-        ok = setError('err-service', !serviceKey) && ok;
+        ok = setError('err-service', serviceKeys.length === 0) && ok;
         if (!ok) return;
 
         const d = {
@@ -2040,8 +2114,8 @@ try {
           origin: origin,
           industryKey: industryKey,
           industry: INDUSTRIES[industryKey],
-          serviceKey: serviceKey,
-          service: SERVICES[serviceKey]
+          serviceKeys: serviceKeys.slice(),
+          services: serviceKeys.map(k => SERVICES[k])
         };
 
         document.getElementById('rgogc-prompt').textContent = buildPrompt(d);
