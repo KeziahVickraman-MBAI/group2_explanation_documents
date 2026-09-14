@@ -1532,11 +1532,34 @@ try {
         <!-- B. The input form -->
         <form id="rgogc-form" novalidate>
 
+          <div class="save-bar">
+            <span class="save-bar-label">Your work</span>
+            <button type="button" class="btn-toolbar btn-toolbar-secondary" id="btn-export">Export JSON</button>
+            <button type="button" class="btn-toolbar btn-toolbar-secondary" id="btn-import">Import JSON</button>
+            <input type="file" id="import-file" accept="application/json,.json" hidden>
+            <span class="save-status" id="save-status" role="status" aria-live="polite">Nothing saved yet — this page
+              keeps nothing when you close it.</span>
+          </div>
+
           <h3>1 · What the team actually said</h3>
           <p class="field-hint">Verbatims, not summaries. The generated prompt quotes these back with attribution.</p>
           <div class="verbatim-rows" id="verbatim-rows"></div>
           <div class="toolbar-buttons">
             <button type="button" class="btn-toolbar btn-toolbar-secondary" id="btn-add-person">+ Add person</button>
+            <button type="button" class="btn-toolbar btn-toolbar-secondary" id="btn-synthesise">Synthesise into
+              bullets</button>
+          </div>
+
+          <div class="synthesis-block" id="synthesis-block" hidden>
+            <div class="prompt-head">
+              <span class="prompt-label">What they are actually saying</span>
+              <button type="button" class="synth-redo" id="btn-resynthesise">Re-synthesise</button>
+            </div>
+            <p class="field-hint" id="synthesis-note">Grouped by recurring words, not by meaning — it is a starting
+              point, not a reading. Edit these bullets until they say what the room said; the prompt quotes whatever
+              is here.</p>
+            <textarea class="synthesis-input" id="synthesis-text" rows="4"
+              aria-label="Synthesised bullet points"></textarea>
           </div>
           <p class="field-error" id="err-verbatims" hidden>Add at least one verbatim with something in the quote
             field.</p>
@@ -1916,6 +1939,231 @@ try {
         card.setAttribute('aria-pressed', String(on));
       });
 
+
+      /* ---------- Synthesis: group the verbatims into themes ----------
+         Keyword matching, done in the browser. It clusters on recurring words, not on
+         meaning, so it is labelled as a starting point and the output stays editable. */
+      const THEMES = [
+        { label: 'Trust in the number',
+          reads: 'nobody is confident the value on screen is current',
+          words: ['wrong', 'accurate', 'accuracy', 'trust', 'correct', 'true', 'stale', 'outdated',
+                  'out of date', 'current', 'guess', 'guessing', 'checked', 'check', 'verify', 'number'] },
+        { label: 'Waiting',
+          reads: 'the wait is long enough that people work around it',
+          words: ['slow', 'wait', 'waiting', 'late', 'delay', 'delayed', 'lag', 'takes ages', 'quick',
+                  'faster', 'speed', 'minutes', 'hours'] },
+        { label: 'Done by hand',
+          reads: 'work is being done manually that the screen should be doing',
+          words: ['manual', 'manually', 'spreadsheet', 'excel', 'copy', 'paste', 'retype', 're-type',
+                  'by hand', 'chase', 'chasing', 'email', 'ping', 'ask around'] },
+        { label: 'Cannot see it',
+          reads: 'the answer is not visible without asking a person',
+          words: ['see', 'visible', 'visibility', 'know', 'nobody knows', 'dashboard', 'screen',
+                  'report', 'find out', 'look up', 'where is', 'which'] },
+        { label: 'Arguing about the same fact',
+          reads: 'time goes on reconciling versions of one number',
+          words: ['argue', 'argument', 'disagree', 'align', 'agree', 'meeting', 'everyone', 'team',
+                  'handover', 'clash', 'clashing', 'versions'] },
+        { label: 'Nobody is accountable',
+          reads: 'a decision is being made that no named person owns',
+          words: ['risk', 'audit', 'compliance', 'approve', 'approval', 'sign off', 'signoff',
+                  'policy', 'legal', 'privacy', 'pdpa', 'breach', 'responsible', 'blame'] },
+        { label: 'It costs something',
+          reads: 'the cost of getting this wrong lands somewhere else',
+          words: ['cost', 'costs', 'expensive', 'budget', 'spend', 'money', 'price', 'pay', 'waste'] }
+      ];
+
+      // Whole words only — substring matching put "excellent" under "excel"
+      const WORD_RE = {};
+      function hasWord(hay, word) {
+        if (!WORD_RE[word]) {
+          const safe = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          WORD_RE[word] = new RegExp('\\b' + safe + '\\b', 'i');
+        }
+        return WORD_RE[word].test(hay);
+      }
+
+      function synthesise(verbatims) {
+        const buckets = THEMES.map(t => ({ theme: t, who: [] }));
+        const unsorted = [];
+
+        verbatims.forEach(v => {
+          const hay = v.quote.toLowerCase();
+          const who = v.name || 'unattributed';
+          let placed = false;
+          buckets.forEach(b => {
+            if (b.theme.words.some(w => hasWord(hay, w))) {
+              if (b.who.indexOf(who) === -1) b.who.push(who);
+              placed = true;
+            }
+          });
+          if (!placed) unsorted.push(v);
+        });
+
+        const lines = [];
+        buckets.filter(b => b.who.length).forEach(b => {
+          lines.push('- ' + b.theme.label + ': ' + b.theme.reads +
+            ' (' + b.who.join(', ') + ')');
+        });
+        unsorted.forEach(v => {
+          lines.push('- Not grouped: "' + v.quote + '" (' + (v.name || 'unattributed') + ')');
+        });
+
+        if (!lines.length) lines.push('- Nothing to group yet — add a verbatim above.');
+        return lines.join('\n');
+      }
+
+      const synthBlock = document.getElementById('synthesis-block');
+      const synthText = document.getElementById('synthesis-text');
+
+      function runSynthesis() {
+        const vs = collectVerbatims();
+        setError('err-verbatims', vs.length === 0);
+        if (!vs.length) return;
+        synthText.value = synthesise(vs);
+        synthBlock.hidden = false;
+        autosize(synthText);
+        if (current) {
+          current.synthesis = synthText.value;
+          renderOutputs(current);
+        }
+      }
+
+      document.getElementById('btn-synthesise').addEventListener('click', runSynthesis);
+      document.getElementById('btn-resynthesise').addEventListener('click', runSynthesis);
+
+      synthText.addEventListener('input', function () {
+        autosize(synthText);
+        if (current) {
+          current.synthesis = synthText.value;
+          renderOutputs(current);
+        }
+      });
+
+      /* ---------- Export / import: the only way work survives a refresh ---------- */
+      const saveStatus = document.getElementById('save-status');
+
+      function setSaveStatus(msg) {
+        saveStatus.textContent = msg;
+      }
+
+      function collectState() {
+        return {
+          version: 1,
+          savedAt: new Date().toISOString(),
+          verbatims: Array.prototype.map.call(rows.querySelectorAll('.verbatim-row'), r => ({
+            name: r.querySelector('.v-name').value,
+            quote: r.querySelector('.v-quote').value
+          })),
+          synthesis: synthText.value,
+          claim: document.getElementById('claim-text').value,
+          origin: document.getElementById('claim-origin').value,
+          source: document.getElementById('claim-source').value,
+          industryKey: industryKey,
+          lens: current && current.industryKey === industryKey
+            ? Object.assign({}, current.industry)
+            : null,
+          serviceKeys: serviceKeys.slice()
+        };
+      }
+
+      document.getElementById('btn-export').addEventListener('click', function () {
+        const state = collectState();
+        const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'rgogc-' + state.savedAt.slice(0, 10) + '.json';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        setSaveStatus('Exported ' + a.download + ' — reload it with Import JSON.');
+      });
+
+      document.getElementById('btn-import').addEventListener('click', function () {
+        document.getElementById('import-file').click();
+      });
+
+      document.getElementById('import-file').addEventListener('change', function (e) {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function () {
+          let state;
+          try {
+            state = JSON.parse(reader.result);
+          } catch (err) {
+            setSaveStatus('That file is not valid JSON — nothing was changed.');
+            e.target.value = '';
+            return;
+          }
+          if (!state || typeof state !== 'object' || !Array.isArray(state.verbatims)) {
+            setSaveStatus('That JSON is not a saved session — nothing was changed.');
+            e.target.value = '';
+            return;
+          }
+          applyState(state);
+          e.target.value = '';
+        };
+        reader.readAsText(file);
+      });
+
+      function applyState(state) {
+        // verbatims
+        rows.innerHTML = '';
+        const list = state.verbatims.length ? state.verbatims : [{ name: '', quote: '' }];
+        list.forEach(v => {
+          const row = addRow();
+          row.querySelector('.v-name').value = v.name || '';
+          row.querySelector('.v-quote').value = v.quote || '';
+        });
+
+        // synthesis
+        synthText.value = state.synthesis || '';
+        synthBlock.hidden = !synthText.value;
+        if (synthText.value) autosize(synthText);
+
+        // claim
+        document.getElementById('claim-text').value = state.claim || '';
+        document.getElementById('claim-source').value = state.source || '';
+        if (state.origin) document.getElementById('claim-origin').value = state.origin;
+
+        // industry
+        industryKey = INDUSTRIES[state.industryKey] ? state.industryKey : null;
+        industryToggles.querySelectorAll('.toggle-btn').forEach(b => {
+          const on = b.dataset.industry === industryKey;
+          b.classList.toggle('active', on);
+          b.setAttribute('aria-pressed', String(on));
+        });
+
+        // services
+        serviceKeys.length = 0;
+        (state.serviceKeys || []).forEach(k => {
+          if (SERVICES[k]) serviceKeys.push(k);
+        });
+        serviceCards.querySelectorAll('.service-card').forEach(c => {
+          const on = serviceKeys.indexOf(c.dataset.service) !== -1;
+          c.classList.toggle('is-selected', on);
+          c.setAttribute('aria-pressed', String(on));
+        });
+
+        // an edited lens rides along and is reapplied on the next generate
+        pendingLens = (state.lens && typeof state.lens === 'object') ? state.lens : null;
+
+        ['err-verbatims', 'err-industry', 'err-claim', 'err-service'].forEach(id => setError(id, false));
+
+        const when = state.savedAt ? state.savedAt.slice(0, 16).replace('T', ' ') : 'an earlier session';
+        setSaveStatus('Loaded a session saved ' + when + '. Press Generate to rebuild the output.');
+
+        if (current) {
+          document.getElementById('btn-generate').click();
+        }
+      }
+
+      let pendingLens = null;
+
       /* ---------- Validation ---------- */
       function setError(id, show) {
         document.getElementById(id).hidden = !show;
@@ -2075,7 +2323,16 @@ try {
         out.push('  building on it:');
         out.push('  [paste here]');
         out.push('');
-        out.push('  What the team actually said:');
+        if (d.synthesis) {
+          out.push('  What the team is actually saying:');
+          d.synthesis.split('\n').forEach(line => {
+            if (line.trim()) out.push('  ' + line.trim());
+          });
+          out.push('');
+          out.push('  In their own words:');
+        } else {
+          out.push('  What the team actually said:');
+        }
         d.verbatims.forEach(v => {
           out.push('  "' + v.quote + '"');
           out.push('      — ' + (v.name || 'unattributed'));
@@ -2226,11 +2483,13 @@ try {
           origin: origin,
           industryKey: industryKey,
           // a clone, so edits below never write back into the lookup
-          industry: Object.assign({}, INDUSTRIES[industryKey]),
+          industry: Object.assign({}, INDUSTRIES[industryKey], pendingLens || {}),
+          synthesis: synthText.value.trim(),
           serviceKeys: serviceKeys.slice(),
           services: serviceKeys.map(k => SERVICES[k])
         };
 
+        pendingLens = null;
         current = d;
         paintLens(d);
         renderOutputs(d);
