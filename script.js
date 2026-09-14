@@ -59,19 +59,24 @@ const CRED_PLATFORMS = {
   },
   ps: {
     label: 'Windows PowerShell',
-    exe: 'curl.exe',
+    style: 'powershell',
+    exe: 'Invoke-WebRequest',
     cont: '`',
     ref: v => '$env:' + v,
     inspect: v => '$env:' + v + '.Substring(0,4)',
     warning: {
       label: 'POWERSHELL: CURL IS NOT CURL',
-      text: 'In PowerShell, curl is an ALIAS for Invoke-WebRequest. The same line fails with confusing ' +
-        'errors about parameter names that have nothing to do with your key. Type curl.exe explicitly, or ' +
-        'use Invoke-WebRequest with its own syntax. Windows 10 build 1803 and later ship curl.exe.'
+      text: 'In PowerShell, curl is an ALIAS for Invoke-WebRequest, so a copied curl line fails with ' +
+        'confusing errors about parameter names that have nothing to do with your key. Use the native ' +
+        'cmdlet below instead. One thing to know: Invoke-WebRequest THROWS on a 401 rather than ' +
+        'returning it, so $r.StatusCode never prints on a refused key — you get a red error instead. ' +
+        'To read the status of a failure, add -SkipHttpErrorCheck on PowerShell 7 or later, or wrap the ' +
+        'call in try/catch and read $_.Exception.Response.StatusCode.value__.'
     }
   },
   cmd: {
     label: 'Windows CMD',
+    style: 'cmd',
     exe: 'curl.exe',
     cont: '^',
     ref: v => '%' + v + '%',
@@ -90,6 +95,7 @@ const CRED_SERVICES = {
     label: 'LTA DataMall',
     env: 'LTA_ACCOUNT_KEY',
     passing: 'a header named exactly AccountKey',
+    rowsKey: 'value',
     endpoint: 'https://datamall2.mytransport.sg/ltaodataservice/CarParkAvailabilityv2',
     cache: 's-maxage=20, stale-while-revalidate=40',
     header: 'AccountKey',
@@ -109,6 +115,7 @@ const CRED_SERVICES = {
     label: 'data.gov.sg',
     env: null,
     passing: 'nothing — there is no key at all',
+    rowsKey: 'data',
     endpoint: 'https://api-open.data.gov.sg/v2/real-time/api/two-hr-forecast',
     cache: 's-maxage=300, stale-while-revalidate=600',
     reads: [
@@ -143,6 +150,7 @@ const CRED_SERVICES = {
     label: 'Guardian',
     env: 'GUARDIAN_API_KEY',
     passing: 'a query parameter, api-key=',
+    rowsKey: 'response',
     endpoint: 'https://content.guardianapis.com/search?q=singapore&show-fields=body&api-key=',
     cache: 's-maxage=600, stale-while-revalidate=1200',
     query: 'api-key',
@@ -206,6 +214,8 @@ function initCredentialCheck() {
 
   let serviceKey = null;
   let platformKey = null;
+  let modeKey = 'full';
+  const modeGroup = document.getElementById('cred-modes');
 
   function singleSelect(group, attr, current, clicked) {
     const key = clicked.dataset[attr];
@@ -228,6 +238,17 @@ function initCredentialCheck() {
     if (btn) platformKey = singleSelect(platformGroup, 'platform', platformKey, btn);
   });
 
+  modeGroup.addEventListener('click', e => {
+    const btn = e.target.closest('.toggle-btn');
+    if (!btn) return;
+    modeKey = btn.dataset.mode;          // one is always selected; Full is the default
+    modeGroup.querySelectorAll('.toggle-btn').forEach(b => {
+      const on = b.dataset.mode === modeKey;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-pressed', String(on));
+    });
+  });
+
   showBtn.addEventListener('click', () => {
     if (!serviceKey || !platformKey) {
       errLine.hidden = false;
@@ -240,7 +261,7 @@ function initCredentialCheck() {
     const plat = CRED_PLATFORMS[platformKey];
 
     renderWarning(plat);
-    document.getElementById('cred-command').textContent = buildCredCommand(svc, plat);
+    document.getElementById('cred-command').textContent = buildCredCommand(svc, plat, modeKey);
     document.getElementById('cred-reads').innerHTML = buildCredReads(svc);
     document.getElementById('cred-checks').innerHTML = buildCredChecks(svc, plat);
     document.getElementById('cred-rgogc').textContent = buildCredPrompt(svc, plat);
@@ -261,16 +282,85 @@ function renderWarning(plat) {
   box.hidden = false;
 }
 
-function buildCredCommand(svc, plat) {
-  // Header-based services get a two-line command; query-parameter services get one line
-  if (svc.header) {
-    return plat.exe + ' -4 -is -H "' + svc.header + ': ' + plat.ref(svc.env) + '" ' + plat.cont + '\n' +
-      '  "' + svc.endpoint + '"';
+function buildCredCommand(svc, plat, mode) {
+  if (plat.style === 'powershell') return buildPowerShellCommand(svc, plat, mode);
+  if (plat.style === 'cmd') return buildCmdCommand(svc, plat, mode);
+  return buildCurlCommand(svc, plat, mode);
+}
+
+// The URL, however the key travels
+function credUrl(svc, plat) {
+  return svc.endpoint + (svc.env && !svc.header ? plat.ref(svc.env) : '');
+}
+
+// curl, on macOS and Linux
+function buildCurlCommand(svc, plat, mode) {
+  const flags = mode === 'headers' ? '-4 -sI' : (mode === 'truncated' ? '-4 -s' : '-4 -is');
+  const head = svc.header
+    ? 'curl ' + flags + ' -H "' + svc.header + ': ' + plat.ref(svc.env) + '" \\\n  "' + credUrl(svc, plat) + '"'
+    : 'curl ' + flags + ' "' + credUrl(svc, plat) + '"';
+
+  return mode === 'truncated' ? head + ' \\\n' + pythonTruncate(svc, 'python3') : head;
+}
+
+// curl.exe on CMD: double quotes only, %VAR%, and a one-line python
+function buildCmdCommand(svc, plat, mode) {
+  const flags = mode === 'headers' ? '-4 -sI' : (mode === 'truncated' ? '-4 -s' : '-4 -is');
+  const head = svc.header
+    ? 'curl.exe ' + flags + ' -H "' + svc.header + ': ' + plat.ref(svc.env) + '" ^\n  "' + credUrl(svc, plat) + '"'
+    : 'curl.exe ' + flags + ' "' + credUrl(svc, plat) + '"';
+
+  if (mode !== 'truncated') return head;
+
+  // CMD cannot carry a multi-line quoted string, so this one is a single statement
+  const key = svc.rowsKey ? "d=d.get('" + svc.rowsKey + "',d) if isinstance(d,dict) else d;" : '';
+  return head + ' ^\n| python -c "import sys,json;d=json.load(sys.stdin);' + key +
+    'd=next((v for v in d.values() if isinstance(v,list)),d) if isinstance(d,dict) else d;' +
+    'rows=d if isinstance(d,list) else [d];print(json.dumps(rows[:3],indent=2));' +
+    'print(\'... %d more records on this page\' % max(len(rows)-3,0))"';
+}
+
+// Shared python step — resolves the envelope without assuming a shape it has not been told
+function pythonTruncate(svc, exe) {
+  const lines = [];
+  lines.push('| ' + exe + ' -c "');
+  lines.push('import sys, json');
+  lines.push('d = json.load(sys.stdin)');
+  if (svc.rowsKey) lines.push("d = d.get('" + svc.rowsKey + "', d) if isinstance(d, dict) else d");
+  lines.push('if isinstance(d, dict):');
+  lines.push('    d = next((v for v in d.values() if isinstance(v, list)), d)');
+  lines.push('rows = d if isinstance(d, list) else [d]');
+  lines.push('print(json.dumps(rows[:3], indent=2))');
+  lines.push("print(f'... {max(len(rows) - 3, 0)} more records on this page')");
+  lines.push('"');
+  return lines.join('\n');
+}
+
+// PowerShell uses its own cmdlet, not a curl line with the arguments swapped
+function buildPowerShellCommand(svc, plat, mode) {
+  const headerArg = svc.header
+    ? ' `\n  -Headers @{ "' + svc.header + '" = ' + plat.ref(svc.env) + ' }'
+    : '';
+  const uri = '"' + credUrl(svc, plat) + '"';
+
+  if (mode === 'headers') {
+    return '$r = Invoke-WebRequest -Method Head -Uri ' + uri + headerArg + '\n' +
+      '$r.StatusCode\n' +
+      '$r.Headers | Format-Table -AutoSize';
   }
-  if (svc.env) {
-    return plat.exe + ' -4 -is "' + svc.endpoint + plat.ref(svc.env) + '"';
+
+  const call = '$r = Invoke-WebRequest -Uri ' + uri + headerArg;
+
+  if (mode === 'truncated') {
+    // No python needed — PowerShell parses JSON natively
+    const path = svc.rowsKey ? '.' + svc.rowsKey : '';
+    return call + '\n' +
+      '$d = ($r.Content | ConvertFrom-Json)' + path + '\n' +
+      '$d | Select-Object -First 3 | ConvertTo-Json -Depth 4\n' +
+      '"... $($d.Count - 3) more records on this page"';
   }
-  return plat.exe + ' -4 -s "' + svc.endpoint + '"';
+
+  return call + '\n$r.StatusCode\n$r.Content.Substring(0, 400)';
 }
 
 function buildCredReads(svc) {

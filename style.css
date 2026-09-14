@@ -2466,3 +2466,53 @@ button.card-head.break-toggle[aria-expanded="true"]::after {
     color: #000000 !important;
   }
 }
+
+
+/* Three control groups now, so the picker wraps instead of squeezing */
+.cred-controls {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.cred-control-action {
+  grid-column: 1 / -1;
+  justify-self: end;
+  align-self: center;
+}
+
+@media (max-width: 720px) {
+  .cred-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .cred-control-action {
+    justify-self: stretch;
+  }
+}
+
+
+/* The debugging prompt inside each Fix it card */
+.fix-debug-note {
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+
+/* The variable table, collapsed into the same accordion as the tiers above it */
+.keytable-block {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: var(--bg-card);
+  margin-bottom: 28px;
+}
+
+.keytable-block .keyref-body {
+  padding-bottom: 18px;
+}
+
+.keytable-block .table-container {
+  margin-top: 16px;
+  margin-bottom: 0;
+}

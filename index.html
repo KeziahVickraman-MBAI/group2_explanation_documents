@@ -348,59 +348,67 @@
 
         </div>
 
-        <div class="table-container keytable">
-          <table>
-            <thead>
-              <tr>
-                <th>Variable Name</th>
-                <th>Service</th>
-                <th>Where It May Be Read</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><code>LTA_ACCOUNT_KEY</code></td>
-                <td>LTA DataMall — bus, train, traffic</td>
-                <td class="tint-yes">Inside <code>/api</code> only</td>
-              </tr>
-              <tr>
-                <td><code>NASA_API_KEY</code></td>
-                <td>NASA open APIs — imagery, APOD</td>
-                <td class="tint-yes">Inside <code>/api</code> only</td>
-              </tr>
-              <tr>
-                <td><code>GUARDIAN_API_KEY</code></td>
-                <td>The Guardian — articles and search</td>
-                <td class="tint-yes">Inside <code>/api</code> only</td>
-              </tr>
-              <tr>
-                <td><code>PEXELS_API_KEY</code></td>
-                <td>Pexels — stock photography</td>
-                <td class="tint-yes">Inside <code>/api</code> only</td>
-              </tr>
-              <tr>
-                <td><code>ALPHAVANTAGE_API_KEY</code></td>
-                <td>Alpha Vantage — market and FX series</td>
-                <td class="tint-yes">Inside <code>/api</code> only</td>
-              </tr>
-              <tr>
-                <td><code>RESEND_API_KEY</code></td>
-                <td>Resend — transactional email</td>
-                <td class="tint-yes">Inside <code>/api</code> only</td>
-              </tr>
-              <tr>
-                <td><code>ONEMAP_TOKEN</code></td>
-                <td>OneMap SG — expires every three days</td>
-                <td class="tint-yes">Inside <code>/api</code> only</td>
-              </tr>
-              <tr>
-                <td><code>WEB3FORMS_KEY</code></td>
-                <td>Web3Forms — form delivery</td>
-                <td class="tint-no">Browser — the single exception</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <details class="keyref-item keytable-block">
+          <summary>
+            <span class="keyref-title">Every variable, and where it may be read</span>
+            <span class="keyref-tag">eight keys</span>
+          </summary>
+          <div class="keyref-body">
+          <div class="table-container keytable">
+            <table>
+              <thead>
+                <tr>
+                  <th>Variable Name</th>
+                  <th>Service</th>
+                  <th>Where It May Be Read</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>LTA_ACCOUNT_KEY</code></td>
+                  <td>LTA DataMall — bus, train, traffic</td>
+                  <td class="tint-yes">Inside <code>/api</code> only</td>
+                </tr>
+                <tr>
+                  <td><code>NASA_API_KEY</code></td>
+                  <td>NASA open APIs — imagery, APOD</td>
+                  <td class="tint-yes">Inside <code>/api</code> only</td>
+                </tr>
+                <tr>
+                  <td><code>GUARDIAN_API_KEY</code></td>
+                  <td>The Guardian — articles and search</td>
+                  <td class="tint-yes">Inside <code>/api</code> only</td>
+                </tr>
+                <tr>
+                  <td><code>PEXELS_API_KEY</code></td>
+                  <td>Pexels — stock photography</td>
+                  <td class="tint-yes">Inside <code>/api</code> only</td>
+                </tr>
+                <tr>
+                  <td><code>ALPHAVANTAGE_API_KEY</code></td>
+                  <td>Alpha Vantage — market and FX series</td>
+                  <td class="tint-yes">Inside <code>/api</code> only</td>
+                </tr>
+                <tr>
+                  <td><code>RESEND_API_KEY</code></td>
+                  <td>Resend — transactional email</td>
+                  <td class="tint-yes">Inside <code>/api</code> only</td>
+                </tr>
+                <tr>
+                  <td><code>ONEMAP_TOKEN</code></td>
+                  <td>OneMap SG — expires every three days</td>
+                  <td class="tint-yes">Inside <code>/api</code> only</td>
+                </tr>
+                <tr>
+                  <td><code>WEB3FORMS_KEY</code></td>
+                  <td>Web3Forms — form delivery</td>
+                  <td class="tint-no">Browser — the single exception</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          </div>
+        </details>
 
         <div class="attention-callout">
           <span class="attention-label">ATTENTION: NO VARIABLE NAME BEGINS VITE_</span>
@@ -1036,6 +1044,15 @@ service and paste it here before sending.</pre>
             </div>
           </div>
 
+          <div class="cred-control">
+            <span class="cred-control-label" id="cred-mode-label">Output</span>
+            <div class="mode-toggles" id="cred-modes" role="group" aria-labelledby="cred-mode-label">
+              <button type="button" class="toggle-btn active" data-mode="full" aria-pressed="true">Full</button>
+              <button type="button" class="toggle-btn" data-mode="truncated" aria-pressed="false">Truncated</button>
+              <button type="button" class="toggle-btn" data-mode="headers" aria-pressed="false">Headers only</button>
+            </div>
+          </div>
+
           <div class="cred-control cred-control-action">
             <button type="button" class="btn-toolbar" id="btn-cred-show">Show the command</button>
           </div>
@@ -1334,6 +1351,52 @@ content-length: 0
               that most products show a spinner here, which tells the user nothing about which of four situations
               they are in.</p>
 
+            <div class="fix-sub">Debug it first</div>
+            <p class="fix-debug-note">If what you are seeing does not match the root cause above, fill this in and
+              paste it into your coding tool. It asks for one cause and one check — not a rewrite.</p>
+
+            <div class="prompt-head">
+              <span class="prompt-label">Debugging prompt</span>
+              <button type="button" class="copybtn" data-target="fix-debug-1">Copy</button>
+            </div>
+            <pre class="code-block" id="fix-debug-1">ROLE: You are debugging a serverless function with me. Do not rewrite it yet.
+
+THE SYMPTOM: the panel never leaves the loading state — the request does not settle either way.
+
+WHAT I AM SEEING, quoted exactly rather than described:
+- The address I am calling: [PASTE THE FULL URL, WITHOUT THE CREDENTIAL]
+- Where I called it from: [the deployed Vercel URL / the AI Studio preview / my browser console]
+- The status code I get back: [PASTE, or write "none — the request never settles"]
+- The response body, first 20 lines: [PASTE, or write "empty, 0 bytes"]
+- The content type of the response: [PASTE, or "unknown"]
+- What /api/health says right now: [PASTE THE WHOLE JSON]
+- What the browser console says, if anything: [PASTE]
+- How long I waited before giving up: [PASTE, in seconds]
+- What the network tab shows for this request: [pending / finished / failed, and the time taken]
+- What I expected to see instead: [ONE SENTENCE]
+- What I last changed before it broke: [ONE SENTENCE, or "nothing, it never worked"]
+
+WHAT I HAVE ALREADY RULED OUT:
+[List what you checked and what the result was. Write "nothing yet" if that is true.]
+
+WHAT I WANT FROM YOU, in this order and nothing else:
+1. Name the SINGLE most likely cause given the evidence above, and say which piece of
+   the evidence points at it. If two causes fit equally, say so rather than picking.
+2. Give me ONE thing to check that would tell those causes apart, and tell me what
+   each possible result would mean. I will run it and come back.
+3. Only after I confirm the cause, give me the smallest change that fixes it.
+
+GUARDRAILS: Do not rewrite my function. Do not add a library. Do not suggest that I
+check whether the key is correct unless keyConfigured above is true, because if it is
+false the value is not the problem. Do not tell me to clear the cache or redeploy
+unless you can say from the evidence why that would matter. If the evidence above is
+not enough to name a cause, tell me exactly which line of it is missing and stop.
+
+Also: do not tell me to add a spinner or a skeleton — the question is why the request
+never settles, not what is drawn while it does. If a ?delay parameter appears in the URL
+above, say so before anything else, because that parameter must never be reachable in
+production.</pre>
+
             <div class="prompt-head">
               <span class="prompt-label">Solution</span>
               <button type="button" class="copybtn" data-target="fix-code-1">Copy</button>
@@ -1371,6 +1434,52 @@ try {
             <p>This is the dangerous one. HTTP 200, <code>response.ok</code> is true, nothing throws, and the body is
               empty. Every layer of the stack reports success. The screen goes blank because nobody wrote a sentence
               for the case where the request worked and the answer was nothing.</p>
+
+            <div class="fix-sub">Debug it first</div>
+            <p class="fix-debug-note">If what you are seeing does not match the root cause above, fill this in and
+              paste it into your coding tool. It asks for one cause and one check — not a rewrite.</p>
+
+            <div class="prompt-head">
+              <span class="prompt-label">Debugging prompt</span>
+              <button type="button" class="copybtn" data-target="fix-debug-2">Copy</button>
+            </div>
+            <pre class="code-block" id="fix-debug-2">ROLE: You are debugging a serverless function with me. Do not rewrite it yet.
+
+THE SYMPTOM: the request succeeds and the panel renders nothing.
+
+WHAT I AM SEEING, quoted exactly rather than described:
+- The address I am calling: [PASTE THE FULL URL, WITHOUT THE CREDENTIAL]
+- Where I called it from: [the deployed Vercel URL / the AI Studio preview / my browser console]
+- The status code I get back: [PASTE — I expect 200 here]
+- The response body, first 20 lines: [PASTE, or write "empty, 0 bytes"]
+- The content type of the response: [PASTE, or "unknown"]
+- What /api/health says right now: [PASTE THE WHOLE JSON]
+- What the browser console says, if anything: [PASTE]
+- The number of records in the body: [PASTE, e.g. 0]
+- The exact field I am reading, and one record as it actually arrives: [PASTE]
+- What I expected to see instead: [ONE SENTENCE]
+- What I last changed before it broke: [ONE SENTENCE, or "nothing, it never worked"]
+
+WHAT I HAVE ALREADY RULED OUT:
+[List what you checked and what the result was. Write "nothing yet" if that is true.]
+
+WHAT I WANT FROM YOU, in this order and nothing else:
+1. Name the SINGLE most likely cause given the evidence above, and say which piece of
+   the evidence points at it. If two causes fit equally, say so rather than picking.
+2. Give me ONE thing to check that would tell those causes apart, and tell me what
+   each possible result would mean. I will run it and come back.
+3. Only after I confirm the cause, give me the smallest change that fixes it.
+
+GUARDRAILS: Do not rewrite my function. Do not add a library. Do not suggest that I
+check whether the key is correct unless keyConfigured above is true, because if it is
+false the value is not the problem. Do not tell me to clear the cache or redeploy
+unless you can say from the evidence why that would matter. If the evidence above is
+not enough to name a cause, tell me exactly which line of it is missing and stop.
+
+Also: do not treat a 200 with an empty body as an error — it is a success with nothing
+in it, and what I need is a sentence for that case, not a throw. Do not merge a record
+reporting zero with a record that is absent: zero means FULL, absent means UNKNOWN, and
+an answer that treats them as the same thing is wrong.</pre>
 
             <div class="prompt-head">
               <span class="prompt-label">Solution</span>
@@ -1422,6 +1531,53 @@ function lotsSentence(carparkId, rows) {
               wrong key. This is why the guard fires before the fetch, and why <code>/api/health</code> exists at
               all.</p>
 
+            <div class="fix-sub">Debug it first</div>
+            <p class="fix-debug-note">If what you are seeing does not match the root cause above, fill this in and
+              paste it into your coding tool. It asks for one cause and one check — not a rewrite.</p>
+
+            <div class="prompt-head">
+              <span class="prompt-label">Debugging prompt</span>
+              <button type="button" class="copybtn" data-target="fix-debug-3">Copy</button>
+            </div>
+            <pre class="code-block" id="fix-debug-3">ROLE: You are debugging a serverless function with me. Do not rewrite it yet.
+
+THE SYMPTOM: the provider rejected the request and the panel has nothing current to show.
+
+WHAT I AM SEEING, quoted exactly rather than described:
+- The address I am calling: [PASTE THE FULL URL, WITHOUT THE CREDENTIAL]
+- Where I called it from: [the deployed Vercel URL / the AI Studio preview / my browser console]
+- The status code I get back: [PASTE — 401, 403 or 404]
+- The response body, first 20 lines: [PASTE, or write "empty, 0 bytes"]
+- The content type of the response: [PASTE, or "unknown"]
+- What /api/health says right now: [PASTE THE WHOLE JSON]
+- What the browser console says, if anything: [PASTE]
+- The environment variable name as it appears in Vercel, spelled exactly: [PASTE]
+- The header name I am sending, spelled exactly: [PASTE]
+- Whether the same call works from my terminal with the same variable: [yes / no / did not try]
+- What I expected to see instead: [ONE SENTENCE]
+- What I last changed before it broke: [ONE SENTENCE, or "nothing, it never worked"]
+
+WHAT I HAVE ALREADY RULED OUT:
+[List what you checked and what the result was. Write "nothing yet" if that is true.]
+
+WHAT I WANT FROM YOU, in this order and nothing else:
+1. Name the SINGLE most likely cause given the evidence above, and say which piece of
+   the evidence points at it. If two causes fit equally, say so rather than picking.
+2. Give me ONE thing to check that would tell those causes apart, and tell me what
+   each possible result would mean. I will run it and come back.
+3. Only after I confirm the cause, give me the smallest change that fixes it.
+
+GUARDRAILS: Do not rewrite my function. Do not add a library. Do not suggest that I
+check whether the key is correct unless keyConfigured above is true, because if it is
+false the value is not the problem. Do not tell me to clear the cache or redeploy
+unless you can say from the evidence why that would matter. If the evidence above is
+not enough to name a cause, tell me exactly which line of it is missing and stop.
+
+Also: 401 and 404 mean different things here — 401 means a value arrived and was
+rejected, 404 means the header never arrived at all. Say which one the evidence shows
+before proposing anything. If keyConfigured is false, the value of the key is not the
+problem and I do not want to hear about it.</pre>
+
             <div class="prompt-head">
               <span class="prompt-label">Solution</span>
               <button type="button" class="copybtn" data-target="fix-code-3">Copy</button>
@@ -1467,6 +1623,53 @@ export function health() {
             <div class="fix-sub">Root cause</div>
             <p>There is no status code to read, because nothing answered. DNS failure, timeout, or the provider is
               simply down. The only code in play is the one our own function decides to return.</p>
+
+            <div class="fix-sub">Debug it first</div>
+            <p class="fix-debug-note">If what you are seeing does not match the root cause above, fill this in and
+              paste it into your coding tool. It asks for one cause and one check — not a rewrite.</p>
+
+            <div class="prompt-head">
+              <span class="prompt-label">Debugging prompt</span>
+              <button type="button" class="copybtn" data-target="fix-debug-4">Copy</button>
+            </div>
+            <pre class="code-block" id="fix-debug-4">ROLE: You are debugging a serverless function with me. Do not rewrite it yet.
+
+THE SYMPTOM: nothing answered at all — there is no status code to read.
+
+WHAT I AM SEEING, quoted exactly rather than described:
+- The address I am calling: [PASTE THE FULL URL, WITHOUT THE CREDENTIAL]
+- Where I called it from: [the deployed Vercel URL / the AI Studio preview / my browser console]
+- The status code I get back: [PASTE, or write "none — nothing answered"]
+- The response body, first 20 lines: [PASTE, or write "empty, 0 bytes"]
+- The content type of the response: [PASTE, or "unknown"]
+- What /api/health says right now: [PASTE THE WHOLE JSON]
+- What the browser console says, if anything: [PASTE]
+- The error name, if there was one: [PASTE, e.g. AbortError, ENOTFOUND, ECONNREFUSED]
+- How long it took before it gave up: [PASTE, in seconds]
+- Whether the same URL answers from my terminal: [yes / no / did not try]
+- What I expected to see instead: [ONE SENTENCE]
+- What I last changed before it broke: [ONE SENTENCE, or "nothing, it never worked"]
+
+WHAT I HAVE ALREADY RULED OUT:
+[List what you checked and what the result was. Write "nothing yet" if that is true.]
+
+WHAT I WANT FROM YOU, in this order and nothing else:
+1. Name the SINGLE most likely cause given the evidence above, and say which piece of
+   the evidence points at it. If two causes fit equally, say so rather than picking.
+2. Give me ONE thing to check that would tell those causes apart, and tell me what
+   each possible result would mean. I will run it and come back.
+3. Only after I confirm the cause, give me the smallest change that fixes it.
+
+GUARDRAILS: Do not rewrite my function. Do not add a library. Do not suggest that I
+check whether the key is correct unless keyConfigured above is true, because if it is
+false the value is not the problem. Do not tell me to clear the cache or redeploy
+unless you can say from the evidence why that would matter. If the evidence above is
+not enough to name a cause, tell me exactly which line of it is missing and stop.
+
+Also: do not suggest I check the key. Nothing answered, so no credential was ever
+judged. A timeout, a hostname that does not resolve, and a refused connection are three
+different failures with three different fixes — the error name above tells them apart, so
+use it rather than guessing.</pre>
 
             <div class="prompt-head">
               <span class="prompt-label">Solution</span>
@@ -2155,10 +2358,17 @@ try {
         ['err-verbatims', 'err-industry', 'err-claim', 'err-service'].forEach(id => setError(id, false));
 
         const when = state.savedAt ? state.savedAt.slice(0, 16).replace('T', ' ') : 'an earlier session';
-        setSaveStatus('Loaded a session saved ' + when + '. Press Generate to rebuild the output.');
 
-        if (current) {
+        // Rebuild the output now, so the lens comes back with the rest of it
+        const ready = collectVerbatims().length > 0 && industryKey &&
+          document.getElementById('claim-text').value.trim() !== '' &&
+          document.getElementById('claim-source').value.trim() !== '';
+
+        if (ready) {
           document.getElementById('btn-generate').click();
+          setSaveStatus('Loaded a session saved ' + when + '.');
+        } else {
+          setSaveStatus('Loaded a session saved ' + when + '. Fill in what is missing, then Generate.');
         }
       }
 
@@ -2482,8 +2692,14 @@ try {
           source: source,
           origin: origin,
           industryKey: industryKey,
-          // a clone, so edits below never write back into the lookup
-          industry: Object.assign({}, INDUSTRIES[industryKey], pendingLens || {}),
+          // a clone, so edits below never write back into the lookup.
+          // Keep the edits when the industry has not changed; an import overrides both.
+          industry: Object.assign(
+            {},
+            INDUSTRIES[industryKey],
+            (current && current.industryKey === industryKey) ? current.industry : {},
+            pendingLens || {}
+          ),
           synthesis: synthText.value.trim(),
           serviceKeys: serviceKeys.slice(),
           services: serviceKeys.map(k => SERVICES[k])
