@@ -81,12 +81,25 @@
       <section class="tab-panel active" id="panel-overview" aria-labelledby="overview-title">
         <h2 id="overview-title">Visit our Product Here</h2>
 
-        <!-- Chat Placeholder Bar -->
-        <div class="chat-bar-container">
-          <form id="chat-form" onsubmit="event.preventDefault(); handleVisit();">
-            <input type="text" id="chat-input" placeholder="input our final vercel link here...">
-            <button type="submit" class="chat-btn-submit">Visit</button>
-          </form>
+        <!-- Live product and repo -->
+        <div class="chat-bar-container visit-bars">
+          <div class="visit-bar">
+            <label class="visit-label" for="chat-input">Live product</label>
+            <form id="chat-form" onsubmit="event.preventDefault(); handleVisit('chat-input');">
+              <input type="text" id="chat-input" value="https://mgmt6110group2showcase.vercel.app/"
+                aria-label="Live product URL">
+              <button type="submit" class="chat-btn-submit">Visit</button>
+            </form>
+          </div>
+
+          <div class="visit-bar">
+            <label class="visit-label" for="repo-input">GitHub repo</label>
+            <form id="repo-form" onsubmit="event.preventDefault(); handleVisit('repo-input');">
+              <input type="text" id="repo-input" placeholder="paste the repo link here..."
+                aria-label="GitHub repository URL">
+              <button type="submit" class="chat-btn-submit">Visit</button>
+            </form>
+          </div>
         </div>
 
         <!-- A. Note Box -->
@@ -1098,10 +1111,14 @@ service and paste it here before sending.</pre>
             <span class="keyref-tag">paste into a prompt</span>
           </summary>
           <div class="keyref-body">
-            <p>Each prompt above asks for the real response shape. Capture it by hand, paste it into the
-              matching block below, and it is there for every prompt afterwards. <strong>Do not invent a
-                response body.</strong> A fabricated shape here is worse than an empty one, because
-              someone will build on it and lose an hour to field names that do not exist.</p>
+            <p>Every prompt on this tab ends by asking for the real response shape, and this is where that
+              shape lives. Run the capture line under each heading, paste what comes back into the block beneath
+              it, and it is there for every prompt afterwards — Copy lifts whatever is in the block.</p>
+            <p><strong>These ship empty on purpose.</strong> A fabricated response here is worse than no
+              response at all, because someone will build against field names that do not exist and lose an hour
+              to it. Until a block is filled, Copy hands your coding tool a visible placeholder rather than a
+              plausible lie — which is the honest failure, and it is still on you to go and capture the real
+              one.</p>
 
             <div class="ref-item">
               <div class="prompt-head">
@@ -1109,6 +1126,10 @@ service and paste it here before sending.</pre>
                 <button type="button" class="copybtn" data-target="ref-lta-ok">Copy</button>
               </div>
               <p class="ref-note">Note whether AvailableLots comes back quoted as a string or as a number.</p>
+              <p class="ref-capture">
+                <span class="ref-capture-label">Capture it</span>
+                <code>curl -4 -s -H "AccountKey: $LTA_ACCOUNT_KEY" "https://datamall2.mytransport.sg/ltaodataservice/CarParkAvailabilityv2" | head -c 2000</code>
+              </p>
               <pre class="code-block" id="ref-lta-ok">[PASTE THE REAL RESPONSE HERE — captured by hand on DATE]</pre>
             </div>
 
@@ -1118,6 +1139,11 @@ service and paste it here before sending.</pre>
                 <button type="button" class="copybtn" data-target="ref-lta-401">Copy</button>
               </div>
               <p class="ref-note">Headers plus an EMPTY body — which is why response.ok is checked before .json().</p>
+              <p class="ref-capture">
+                <span class="ref-capture-label">Capture it</span>
+                <code>curl -4 -is -H "AccountKey: deliberately-wrong" "https://datamall2.mytransport.sg/ltaodataservice/CarParkAvailabilityv2" | head -20</code>
+                <span class="ref-capture-how">The key is wrong on purpose — that is the point. Keep the header lines, drop nothing.</span>
+              </p>
               <pre class="code-block" id="ref-lta-401">[PASTE THE REAL RESPONSE HERE — captured by hand on DATE]</pre>
             </div>
 
@@ -1127,6 +1153,10 @@ service and paste it here before sending.</pre>
                 <button type="button" class="copybtn" data-target="ref-datagov">Copy</button>
               </div>
               <p class="ref-note">Wrapped as {"code":0,"data":{...},"errorMsg":""}, and area_metadata key order VARIES between entries — some list longitude first.</p>
+              <p class="ref-capture">
+                <span class="ref-capture-label">Capture it</span>
+                <code>curl -4 -s "https://api-open.data.gov.sg/v2/real-time/api/two-hr-forecast" | head -c 2000</code>
+              </p>
               <pre class="code-block" id="ref-datagov">[PASTE THE REAL RESPONSE HERE — captured by hand on DATE]</pre>
             </div>
 
@@ -1136,6 +1166,10 @@ service and paste it here before sending.</pre>
                 <button type="button" class="copybtn" data-target="ref-av-ok">Copy</button>
               </div>
               <p class="ref-note">Closes are STRINGS, and dates are object keys rather than array entries.</p>
+              <p class="ref-capture">
+                <span class="ref-capture-label">Capture it</span>
+                <code>curl -4 -s "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&amp;symbol=IBM&amp;apikey=$ALPHAVANTAGE_API_KEY" | head -c 2000</code>
+              </p>
               <pre class="code-block" id="ref-av-ok">[PASTE THE REAL RESPONSE HERE — captured by hand on DATE]</pre>
             </div>
 
@@ -1145,6 +1179,11 @@ service and paste it here before sending.</pre>
                 <button type="button" class="copybtn" data-target="ref-av-limit">Copy</button>
               </div>
               <p class="ref-note">200 OK carrying an "Information" key and no data at all.</p>
+              <p class="ref-capture">
+                <span class="ref-capture-label">Capture it</span>
+                <code>for i in 1 2 3 4 5 6; do curl -4 -s "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&amp;symbol=IBM&amp;apikey=$ALPHAVANTAGE_API_KEY"; echo; done | tail -3</code>
+                <span class="ref-capture-how">Run it until the free tier cuts you off; the last response is the one to keep.</span>
+              </p>
               <pre class="code-block" id="ref-av-limit">[PASTE THE REAL RESPONSE HERE — captured by hand on DATE]</pre>
             </div>
 
@@ -1154,6 +1193,10 @@ service and paste it here before sending.</pre>
                 <button type="button" class="copybtn" data-target="ref-guardian">Copy</button>
               </div>
               <p class="ref-note">The envelope is nested under "response", with "total" alongside the results.</p>
+              <p class="ref-capture">
+                <span class="ref-capture-label">Capture it</span>
+                <code>curl -4 -s "https://content.guardianapis.com/search?q=singapore&amp;show-fields=body&amp;api-key=$GUARDIAN_API_KEY" | head -c 2000</code>
+              </p>
               <pre class="code-block" id="ref-guardian">[PASTE THE REAL RESPONSE HERE — captured by hand on DATE]</pre>
             </div>
           </div>
@@ -1807,7 +1850,18 @@ try {
             <button type="button" class="toggle-btn" data-industry="fin" aria-pressed="false">Finance &amp;
               Accounting</button>
             <button type="button" class="toggle-btn" data-industry="ops" aria-pressed="false">Operations</button>
+            <button type="button" class="toggle-btn" data-industry="other" aria-pressed="false">Other…</button>
           </div>
+
+          <div class="industry-other-wrap" id="industry-other-wrap" hidden>
+            <label class="industry-other-label" for="industry-other">Name it</label>
+            <input type="text" class="inline-input industry-other-input" id="industry-other"
+              placeholder="Healthcare · Education · Maritime · Legal · whatever you are actually in">
+            <p class="field-hint">There is no prepared lens for this one, so the six lines below the output come back
+              as blanks for you to write. That is the exercise — nobody can hand you the data, risk and oversight of
+              an industry you know better than they do.</p>
+          </div>
+
           <p class="field-error" id="err-industry" hidden>Choose one industry.</p>
 
           <h3>3 · The claim sentence</h3>
@@ -2088,6 +2142,17 @@ try {
           empty_state: 'We have no value for that date. Nothing has been substituted in its place.',
           rank: 3
         },
+        other: {
+          label: 'Other',
+          // Deliberately blank. We do not know this industry, so we do not pretend to.
+          becomes: '[what this product becomes here — name the actual screen someone would open]',
+          data: '[what the data is in this industry, and whose rules it falls under]',
+          risk: '[what goes wrong here, in this industry\'s own terms]',
+          oversight: '[who signs off, and how that sign-off is evidenced]',
+          empty_means: '[what an empty panel means here — and what it must never be read as]',
+          empty_state: '[the literal sentence the screen shows when there is nothing]',
+          rank: 0
+        },
         ops: {
           label: 'Operations',
           becomes: 'dock utilisation, inbound ETA, yard or crane stand-down, asset availability',
@@ -2153,7 +2218,16 @@ try {
           b.classList.toggle('active', on);
           b.setAttribute('aria-pressed', String(on));
         });
+        syncOtherField(industryKey === 'other');
       });
+
+      const otherWrap = document.getElementById('industry-other-wrap');
+      const otherInput = document.getElementById('industry-other');
+
+      function syncOtherField(show) {
+        otherWrap.hidden = !show;
+        if (show) otherInput.focus();
+      }
 
       /* ---------- 4. Service, single-select ---------- */
       // Multi-select: services combine, so each card toggles on its own
@@ -2306,6 +2380,7 @@ try {
           origin: document.getElementById('claim-origin').value,
           source: document.getElementById('claim-source').value,
           industryKey: industryKey,
+          industryOther: otherInput.value,
           lens: current && current.industryKey === industryKey
             ? Object.assign({}, current.industry)
             : null,
@@ -2383,6 +2458,8 @@ try {
           b.classList.toggle('active', on);
           b.setAttribute('aria-pressed', String(on));
         });
+        otherInput.value = state.industryOther || '';
+        otherWrap.hidden = industryKey !== 'other';
 
         // services
         serviceKeys.length = 0;
@@ -2404,6 +2481,7 @@ try {
 
         // Rebuild the output now, so the lens comes back with the rest of it
         const ready = collectVerbatims().length > 0 && industryKey &&
+          !(industryKey === 'other' && otherInput.value.trim() === '') &&
           document.getElementById('claim-text').value.trim() !== '' &&
           document.getElementById('claim-source').value.trim() !== '';
 
@@ -2622,18 +2700,20 @@ try {
       }
 
       function buildRefusal(d) {
+        // 'Other' is never a candidate to refuse into — it has no lens to reason from
         const others = Object.keys(INDUSTRIES)
-          .filter(k => k !== d.industryKey)
+          .filter(k => k !== d.industryKey && k !== 'other')
           .map(k => INDUSTRIES[k])
           .sort((a, b) => b.rank - a.rank);
         const harder = others[0];
-        const softer = others[1];
+        const names = listPhrase(others.map(o => o.label));
+        const count = others.length === 3 ? 'Three' : 'Two';
 
         return [
           'WHERE WE WOULD NOT SHIP THIS',
           '',
-          'Two industries we left on the table: ' + harder.label + ' and ' + softer.label + '. We would not ship this',
-          'build into either one as it stands, and ' + harder.label + ' is the harder refusal — that is the one',
+          count + ' industries we left on the table: ' + names + '. We would not ship this',
+          'build into any of them as it stands, and ' + harder.label + ' is the harder refusal — that is the one',
           'we are naming.',
           '',
           refusalReasonFor(d, harder),
@@ -2724,7 +2804,11 @@ try {
 
         let ok = true;
         ok = setError('err-verbatims', verbatims.length === 0) && ok;
-        ok = setError('err-industry', !industryKey) && ok;
+        const needsName = industryKey === 'other' && otherInput.value.trim() === '';
+        document.getElementById('err-industry').textContent = needsName
+          ? 'Name the industry you picked Other for.'
+          : 'Choose one industry.';
+        ok = setError('err-industry', !industryKey || needsName) && ok;
         ok = setError('err-claim', claim === '' || source === '') && ok;
         setError('err-service', false);   // the service picker is optional
         if (!ok) return;
@@ -2741,7 +2825,8 @@ try {
             {},
             INDUSTRIES[industryKey],
             (current && current.industryKey === industryKey) ? current.industry : {},
-            pendingLens || {}
+            pendingLens || {},
+            industryKey === 'other' ? { label: otherInput.value.trim() } : {}
           ),
           synthesis: synthText.value.trim(),
           serviceKeys: serviceKeys.slice(),

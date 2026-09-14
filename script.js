@@ -25,8 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Link bar submit handler
-function handleVisit() {
-  const input = document.getElementById('chat-input');
+function handleVisit(inputId) {
+  const input = document.getElementById(inputId || 'chat-input');
   if (!input) return;
 
   let url = input.value.trim();

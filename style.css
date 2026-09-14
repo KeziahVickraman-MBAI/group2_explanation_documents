@@ -2550,3 +2550,108 @@ button.card-head.break-toggle[aria-expanded="true"]::after {
   opacity: 0.85;
   margin-bottom: 10px;
 }
+
+
+/* "Other" industry — the open-ended field */
+.industry-other-wrap {
+  margin: -12px 0 18px;
+  padding: 14px 16px;
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  background-color: color-mix(in srgb, var(--accent) 5%, transparent);
+}
+
+.industry-other-label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.industry-other-input {
+  width: 100%;
+  max-width: 460px;
+  font-size: 0.9rem;
+  padding: 5px 8px;
+}
+
+.industry-other-wrap .field-hint {
+  margin: 10px 0 0;
+  font-size: 0.78rem;
+}
+
+@media (max-width: 600px) {
+  .industry-other-input {
+    max-width: 100%;
+  }
+}
+
+
+/* Reference responses — the capture line above each paste block */
+.ref-capture {
+  margin: 0 0 8px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background-color: color-mix(in srgb, var(--primary) 4%, transparent);
+  border: 1px solid var(--border-color);
+}
+
+.ref-capture-label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 5px;
+}
+
+.ref-capture code {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.5;
+  word-break: break-all;
+  background: none;
+  padding: 0;
+  color: var(--primary);
+}
+
+.ref-capture-how {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.74rem;
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+
+/* Two visit bars — live product and repo */
+.visit-bars {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.visit-label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+@media (max-width: 600px) {
+  .visit-bars {
+    grid-template-columns: 1fr;
+  }
+}
