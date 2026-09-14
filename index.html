@@ -776,7 +776,10 @@ service and paste it here before sending.</pre>
               <div class="break-line">
                 <span class="break-label">Why that sentence</span>
                 <span class="break-text">This is the dangerous one. A success code, nothing in the body, nothing
-                  thrown. It reaches real users precisely because nothing anywhere reports it as a problem.</span>
+                  thrown. It reaches real users precisely because nothing anywhere reports it as a problem. The same
+                  danger runs the other way: the call can be perfect, the data well-formed, and the screen still
+                  wrong — render "20 of 55 lots" when the feed only ever sent 20 and no total, and you have invented
+                  the 55. A number nobody sent is worse than a blank, because it looks answered.</span>
               </div>
             </div>
             <div class="break-expand state-ok" id="break-panel-2" role="region"
@@ -1513,6 +1516,33 @@ function lotsSentence(carparkId, rows) {
   }
   return `${carparkId}: ${lots} lots available.`;
 }</pre>
+
+            <div class="fix-sub">Check the fields are what you think</div>
+            <p class="fix-debug-note">A 200 with records in it can still render nothing, because the connection was
+              never the problem — you are reading a field name that is not in the payload. This lists every field
+              that actually arrives, which ones are missing from some records, and whether a total exists at all.
+              Read the last line before you render a ratio: the feed sends <code>AvailableLots</code> and no
+              capacity, so "20 of 55" is a number you made up, and it looks answered in a way a blank never
+              does.</p>
+
+            <div class="prompt-head">
+              <span class="prompt-label">Check my variables</span>
+              <button type="button" class="copybtn" data-target="fix-fields-2">Copy</button>
+            </div>
+            <pre class="code-block" id="fix-fields-2">curl -4 -s -H "AccountKey: $LTA_ACCOUNT_KEY" \
+  "https://datamall2.mytransport.sg/ltaodataservice/CarParkAvailabilityv2" \
+| python3 -c "
+import sys, json
+d = json.load(sys.stdin)['value']
+keys = set()
+for r in d: keys.update(r.keys())
+print('all fields:', sorted(keys))
+print('lot types:', sorted({r['LotType'] for r in d if r.get('LotType')}))
+print('agencies:', sorted({r['Agency'] for r in d if r.get('Agency')}))
+print('records:', len(d))
+print('missing from some records:', sorted(k for k in keys if any(k not in r for r in d)))
+print('NOT in the payload at all:', [k for k in ['TotalLots', 'Capacity'] if k not in keys])
+"</pre>
 
             <div class="fix-sub">How you know it worked</div>
             <p class="fix-know">A carpark with zero lots reads "full"; a carpark missing from the update reads "we do not know" — two different sentences where there was one blank space.</p>
