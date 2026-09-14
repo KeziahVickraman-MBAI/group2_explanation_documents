@@ -1622,7 +1622,8 @@ try {
           <pre class="code-block" id="rgogc-prompt"></pre>
 
           <h3>Industry lens</h3>
-          <p class="field-hint">What the generator reasoned from.</p>
+          <p class="field-hint">What the generator reasoned from — and every line is editable. Change one and the
+            three blocks on this page rewrite themselves to match.</p>
           <div class="rule-card lens-card" id="lens-card"></div>
 
           <h3>The same product, somewhere else</h3>
@@ -2003,6 +2004,8 @@ try {
         out.push('  - No new npm packages. No database. No login.');
         out.push('  - ' + ind.label + ' oversight is a build constraint, not a footnote: ' + ind.oversight);
         out.push('    Build the screen so that constraint is possible — show what the user saw and when.');
+        out.push('  - The failure this has to survive, in ' + ind.label + ' terms: ' + ind.risk);
+        out.push('    Every state you write is judged against that, not against whether the code ran.');
         if (d.serviceKeys.indexOf('web3forms') !== -1) {
           out.push('  - THE EXCEPTION, STATED ONCE: WEB3FORMS_KEY is the only key in this project that');
           out.push('    belongs in browser code. Every other key in every other file stays server-side.');
@@ -2019,6 +2022,8 @@ try {
             out.push('    ' + s.env + ' (' + s.name + ') — ' + s.envNote + '.');
           }
         });
+        out.push('');
+        out.push('  What the data is here: ' + ind.data);
         out.push('');
         out.push('  Four screen states, four distinct sentences, written for ' + ind.label + ':');
         out.push('  1. Loading      "Checking ' + listPhrase(svcs.map(s => s.short)) + ' — this usually');
@@ -2083,15 +2088,73 @@ try {
         ].join('\n');
       }
 
-      function buildLens(ind) {
-        return '<div class="card-head"><div class="micro-heading">' + ind.label +
-          '</div><span class="status-chip">industry lens</span></div>' +
-          '<div class="lens-line"><span class="lens-label">Becomes</span><span class="lens-text">' + ind.becomes + '</span></div>' +
-          '<div class="lens-line"><span class="lens-label">Data</span><span class="lens-text">' + ind.data + '</span></div>' +
-          '<div class="lens-line"><span class="lens-label">Risk</span><span class="lens-text">' + ind.risk + '</span></div>' +
-          '<div class="lens-line"><span class="lens-label">Oversight</span><span class="lens-text">' + ind.oversight + '</span></div>' +
-          '<div class="lens-line"><span class="lens-label">Empty means</span><span class="lens-text">' + ind.empty_means + '</span></div>';
+      // Every field the three generated blocks actually read, in the order they are used
+      const LENS_FIELDS = [
+        { key: 'becomes', label: 'Becomes', hint: 'what the product turns into here' },
+        { key: 'data', label: 'Data', hint: 'what the data becomes, and under whose rules' },
+        { key: 'risk', label: 'Risk', hint: 'what goes wrong, in this industry\'s terms' },
+        { key: 'oversight', label: 'Oversight', hint: 'who signs off, and how that is evidenced' },
+        { key: 'empty_means', label: 'Empty means', hint: 'what an empty panel means here' },
+        { key: 'empty_state', label: 'Empty on screen', hint: 'the literal sentence the screen shows' }
+      ];
+
+      function esc(v) {
+        return String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
       }
+
+      function buildLens(ind) {
+        let html = '<div class="card-head"><div class="micro-heading">' + esc(ind.label) + '</div>' +
+          '<span class="status-chip">editable</span>' +
+          '<button type="button" class="lens-reset" id="lens-reset">Reset</button></div>';
+
+        LENS_FIELDS.forEach(f => {
+          html += '<div class="lens-line">' +
+            '<label class="lens-label" for="lens-' + f.key + '">' + f.label + '</label>' +
+            '<span class="lens-field">' +
+            '<textarea class="lens-input" id="lens-' + f.key + '" data-field="' + f.key + '" rows="1" ' +
+            'aria-describedby="lens-hint-' + f.key + '">' + esc(ind[f.key]) + '</textarea>' +
+            '<span class="lens-hint" id="lens-hint-' + f.key + '">' + f.hint + '</span>' +
+            '</span></div>';
+        });
+
+        return html;
+      }
+
+      function autosize(el) {
+        el.style.height = 'auto';
+        el.style.height = el.scrollHeight + 'px';
+      }
+
+      // The working copy the outputs are built from. Edits land here, never in the lookup.
+      let current = null;
+
+      function renderOutputs(d) {
+        document.getElementById('rgogc-prompt').textContent = buildPrompt(d);
+        document.getElementById('elsewhere-block').textContent = buildElsewhere(d);
+        document.getElementById('refusal-block').textContent = buildRefusal(d);
+      }
+
+      function paintLens(d) {
+        const card = document.getElementById('lens-card');
+        card.innerHTML = buildLens(d.industry);
+        card.querySelectorAll('.lens-input').forEach(autosize);
+      }
+
+      // One delegated listener for every lens field
+      document.getElementById('lens-card').addEventListener('input', function (e) {
+        const field = e.target.closest('.lens-input');
+        if (!field || !current) return;
+        current.industry[field.dataset.field] = field.value.trim();
+        autosize(field);
+        renderOutputs(current);
+      });
+
+      document.getElementById('lens-card').addEventListener('click', function (e) {
+        if (!e.target.closest('#lens-reset') || !current) return;
+        current.industry = Object.assign({}, INDUSTRIES[current.industryKey]);
+        paintLens(current);
+        renderOutputs(current);
+      });
 
       /* ---------- Generate ---------- */
       document.getElementById('btn-generate').addEventListener('click', function () {
@@ -2113,15 +2176,15 @@ try {
           source: source,
           origin: origin,
           industryKey: industryKey,
-          industry: INDUSTRIES[industryKey],
+          // a clone, so edits below never write back into the lookup
+          industry: Object.assign({}, INDUSTRIES[industryKey]),
           serviceKeys: serviceKeys.slice(),
           services: serviceKeys.map(k => SERVICES[k])
         };
 
-        document.getElementById('rgogc-prompt').textContent = buildPrompt(d);
-        document.getElementById('lens-card').innerHTML = buildLens(d.industry);
-        document.getElementById('elsewhere-block').textContent = buildElsewhere(d);
-        document.getElementById('refusal-block').textContent = buildRefusal(d);
+        current = d;
+        paintLens(d);
+        renderOutputs(d);
 
         const output = document.getElementById('rgogc-output');
         output.hidden = false;
