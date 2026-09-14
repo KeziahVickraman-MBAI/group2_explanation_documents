@@ -2516,3 +2516,37 @@ button.card-head.break-toggle[aria-expanded="true"]::after {
   margin-top: 16px;
   margin-bottom: 0;
 }
+
+
+/* Beta marker on the synthesis block */
+.synthesis-block {
+  position: relative;
+}
+
+.beta-badge {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 9999px;
+  color: var(--accent);
+  background-color: var(--bg-card);
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+/* keep the Re-synthesise button clear of the badge */
+.synthesis-block .prompt-head {
+  padding-right: 64px;
+}
+
+.synthesis-roadmap {
+  font-style: italic;
+  color: var(--text-muted);
+  opacity: 0.85;
+  margin-bottom: 10px;
+}

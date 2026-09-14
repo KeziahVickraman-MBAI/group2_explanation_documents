@@ -1784,13 +1784,16 @@ try {
           </div>
 
           <div class="synthesis-block" id="synthesis-block" hidden>
+            <span class="beta-badge">Beta</span>
             <div class="prompt-head">
               <span class="prompt-label">What they are actually saying</span>
               <button type="button" class="synth-redo" id="btn-resynthesise">Re-synthesise</button>
             </div>
             <p class="field-hint" id="synthesis-note">Grouped by recurring words, not by meaning — it is a starting
-              point, not a reading. Edit these bullets until they say what the room said; the prompt quotes whatever
-              is here.</p>
+              point, not a reading, and on some quotes it will return nothing useful at all. Edit these bullets until
+              they say what the room said; the prompt quotes whatever is here.</p>
+            <p class="field-hint synthesis-roadmap">Next version: NLP and NLU in place of keyword matching, so this
+              reads intent rather than vocabulary and turns the room into something meaningful and actionable.</p>
             <textarea class="synthesis-input" id="synthesis-text" rows="4"
               aria-label="Synthesised bullet points"></textarea>
           </div>
