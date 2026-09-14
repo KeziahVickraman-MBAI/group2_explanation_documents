@@ -2315,3 +2315,20 @@ button.card-head.break-toggle[aria-expanded="true"]::after {
     color: #000000 !important;
   }
 }
+
+
+/* Optional-field marker on a section heading */
+.field-optional {
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  vertical-align: middle;
+  margin-left: 8px;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  color: var(--text-muted);
+  background-color: color-mix(in srgb, var(--text-muted) 8%, transparent);
+  border: 1px solid var(--border-color);
+}

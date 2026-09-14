@@ -1567,9 +1567,10 @@ try {
           </p>
           <p class="field-error" id="err-claim" hidden>Fill in both the claim and the source.</p>
 
-          <h3>4 · API service</h3>
-          <p class="field-hint">Pick one or more — they combine. This decides the endpoints, the cache, the licence
-            lines and half the guardrails.</p>
+          <h3>4 · API service <span class="field-optional">optional</span></h3>
+          <p class="field-hint">Pick one or more — they combine — or skip this entirely. Choosing decides the
+            endpoints, the cache, the licence lines and half the guardrails. Skipping still gives you a complete
+            prompt, with the source left as a decision for whoever builds it.</p>
           <div class="house-rules-grid" id="service-cards">
             <button type="button" class="rule-card service-card" data-service="lta" aria-pressed="false">
               <span class="card-head">
@@ -1604,7 +1605,7 @@ try {
                 query parameter, and each with a trap of its own.</span>
             </button>
           </div>
-          <p class="field-error" id="err-service" hidden>Pick at least one service.</p>
+          <p class="field-error" id="err-service" hidden></p>
 
           <div class="toolbar-buttons">
             <button type="button" class="btn-toolbar" id="btn-generate">Generate RGOGC</button>
@@ -1961,15 +1962,26 @@ try {
         out.push('  ' + attribution + ' put it this way: "' + lead.quote + '" — that is the recurring');
         out.push('  decision this screen has to settle, for a ' + ind.label + ' audience.');
         out.push('');
-        out.push('  Build one serverless function per endpoint, plus a single health endpoint:');
-        const handlers = [];
-        svcs.forEach(s => s.functions.forEach(f => {
-          if (!f.startsWith('api/health.js')) handlers.push(f);
-        }));
-        handlers.push('api/health.js   — reports which keys are configured, never their values');
-        out.push(numbered(handlers, '  '));
-        out.push('');
-        svcs.forEach(s => out.push('  The ' + s.name + ' panel refreshes ' + s.refresh + '.'));
+        if (svcs.length) {
+          out.push('  Build one serverless function per endpoint, plus a single health endpoint:');
+          const handlers = [];
+          svcs.forEach(s => s.functions.forEach(f => {
+            if (!f.startsWith('api/health.js')) handlers.push(f);
+          }));
+          handlers.push('api/health.js   — reports which keys are configured, never their values');
+          out.push(numbered(handlers, '  '));
+          out.push('');
+          svcs.forEach(s => out.push('  The ' + s.name + ' panel refreshes ' + s.refresh + '.'));
+        } else {
+          out.push('  NO PROVIDER HAS BEEN CHOSEN YET. Before writing any code, propose two or three');
+          out.push('  candidate sources for ' + d.source + ', and for each one state its licence, whether');
+          out.push('  it needs a credential, its rate limit, and what it returns when it has nothing.');
+          out.push('  Then build against the one I pick:');
+          out.push('  1. api/<source>.js  — one serverless function for that source');
+          out.push('  2. api/health.js    — reports which keys are configured, never their values');
+          out.push('');
+          out.push('  The panel refreshes on a stated interval that matches whatever cache TTL you set.');
+        }
         out.push('  When there is nothing to show it says, in words, not as a blank space:');
         out.push('  "' + ind.empty_state + '"');
         out.push('  In ' + ind.label + ', empty means ' + ind.empty_means);
@@ -1978,25 +1990,43 @@ try {
         out.push('OUTPUT:');
         out.push('  The handlers listed above, at the project root as siblings of package.json.');
         out.push('  Never inside src/. package.json needs "type": "module", or name the files .mjs.');
-        out.push('  Cache-Control, per route:');
-        svcs.forEach(s => out.push('    ' + s.name + ': ' + s.cache));
-        out.push('');
-        out.push('  Footer licence lines, verbatim:');
-        svcs.forEach(s => {
-          out.push('  ' + s.licence);
+        if (svcs.length) {
+          out.push('  Cache-Control, per route:');
+          svcs.forEach(s => out.push('    ' + s.name + ': ' + s.cache));
           out.push('');
-        });
-        out.pop();
+          out.push('  Footer licence lines, verbatim:');
+          svcs.forEach(s => {
+            out.push('  ' + s.licence);
+            out.push('');
+          });
+          out.pop();
+        } else {
+          out.push('  Cache-Control on the data route: state a TTL explicitly and say why you chose it.');
+          out.push('  Never leave it to the default.');
+          out.push('');
+          out.push('  Footer licence line: quote the chosen source\'s licence verbatim, with the access');
+          out.push('  date. If its licence is non-commercial, say so on this page, not only in the code.');
+        }
         out.push('');
         out.push('  Every screen that works today must keep working. Do not rewrite what is already');
         out.push('  there to suit the new files.');
         out.push('');
 
         out.push('GUARDRAILS:');
-        svcs.forEach(s => {
-          if (svcs.length > 1) out.push('  --- ' + s.name + ' ---');
-          out.push(bullets(s.traps, '  '));
-        });
+        if (svcs.length) {
+          svcs.forEach(s => {
+            if (svcs.length > 1) out.push('  --- ' + s.name + ' ---');
+            out.push(bullets(s.traps, '  '));
+          });
+        } else {
+          out.push('  - Call the chosen endpoint by hand before writing code against it, and paste the');
+          out.push('    real response into this prompt. Do not build on a response shape you assumed.');
+          out.push('  - Check response.ok BEFORE reading any body. A provider that returns an empty body');
+          out.push('    on failure will make .json() throw and take the whole function down.');
+          out.push('  - A 200 with an empty body is a success with nothing in it, not an error. Give it');
+          out.push('    its own sentence.');
+          out.push('  - Cast every number at the boundary. Never render NaN, null or undefined as a value.');
+        }
         out.push('  - Never write the key into any file, comment or README.');
         out.push('  - Never create a variable whose name starts with VITE_.');
         out.push('  - Never call the provider from browser code.');
@@ -2014,19 +2044,26 @@ try {
         out.push('');
 
         out.push('CONTEXT:');
-        out.push('  Deployed on Vercel from GitHub. Keys live only in Vercel environment variables:');
-        svcs.forEach(s => {
-          if (s.env.indexOf('none') === 0) {
-            out.push('    ' + s.name + ': no credential — ' + s.envNote + '.');
-          } else {
-            out.push('    ' + s.env + ' (' + s.name + ') — ' + s.envNote + '.');
-          }
-        });
+        if (svcs.length) {
+          out.push('  Deployed on Vercel from GitHub. Keys live only in Vercel environment variables:');
+          svcs.forEach(s => {
+            if (s.env.indexOf('none') === 0) {
+              out.push('    ' + s.name + ': no credential — ' + s.envNote + '.');
+            } else {
+              out.push('    ' + s.env + ' (' + s.name + ') — ' + s.envNote + '.');
+            }
+          });
+        } else {
+          out.push('  Deployed on Vercel from GitHub. No provider is chosen yet, so there is no variable');
+          out.push('  name to give you. Whatever you land on: the key goes in a Vercel environment');
+          out.push('  variable, is read only inside api/, and never reaches browser code.');
+        }
         out.push('');
         out.push('  What the data is here: ' + ind.data);
         out.push('');
         out.push('  Four screen states, four distinct sentences, written for ' + ind.label + ':');
-        out.push('  1. Loading      "Checking ' + listPhrase(svcs.map(s => s.short)) + ' — this usually');
+        const feedPhrase = svcs.length ? listPhrase(svcs.map(s => s.short)) : d.source;
+        out.push('  1. Loading      "Checking ' + feedPhrase + ' — this usually');
         out.push('                   takes a second or two."');
         out.push('  2. Empty        "' + ind.empty_state + '"');
         out.push('  3. Refused      "We were refused by the provider, so nothing here is current. ' + ind.label + ' has');
@@ -2062,6 +2099,18 @@ try {
         ].join('\n');
       }
 
+      function refusalReasonFor(d, harder) {
+        if (d.services.length) {
+          return d.services.slice().sort((a, b) => b.refusalRank - a.refusalRank)[0].refusalReason(harder);
+        }
+        // No provider chosen — the refusal is about the unnamed source, and it still stands
+        return 'We have not named a source yet, and that is exactly why this does not go into ' + harder.label + '.\n' +
+          'An unnamed source has an unknown licence, an unknown availability commitment and an\n' +
+          'unknown answer for what it returns when it has nothing. We will not put a ' + harder.label + '\n' +
+          'decision behind a feed whose terms nobody in this room can quote. Pick the source, read\n' +
+          'its licence, then ask this question again — not the other way round.';
+      }
+
       function buildRefusal(d) {
         const others = Object.keys(INDUSTRIES)
           .filter(k => k !== d.industryKey)
@@ -2077,7 +2126,7 @@ try {
           'build into either one as it stands, and ' + harder.label + ' is the harder refusal — that is the one',
           'we are naming.',
           '',
-          d.services.slice().sort((a, b) => b.refusalRank - a.refusalRank)[0].refusalReason(harder),
+          refusalReasonFor(d, harder),
           '',
           'What is actually at stake there: ' + harder.risk,
           'What would have to exist first: ' + harder.oversight,
@@ -2167,7 +2216,7 @@ try {
         ok = setError('err-verbatims', verbatims.length === 0) && ok;
         ok = setError('err-industry', !industryKey) && ok;
         ok = setError('err-claim', claim === '' || source === '') && ok;
-        ok = setError('err-service', serviceKeys.length === 0) && ok;
+        setError('err-service', false);   // the service picker is optional
         if (!ok) return;
 
         const d = {
