@@ -2976,3 +2976,13 @@ details.fix-solution {
     page-break-inside: avoid;
   }
 }
+
+
+/* The SOS walkthrough sits as a pair with the baseline link above it */
+.broke-link + .broke-link {
+  margin-top: -18px;
+}
+
+.broke-link-sos .broke-link-label {
+  white-space: normal;
+}
