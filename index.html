@@ -109,7 +109,7 @@
             Up to now, everything our product claimed was something we decided. We typed the number, or the agent invented it, and either way it was ours. 
 
           <p>From this week, our product depends on something we don't control (yet, but hopefully soon when we build our own A-a-a-S). A
-            service run by people who have never heard of you, who can be slow, or empty, or down, or can decide your credential expired at three in the morning (hopefully not to us).</p>
+            service run by people who have never heard of you, who can be slow, or empty, or down, or can decide your credential expired at 3am in the morning (hopefully not to us).</p>
           
           <p>That changes what 'finished' means. A screen either renders or it doesn't. A service that calls another service has states, and we have to decide about them in advance.
             So here's the thing we most want you to take from this set: most of the work is not entirely about the code. Most of the work is deciding what your product says when the data isn't there</p>
@@ -147,7 +147,13 @@
                 <td>Proving the back end fails in sentences a user can act on, not in a blank screen</td>
               </tr>
               <tr>
-                <td><strong>3. Application</strong></td>
+                <td><strong>3. Fix it</strong></td>
+                <td>The four breaks again, this time with the root cause named</td>
+                <td class="tint-yes">A guard for each one—the loading sentence, the length check, the before-fetch credential guard, the <code>AbortController</code></td>
+                <td>Turning each silent failure into a sentence, and knowing on screen when the guard worked</td>
+              </tr>
+              <tr>
+                <td><strong>4. Application</strong></td>
                 <td>The same product, re-pointed at HR, Operations and Finance & Accounting</td>
                 <td class="tint-no">What changes in data, risk and oversight—and the one industry we would not ship in</td>
                 <td>Testing whether the design survives a change of stakes, or only worked because nothing was riding on it</td>
@@ -670,14 +676,20 @@ CHECKS
         <!-- A. The premise -->
         <div class="note-box">
           <span class="note-label">The premise</span>
-          <p>Reveal proved the thing works. That is the least interesting claim we can make — anyone can demo a
+          <p>Reveal proved the thing works. That is the least interesting claim we can make—anyone can demo a
             product working, and every demo you have ever seen was a demo of something working.</p>
           <p>The only interesting question is what the screen says when it doesn't. A spinner that never resolves, a
             blank panel where a number belongs, a silent fallback to stale data: none of those are bugs in the
             ordinary sense. The code ran. Someone simply never decided what the user should be told.</p>
-          <p>So this tab is not a testing exercise. It is a product decision, made four times, out loud.</p>
-          <span class="attribution">~ Four breaks, four sentences</span>
+          <p>So this tab is not a testing exercise. We will start with something simple (carpark availability data) to deepdive into the error calls. That's the main juju of this exercise.</p>
+          <span class="attribution">~ After you build something, BREAK SOMETHING.</span>
         </div>
+
+        <p class="broke-link">
+          <span class="broke-link-label">Here's what we broke intentionally</span>
+          <a href="https://mgmt6110group2baselineapplication.vercel.app/" target="_blank"
+            rel="noopener">https://mgmt6110group2baselineapplication.vercel.app/</a>
+        </p>
 
         <!-- B. The four breaks -->
         <h3>The four breaks</h3>
@@ -1288,13 +1300,6 @@ content-length: 0
           </li>
         </ul>
 
-        <div class="attention-callout">
-          <span class="attention-label">ATTENTION: THE HEALTH ENDPOINT REPORTS WHETHER, NEVER WHAT</span>
-          <p>NO PREFIX. NO LAST FOUR CHARACTERS. NO LENGTH, NO HASH, NO MASKED STRING. A FINGERPRINT FEELS HELPFUL
-            WHILE YOU ARE DEBUGGING AND IS EXACTLY WHAT A SCREENSHOT OF THIS PAGE LEAKS — INCLUDING THE SCREENSHOT
-            SOMEONE IN THIS ROOM IS ABOUT TO TAKE.</p>
-        </div>
-
         <!-- E. The working sequence -->
         <h3>The working sequence</h3>
         <p>Follow along. Tick each one as you go.</p>
@@ -1397,7 +1402,12 @@ content-length: 0
               that most products show a spinner here, which tells the user nothing about which of four situations
               they are in.</p>
 
-            <div class="fix-sub">Debug it first</div>
+            <details class="fix-debug">
+              <summary>
+                <span class="fix-sub">Debug it first</span>
+                <span class="fix-debug-tag">if what you see does not match</span>
+              </summary>
+              <div class="fix-debug-body">
             <p class="fix-debug-note">If what you are seeing does not match the root cause above, fill this in and
               paste it into your coding tool. It asks for one cause and one check — not a rewrite.</p>
 
@@ -1442,6 +1452,8 @@ Also: do not tell me to add a spinner or a skeleton — the question is why the 
 never settles, not what is drawn while it does. If a ?delay parameter appears in the URL
 above, say so before anything else, because that parameter must never be reachable in
 production.</pre>
+              </div>
+            </details>
 
             <div class="prompt-head">
               <span class="prompt-label">Solution</span>
@@ -1481,7 +1493,12 @@ try {
               empty. Every layer of the stack reports success. The screen goes blank because nobody wrote a sentence
               for the case where the request worked and the answer was nothing.</p>
 
-            <div class="fix-sub">Debug it first</div>
+            <details class="fix-debug">
+              <summary>
+                <span class="fix-sub">Debug it first</span>
+                <span class="fix-debug-tag">if what you see does not match</span>
+              </summary>
+              <div class="fix-debug-body">
             <p class="fix-debug-note">If what you are seeing does not match the root cause above, fill this in and
               paste it into your coding tool. It asks for one cause and one check — not a rewrite.</p>
 
@@ -1526,6 +1543,8 @@ Also: do not treat a 200 with an empty body as an error — it is a success with
 in it, and what I need is a sentence for that case, not a throw. Do not merge a record
 reporting zero with a record that is absent: zero means FULL, absent means UNKNOWN, and
 an answer that treats them as the same thing is wrong.</pre>
+              </div>
+            </details>
 
             <div class="prompt-head">
               <span class="prompt-label">Solution</span>
@@ -1604,7 +1623,12 @@ print('NOT in the payload at all:', [k for k in ['TotalLots', 'Capacity'] if k n
               wrong key. This is why the guard fires before the fetch, and why <code>/api/health</code> exists at
               all.</p>
 
-            <div class="fix-sub">Debug it first</div>
+            <details class="fix-debug">
+              <summary>
+                <span class="fix-sub">Debug it first</span>
+                <span class="fix-debug-tag">if what you see does not match</span>
+              </summary>
+              <div class="fix-debug-body">
             <p class="fix-debug-note">If what you are seeing does not match the root cause above, fill this in and
               paste it into your coding tool. It asks for one cause and one check — not a rewrite.</p>
 
@@ -1650,6 +1674,8 @@ Also: 401 and 404 mean different things here — 401 means a value arrived and w
 rejected, 404 means the header never arrived at all. Say which one the evidence shows
 before proposing anything. If keyConfigured is false, the value of the key is not the
 problem and I do not want to hear about it.</pre>
+              </div>
+            </details>
 
             <div class="prompt-head">
               <span class="prompt-label">Solution</span>
@@ -1697,7 +1723,12 @@ export function health() {
             <p>There is no status code to read, because nothing answered. DNS failure, timeout, or the provider is
               simply down. The only code in play is the one our own function decides to return.</p>
 
-            <div class="fix-sub">Debug it first</div>
+            <details class="fix-debug">
+              <summary>
+                <span class="fix-sub">Debug it first</span>
+                <span class="fix-debug-tag">if what you see does not match</span>
+              </summary>
+              <div class="fix-debug-body">
             <p class="fix-debug-note">If what you are seeing does not match the root cause above, fill this in and
               paste it into your coding tool. It asks for one cause and one check — not a rewrite.</p>
 
@@ -1743,6 +1774,8 @@ Also: do not suggest I check the key. Nothing answered, so no credential was eve
 judged. A timeout, a hostname that does not resolve, and a refused connection are three
 different failures with three different fixes — the error name above tells them apart, so
 use it rather than guessing.</pre>
+              </div>
+            </details>
 
             <div class="prompt-head">
               <span class="prompt-label">Solution</span>
