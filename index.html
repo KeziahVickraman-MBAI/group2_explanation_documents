@@ -1817,6 +1817,18 @@ try {
               keeps nothing when you close it.</span>
           </div>
 
+          <div class="demo-loader">
+            <span class="demo-loader-label">Load our actual conversation</span>
+            <p>Group 2's real discussion, loaded into the form. <strong>Same four verbatims both times</strong> — the
+              industry lens is what changes. That contrast is the whole point: one transposition survives, the other
+              one we refuse.</p>
+            <div class="mode-toggles" id="demo-chips" role="group" aria-label="Load our actual conversation">
+              <button type="button" class="toggle-btn" data-demo="hotdesk" aria-pressed="false">Hot-desking</button>
+              <button type="button" class="toggle-btn" data-demo="hrmanpower" aria-pressed="false">HR
+                manpower</button>
+            </div>
+          </div>
+
           <h3>1 · What the team actually said</h3>
           <p class="field-hint">Verbatims, not summaries. The generated prompt quotes these back with attribution.</p>
           <div class="verbatim-rows" id="verbatim-rows"></div>
@@ -1939,6 +1951,9 @@ try {
           <p class="field-hint">What the generator reasoned from — and every line is editable. Change one and the
             three blocks on this page rewrite themselves to match.</p>
           <div class="rule-card lens-card" id="lens-card"></div>
+          <p class="lens-conclusion" id="lens-conclusion" hidden>Capacity sensing generalises across industries.
+            Prediction and recommendation do not — those need models that account for data complexity, uncertainty
+            and the level of human oversight required. The mechanic travels. The confidence does not.</p>
 
           <h3>The same product, somewhere else</h3>
           <div class="prompt-head">
@@ -2213,6 +2228,7 @@ try {
         const key = btn.dataset.industry;
         const clearing = (industryKey === key);
         industryKey = clearing ? null : key;
+        clearDemo();                       // a hand-picked industry is no longer the loaded demo
         industryToggles.querySelectorAll('.toggle-btn').forEach(b => {
           const on = !clearing && b.dataset.industry === key;
           b.classList.toggle('active', on);
@@ -2495,6 +2511,175 @@ try {
 
       let pendingLens = null;
 
+
+      /* ---------- Demo loader: Group 2's actual conversation ----------
+         The same four verbatims for both chips, quoted exactly as they were said.
+         Only the industry, the claim and the lens change. */
+
+      const DEMO_VERBATIMS = [
+        { name: "Keziah",
+          quote: "With availabilities of carpark, we are dealing with a capacity at the moment — let's think of industries to fit. Would operations and logistics planning work?" },
+        { name: "Zi Ming",
+          quote: "Yes for sure, no doubt. Beyond the usual logistics which people are familiar with, how about hot-desking — it's an operational problem with many use cases for companies." },
+        { name: "Yi Ming",
+          quote: "You're right, but this same thing might not work for some use cases in HR. Especially when you are dealing with a capacity problem with skill variance and requirement. Actually deliberately not, in terms of extension to some HR manpower planning. I had experience with one of the aerospace companies in my past where there were junior and senior staff and projects with different certification requirements. In that case, we won't deploy such an application as an extension." },
+        { name: "Gillian",
+          quote: "Yeah agreed. Things like hospital planning, especially ICU and all, has to be handled from a different angle." }
+      ];
+
+      const DEMOS = {
+        hotdesk: {
+          industryKey: 'ops',
+          claim: 'which floors are unusually empty or unusually full for this hour of this weekday',
+          origin: 'typed in by me',
+          source: 'desk booking records and badge-in logs',
+          // No listed provider is an internal company system, so the picker is left empty
+          // on purpose — the prompt then asks for candidate sources instead of assuming one.
+          serviceKeys: [],
+          lens: {
+            label: 'Operations',
+            becomes: 'Hot-desking facility management — a facility manager sees occupancy data to monitor, analyse and optimise facility operations.',
+            data: 'Becomes more complex. Real-time occupancy analytics. User attributes — proximity to team, preferred amenities, personal schedule, historical occupancy patterns. IoT sensors and the building management system.',
+            risk: 'Privacy — the data reveals a named person\'s location. And prioritising space optimisation over user experience.',
+            oversight: 'Who can access user information? Is approval required for facility maintenance work orders? Are there any "ghost" occupancies?',
+            empty_means: 'Booking data has not synced or badge readers are down — not "the floor is free."',
+            empty_state: 'No booking data for this floor since [time]. Treat occupancy as unknown, not as available.'
+          },
+          refusal: null
+        },
+
+        hrmanpower: {
+          industryKey: 'hr',
+          claim: 'which technicians are available for which task orders',
+          origin: 'typed in by me',
+          source: 'shift rosters, certification records and task requirements',
+          serviceKeys: [],
+          lens: {
+            label: 'HR',
+            becomes: 'Aerospace MRO manpower planning — an operations manager sees available technicians and task orders to forecast and manage manpower.',
+            data: 'Highly complex and dynamic. Shifts, leave and overtime schedules. Skills, experience, certifications and licences. Task requirements varying by aircraft or component type and regulated by the aviation authority.',
+            risk: 'Regulatory and safety risk. Over-optimisation for productivity against an underestimated workload. A fatigued technician or a trainee deployed to a task touches airworthiness and labour concerns.',
+            oversight: 'Is the technician assigned to the work qualified and sufficiently trained? Is the workload evenly distributed? Is the estimation of task duration accurate — a defect discovered during inspection changes it.',
+            empty_means: 'Roster or certification data has not synced — never "nobody is available."',
+            empty_state: 'No roster data for this shift since [time]. Treat availability as unknown. Do not assign from this screen.'
+          },
+          // Not generated. This one comes from the room.
+          refusal: [
+            'WHERE WE WOULD NOT SHIP THIS',
+            '',
+            'Yi Ming worked at an aerospace company where junior and senior staff held different',
+            'certifications and projects carried different requirements. His words: "In that case, we',
+            'won\'t deploy such an application as an extension."',
+            '',
+            'We would not ship this into aerospace MRO manpower planning. Not because the mechanic',
+            'fails — it works — but because a carpark bay is interchangeable with every other bay and',
+            'a technician is not. Capacity sensing treats units as identical. The moment the units',
+            'carry certifications, fatigue limits and regulated task requirements, an availability',
+            'count is the wrong shape of answer, and the screen would be at its most dangerous exactly',
+            'when it looked most confident.',
+            '',
+            'Gillian raised ICU bed planning for the same reason. A bed is not a bed either.'
+          ].join('\n')
+        }
+      };
+
+      let demoKey = null;
+      const demoChips = document.getElementById('demo-chips');
+      const lensConclusion = document.getElementById('lens-conclusion');
+
+      // Anything the user typed that a load would destroy
+      function clearDemo() {
+        if (!demoKey) return;
+        demoKey = null;
+        demoChips.querySelectorAll('.toggle-btn').forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-pressed', 'false');
+        });
+        lensConclusion.hidden = true;
+      }
+
+      function formHasInput() {
+        const typed = Array.prototype.some.call(rows.querySelectorAll('.verbatim-row'), r =>
+          r.querySelector('.v-name').value.trim() !== '' || r.querySelector('.v-quote').value.trim() !== '');
+        return typed ||
+          document.getElementById('claim-text').value.trim() !== '' ||
+          document.getElementById('claim-source').value.trim() !== '' ||
+          synthText.value.trim() !== '';
+      }
+
+      demoChips.addEventListener('click', function (e) {
+        const chip = e.target.closest('.toggle-btn');
+        if (!chip) return;
+        const key = chip.dataset.demo;
+        if (!DEMOS[key]) return;
+
+        // Warn only when there is work of the user's own to lose — swapping one loaded
+        // conversation for the other destroys nothing they typed
+        if (!demoKey && formHasInput() &&
+            !window.confirm("This replaces what you've typed. Continue?")) {
+          return;
+        }
+
+        loadDemo(key);
+      });
+
+      function loadDemo(key) {
+        const demo = DEMOS[key];
+        demoKey = key;
+
+        demoChips.querySelectorAll('.toggle-btn').forEach(b => {
+          const on = b.dataset.demo === key;
+          b.classList.toggle('active', on);
+          b.setAttribute('aria-pressed', String(on));
+        });
+
+        // verbatims, exactly as they were said
+        rows.innerHTML = '';
+        DEMO_VERBATIMS.forEach(v => {
+          const row = addRow();
+          row.querySelector('.v-name').value = v.name;
+          row.querySelector('.v-quote').value = v.quote;
+          autosize(row.querySelector('.v-quote'));
+        });
+
+        // the synthesis is the user's to run, not ours to fake
+        synthText.value = '';
+        synthBlock.hidden = true;
+
+        // claim
+        document.getElementById('claim-text').value = demo.claim;
+        document.getElementById('claim-origin').value = demo.origin;
+        document.getElementById('claim-source').value = demo.source;
+
+        // industry
+        industryKey = demo.industryKey;
+        industryToggles.querySelectorAll('.toggle-btn').forEach(b => {
+          const on = b.dataset.industry === industryKey;
+          b.classList.toggle('active', on);
+          b.setAttribute('aria-pressed', String(on));
+        });
+        syncOtherField(false);
+
+        // services
+        serviceKeys.length = 0;
+        demo.serviceKeys.forEach(k => { if (SERVICES[k]) serviceKeys.push(k); });
+        serviceCards.querySelectorAll('.service-card').forEach(c => {
+          const on = serviceKeys.indexOf(c.dataset.service) !== -1;
+          c.classList.toggle('is-selected', on);
+          c.setAttribute('aria-pressed', String(on));
+        });
+
+        // the hardcoded lens, still editable once it lands
+        pendingLens = Object.assign({}, demo.lens);
+        current = null;
+
+        ['err-verbatims', 'err-industry', 'err-claim', 'err-service'].forEach(id => setError(id, false));
+        setSaveStatus('Loaded Group 2\'s conversation — ' +
+          (key === 'hotdesk' ? 'hot-desking' : 'HR manpower') + '. Export it if you change anything.');
+
+        document.getElementById('btn-generate').click();
+      }
+
       /* ---------- Validation ---------- */
       function setError(id, show) {
         document.getElementById(id).hidden = !show;
@@ -2700,6 +2885,8 @@ try {
       }
 
       function buildRefusal(d) {
+        if (d.refusalOverride) return d.refusalOverride;
+
         // 'Other' is never a candidate to refuse into — it has no lens to reason from
         const others = Object.keys(INDUSTRIES)
           .filter(k => k !== d.industryKey && k !== 'other')
@@ -2830,13 +3017,17 @@ try {
           ),
           synthesis: synthText.value.trim(),
           serviceKeys: serviceKeys.slice(),
-          services: serviceKeys.map(k => SERVICES[k])
+          services: serviceKeys.map(k => SERVICES[k]),
+          demoKey: demoKey,
+          refusalOverride: demoKey ? DEMOS[demoKey].refusal : null
         };
 
         pendingLens = null;
         current = d;
         paintLens(d);
         renderOutputs(d);
+
+        lensConclusion.hidden = !demoKey;
 
         const output = document.getElementById('rgogc-output');
         output.hidden = false;

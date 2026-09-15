@@ -2655,3 +2655,86 @@ button.card-head.break-toggle[aria-expanded="true"]::after {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* ----------------------------------------------------
+   TAB 4 · DEMO LOADER — Group 2's actual conversation
+   ---------------------------------------------------- */
+.demo-loader {
+  padding: 16px 18px;
+  margin-bottom: 26px;
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--primary);
+  border-radius: 0 8px 8px 0;
+  background-color: color-mix(in srgb, var(--primary) 5%, transparent);
+}
+
+.demo-loader-label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+.demo-loader p {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--grey-dark);
+  margin-bottom: 12px;
+}
+
+.demo-loader .mode-toggles {
+  margin-bottom: 0;
+}
+
+.demo-loader .toggle-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* The line that travels with both chips */
+.lens-conclusion {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--grey-dark);
+  border-left: 4px solid var(--accent);
+  background-color: color-mix(in srgb, var(--accent) 6%, transparent);
+  border-radius: 0 8px 8px 0;
+  padding: 14px 18px;
+  margin: 14px 0 24px;
+}
+
+@media (max-width: 720px) {
+  .demo-loader .mode-toggles {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .demo-loader .toggle-btn {
+    width: 100%;
+  }
+}
+
+@media print {
+  .demo-loader {
+    border-left: 3px solid #000000 !important;
+    background-color: #F8FAFC !important;
+    page-break-inside: avoid;
+  }
+
+  .demo-loader .mode-toggles {
+    display: none !important;
+  }
+
+  .lens-conclusion {
+    border-left: 3px solid #000000 !important;
+    background-color: #F8FAFC !important;
+    page-break-inside: avoid;
+  }
+}
