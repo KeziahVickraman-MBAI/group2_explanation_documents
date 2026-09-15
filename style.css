@@ -2911,3 +2911,15 @@ details.fix-debug[open] > summary::after {
     page-break-inside: avoid;
   }
 }
+
+
+/* A prompt-head that carries only the copy button */
+.prompt-head-bare {
+  justify-content: flex-end;
+  margin-bottom: 8px;
+}
+
+/* the solution accordion sits tighter than the debugging one */
+details.fix-solution {
+  margin-bottom: 18px;
+}

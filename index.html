@@ -1455,10 +1455,15 @@ production.</pre>
               </div>
             </details>
 
-            <div class="prompt-head">
-              <span class="prompt-label">Solution</span>
+            <details class="fix-debug fix-solution">
+              <summary>
+                <span class="fix-sub">Solution</span>
+                <span class="fix-debug-tag">the guard, in full</span>
+              </summary>
+              <div class="fix-debug-body">
+                <div class="prompt-head prompt-head-bare">
               <button type="button" class="copybtn" data-target="fix-code-1">Copy</button>
-            </div>
+                </div>
             <pre class="code-block" id="fix-code-1">// Loading is a sentence, not a spinner. Name the source and a rough duration.
 function renderLoading(el, source = 'the carpark feed', expectSec = 2) {
   el.textContent = `Checking ${source}, usually about ${expectSec} seconds.`;
@@ -1477,6 +1482,8 @@ try {
 } finally {
   clearTimeout(slowTimer);
 }</pre>
+              </div>
+            </details>
 
             <div class="fix-sub">How you know it worked</div>
             <p class="fix-know">The panel names the feed and a rough duration instead of spinning, and says so again if it runs long.</p>
@@ -1546,10 +1553,15 @@ an answer that treats them as the same thing is wrong.</pre>
               </div>
             </details>
 
-            <div class="prompt-head">
-              <span class="prompt-label">Solution</span>
+            <details class="fix-debug fix-solution">
+              <summary>
+                <span class="fix-sub">Solution</span>
+                <span class="fix-debug-tag">the guard, in full</span>
+              </summary>
+              <div class="fix-debug-body">
+                <div class="prompt-head prompt-head-bare">
               <button type="button" class="copybtn" data-target="fix-code-2">Copy</button>
-            </div>
+                </div>
             <pre class="code-block" id="fix-code-2">// 200 OK with an empty body is a success, not an error. It needs its own sentence.
 function toPanelState(rows) {
   if (!Array.isArray(rows) || rows.length === 0) {
@@ -1578,6 +1590,8 @@ function lotsSentence(carparkId, rows) {
   }
   return `${carparkId}: ${lots} lots available.`;
 }</pre>
+              </div>
+            </details>
 
             <div class="fix-sub">Check the fields are what you think</div>
             <p class="fix-debug-note">A 200 with records in it can still render nothing, because the connection was
@@ -1677,10 +1691,15 @@ problem and I do not want to hear about it.</pre>
               </div>
             </details>
 
-            <div class="prompt-head">
-              <span class="prompt-label">Solution</span>
+            <details class="fix-debug fix-solution">
+              <summary>
+                <span class="fix-sub">Solution</span>
+                <span class="fix-debug-tag">the guard, in full</span>
+              </summary>
+              <div class="fix-debug-body">
+                <div class="prompt-head prompt-head-bare">
               <button type="button" class="copybtn" data-target="fix-code-3">Copy</button>
-            </div>
+                </div>
             <pre class="code-block" id="fix-code-3">// The guard fires BEFORE the fetch. An unset variable is sent as the string
 // "undefined" and LTA answers 401 exactly as it would for a wrong key.
 const key = process.env.LTA_ACCOUNT_KEY;
@@ -1708,6 +1727,8 @@ const data = await r.json();        // only now is this safe
 export function health() {
   return { ok: true, keyConfigured: Boolean(process.env.LTA_ACCOUNT_KEY) };
 }</pre>
+              </div>
+            </details>
 
             <div class="fix-sub">How you know it worked</div>
             <p class="fix-know">Pull the variable and the panel says it was refused instead of showing a crashed function, and /api/health flips to keyConfigured: false.</p>
@@ -1777,10 +1798,15 @@ use it rather than guessing.</pre>
               </div>
             </details>
 
-            <div class="prompt-head">
-              <span class="prompt-label">Solution</span>
+            <details class="fix-debug fix-solution">
+              <summary>
+                <span class="fix-sub">Solution</span>
+                <span class="fix-debug-tag">the guard, in full</span>
+              </summary>
+              <div class="fix-debug-body">
+                <div class="prompt-head prompt-head-bare">
               <button type="button" class="copybtn" data-target="fix-code-4">Copy</button>
-            </div>
+                </div>
             <pre class="code-block" id="fix-code-4">// Nothing answered, so there is no status code to read. The only code in play is
 // the one this function decides to return.
 const ctrl = new AbortController();
@@ -1805,6 +1831,8 @@ try {
 } finally {
   clearTimeout(timer);
 }</pre>
+              </div>
+            </details>
 
             <div class="fix-sub">How you know it worked</div>
             <p class="fix-know">Go offline in devtools and the panel names the time of the last good reading rather than going blank.</p>
@@ -1828,14 +1856,14 @@ try {
         <!-- A. Framing block -->
         <div class="note-box">
           <span class="note-label">The ask</span>
-          <p>Move your product into another industry and say concretely what changes — in the data, in the risk, and
-            in the oversight. Not "it would be similar but for HR". Concretely.</p>
+          <p>Let's move our product into another industry and say concretely what changes—in the data, in the risk, and
+            in the oversight. Not "it would be similar but for HR". Concretely (don't worry we won't butcher this term more...)</p>
           <p>The benchmark: a commuter board becomes a ward-supplies board. The data stops being bus timings and
             becomes patient-adjacent. The risk stops being a missed bus and becomes a missed dose. The oversight moves
-            from nobody at all to a named clinician who signs off. Three sentences, three real changes.</p>
-          <p>That is the level of specificity being asked for. If your version of those three sentences would survive
-            being read back to you by someone who works in that industry, you have done the exercise.</p>
-          <span class="attribution">~ Data, risk, oversight — name all three</span>
+            from nobody at all to a named clinician who signs off. The main concept, with an extension to industry.</p>
+          <p>That is the level of specificity being asked for. If this version of those three sentences would survive
+            being read back to you by someone who works in that industry, then we have done the exercise.</p>
+          <span class="attribution">~ Data, risk, oversight— we will name all three</span>
         </div>
 
         <!-- B. The input form -->
@@ -1852,9 +1880,9 @@ try {
 
           <div class="demo-loader">
             <span class="demo-loader-label">Load our actual conversation</span>
-            <p>Group 2's real discussion, loaded into the form. <strong>Same four verbatims both times</strong> — the
+            <p>Here's group 2's real discussion, loaded into the form. <strong>We will use the same four verbatims both times</strong>—the
               industry lens is what changes. That contrast is the whole point: one transposition survives, the other
-              one we refuse.</p>
+              one we deliberately refuse. This was done after listening to the geniuses in the field in our team</p>
             <div class="mode-toggles" id="demo-chips" role="group" aria-label="Load our actual conversation">
               <button type="button" class="toggle-btn" data-demo="hotdesk" aria-pressed="false">Hot-desking</button>
               <button type="button" class="toggle-btn" data-demo="hrmanpower" aria-pressed="false">HR
