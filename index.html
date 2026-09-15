@@ -846,8 +846,8 @@ GUARDRAILS
 CONTEXT
 No environment variable — this service takes no credential.
 Cache-Control: s-maxage=60, stale-while-revalidate=120
-Real response shapes: see "Reference responses" below on this page. Copy the block for this
-service and paste it here before sending.</pre>
+Real response shape: [PASTE THE FIRST 2000 CHARACTERS OF THE REAL RESPONSE, captured by hand.
+Do not guess at it and do not accept a guess — a field name that does not exist costs an hour.]</pre>
 
 
               </div>
@@ -932,8 +932,8 @@ GUARDRAILS
 CONTEXT
 No environment variable — this service takes no credential.
 Cache-Control: s-maxage=60, stale-while-revalidate=120
-Real response shapes: see "Reference responses" below on this page. Copy the block for this
-service and paste it here before sending.</pre>
+Real response shape: [PASTE THE FIRST 2000 CHARACTERS OF THE REAL RESPONSE, captured by hand.
+Do not guess at it and do not accept a guess — a field name that does not exist costs an hour.]</pre>
 
 
               </div>
@@ -1020,8 +1020,8 @@ GUARDRAILS
 CONTEXT
 Environment variable: LTA_ACCOUNT_KEY, set only in Vercel, passed as the AccountKey header.
 Cache-Control: s-maxage=20, stale-while-revalidate=40
-Real response shapes: see "Reference responses" below on this page. Copy the block for this
-service and paste it here before sending.</pre>
+Real response shape: [PASTE THE FIRST 2000 CHARACTERS OF THE REAL RESPONSE, captured by hand.
+Do not guess at it and do not accept a guess — a field name that does not exist costs an hour.]</pre>
 
 
               </div>
@@ -1108,8 +1108,8 @@ GUARDRAILS
 CONTEXT
 Environment variable: LTA_ACCOUNT_KEY, set only in Vercel, passed as the AccountKey header.
 Cache-Control: s-maxage=20, stale-while-revalidate=40
-Real response shapes: see "Reference responses" below on this page. Copy the block for this
-service and paste it here before sending.</pre>
+Real response shape: [PASTE THE FIRST 2000 CHARACTERS OF THE REAL RESPONSE, captured by hand.
+Do not guess at it and do not accept a guess — a field name that does not exist costs an hour.]</pre>
 
 
               </div>
@@ -1180,233 +1180,21 @@ service and paste it here before sending.</pre>
 
           <div class="cred-reads" id="cred-reads"></div>
 
-          <div class="note-box cred-checks">
-            <span class="note-label">What to check</span>
-            <div id="cred-checks"></div>
+          <div class="prompt-head">
+            <span class="prompt-label">Paste this into your coding tool</span>
+            <button type="button" class="copybtn" data-target="cred-rgogc">Copy</button>
           </div>
+          <pre class="code-block" id="cred-rgogc"></pre>
+
+          <div class="decomp-bar">
+            <button type="button" class="btn-toolbar" id="btn-decompose"
+                    aria-expanded="false" aria-controls="cred-decomp">Decompose my RGOGC prompt</button>
+            <span class="decomp-hint" id="decomp-hint" hidden>Hover a highlighted block — or tab through them — to
+              see what that block is buying you.</span>
+          </div>
+          <div class="decomp-view" id="cred-decomp" hidden></div>
 
         </div>
-
-        <!-- B2b. Decomposing the prompt -->
-        <h3>Let's decompose the code to see what we are setting ourselves up for</h3>
-        <p class="decomp-intro">The same five headers you paste into a coding tool, taken apart a chunk at a time.
-          Left is the text itself. Right is what that chunk is actually buying you.</p>
-
-        <div class="decomp">
-
-          <div class="decomp-row">
-            <pre class="code-block decomp-code">ROLE: You are a senior full-stack developer working in my existing project. Do not
-rewrite what is already there; add to it.</pre>
-            <aside class="decomp-note">
-              <span class="decomp-tag">The frame</span>
-              <p>Sets the terms before anything else: add to what exists, do not rewrite it.</p>
-            </aside>
-          </div>
-
-          <div class="decomp-row">
-            <pre class="code-block decomp-code">GOAL: My screen currently shows [WHICH CLAIM] as a hard-coded value. Replace it with
-real data from [WHICH SERVICE], fetched through a serverless function of my own.</pre>
-            <aside class="decomp-note">
-              <span class="decomp-tag">User statement</span>
-              <p>The user statement — mostly for the UI. What the screen claims today, and what it has to claim truthfully instead.</p>
-            </aside>
-          </div>
-
-          <div class="decomp-row">
-            <pre class="code-block decomp-code"> 1) api/[NAME].js—calls [FULL ENDPOINT URL], returns only the fields my screen
-    needs, and nothing else.</pre>
-            <aside class="decomp-note">
-              <span class="decomp-tag">File structure</span>
-              <p>To give the exact file structure. One named file, one endpoint, and a hard limit on what comes back.</p>
-            </aside>
-          </div>
-
-          <div class="decomp-row">
-            <pre class="code-block decomp-code"> 2) api/health.js—reports whether the credential is configured (keyConfigured) and
-    whether the upstream answered, including the HTTP status it returned. It must
-    never print the credential or any part of it.</pre>
-            <aside class="decomp-note">
-              <span class="decomp-tag">Health check</span>
-              <p>To help us check health status alongside the endpoint connection — is the key configured, and did the upstream answer.</p>
-            </aside>
-          </div>
-
-          <div class="decomp-row">
-            <pre class="code-block decomp-code"> 3) On the screen, replace the hard-coded value with the live one, and decide what
-    the user sees in each of these four cases: the data is loading, the data is
-    empty, the upstream refused, and the upstream is unreachable. I want four
-    different sentences, not one spinner.</pre>
-            <aside class="decomp-note">
-              <span class="decomp-tag">The four states</span>
-              <p>Establishing the four stages properly is the sanity check — it is what lets us diagnose the root cause instead of guessing.</p>
-            </aside>
-          </div>
-
-          <div class="decomp-row">
-            <pre class="code-block decomp-code">OUTPUT: Both functions at api/ in the PROJECT ROOT, siblings of package.json, never
- inside src/. If this project has a server entry file, register the same two routes there too,
- because that is the shape the preview can answer. If it has no server file, skip
- that and tell me so rather than inventing one.</pre>
-            <aside class="decomp-note">
-              <span class="decomp-tag">Where the files sit</span>
-              <p>File structure, as Prof said in the build tab (5). Where the files have to sit, because that is what decides whether Vercel runs them at all.</p>
-            </aside>
-          </div>
-
-          <div class="decomp-row">
-            <pre class="code-block decomp-code"> Make sure package.json contains "type": "module".
- BEFORE the fetch, if the credential is missing or empty, return 503 with a message
- naming the variable, and do not call the upstream at all. A missing variable is sent
- as the word "undefined" and looks exactly like a wrong credential, so stop it early.
- AFTER the fetch, check response.ok before reading the body. A refusal often has an
- empty body, so calling .json() on it throws and my function dies with a 500 instead
- of telling me what happened. On a non-2xx reply, return the upstream status and a
- one-line reason in your own JSON.</pre>
-            <aside class="decomp-note">
-              <span class="decomp-tag">Guardrail</span>
-              <p>Establishing the 503 message loud and clear, so the failure reads as a provider fault and not a fault in our code.</p>
-            </aside>
-          </div>
-
-          <div class="decomp-row">
-            <pre class="code-block decomp-code"> Cache the response for [HOW LONG] with Cache-Control: s-maxage=[N],
- stale-while-revalidate=[2N], matching how often the source actually changes.
- In the footer, credit the source in the exact form the provider's licence asks for.</pre>
-            <aside class="decomp-note">
-              <span class="decomp-tag">Rate limits</span>
-              <p>Rate-limit protection, and a guardrail against sitting in a loading state.</p>
-            </aside>
-          </div>
-
-          <div class="decomp-row">
-            <pre class="code-block decomp-code">GUARDRAILS: Never write the credential into any file, comment or README. Never create
- a variable whose name starts with VITE_. Never call the upstream from browser code;
- every call happens inside api/. Never print the credential, or any part of it, in a
- response or a log. No new npm packages. No database, no login. Leave every screen I
- already have working exactly as it is.</pre>
-            <aside class="decomp-note">
-              <span class="decomp-tag">The fence</span>
-              <p>The guardrails the LLM has to operate within. Do not give it the degree of freedom to make things up. We will cover more of this — but human judgement is still needed.</p>
-            </aside>
-          </div>
-
-          <div class="decomp-row">
-            <pre class="code-block decomp-code">CONTEXT: Deployed on Vercel from GitHub. The credential lives only in a Vercel
- environment variable named [VARIABLE_NAME].</pre>
-            <aside class="decomp-note">
-              <span class="decomp-tag">Where the key lives</span>
-              <p>Tells the tool where the key lives so it stops guessing. Without this it reaches for a .env file, a config object or a hardcoded constant — all of which end up in the repo.</p>
-            </aside>
-          </div>
-
-          <div class="decomp-row">
-            <pre class="code-block decomp-code"> A real response from the endpoint, called by hand just now, looks like this:
-[PASTE 15-25 LINES OF THE REAL RESPONSE HERE]</pre>
-            <aside class="decomp-note">
-              <span class="decomp-tag">The real response</span>
-              <p>We paste the output because a live response tells you what is not there, beyond just what is.</p>
-            </aside>
-          </div>
-
-        </div>
-
-        <!-- B3. Reference responses -->
-        <details class="keyref-item ref-block">
-          <summary>
-            <span class="keyref-title">Reference responses</span>
-            <span class="keyref-tag">paste into a prompt</span>
-          </summary>
-          <div class="keyref-body">
-            <p>Every prompt on this tab ends by asking for the real response shape, and this is where that
-              shape lives. Run the capture line under each heading, paste what comes back into the block beneath
-              it, and it is there for every prompt afterwards — Copy lifts whatever is in the block.</p>
-            <p><strong>These ship empty on purpose.</strong> A fabricated response here is worse than no
-              response at all, because someone will build against field names that do not exist and lose an hour
-              to it. Until a block is filled, Copy hands your coding tool a visible placeholder rather than a
-              plausible lie — which is the honest failure, and it is still on you to go and capture the real
-              one.</p>
-
-            <div class="ref-item">
-              <div class="prompt-head">
-                <span class="prompt-label">LTA DataMall · CarParkAvailabilityv2</span>
-                <button type="button" class="copybtn" data-target="ref-lta-ok">Copy</button>
-              </div>
-              <p class="ref-note">Note whether AvailableLots comes back quoted as a string or as a number.</p>
-              <p class="ref-capture">
-                <span class="ref-capture-label">Capture it</span>
-                <code>curl -4 -s -H "AccountKey: $LTA_ACCOUNT_KEY" "https://datamall2.mytransport.sg/ltaodataservice/CarParkAvailabilityv2" | head -c 2000</code>
-              </p>
-              <pre class="code-block" id="ref-lta-ok">[PASTE THE REAL RESPONSE HERE — captured by hand on DATE]</pre>
-            </div>
-
-            <div class="ref-item">
-              <div class="prompt-head">
-                <span class="prompt-label">LTA DataMall · the 401</span>
-                <button type="button" class="copybtn" data-target="ref-lta-401">Copy</button>
-              </div>
-              <p class="ref-note">Headers plus an EMPTY body — which is why response.ok is checked before .json().</p>
-              <p class="ref-capture">
-                <span class="ref-capture-label">Capture it</span>
-                <code>curl -4 -is -H "AccountKey: deliberately-wrong" "https://datamall2.mytransport.sg/ltaodataservice/CarParkAvailabilityv2" | head -20</code>
-                <span class="ref-capture-how">The key is wrong on purpose — that is the point. Keep the header lines, drop nothing.</span>
-              </p>
-              <pre class="code-block" id="ref-lta-401">[PASTE THE REAL RESPONSE HERE — captured by hand on DATE]</pre>
-            </div>
-
-            <div class="ref-item">
-              <div class="prompt-head">
-                <span class="prompt-label">data.gov.sg · two-hr-forecast</span>
-                <button type="button" class="copybtn" data-target="ref-datagov">Copy</button>
-              </div>
-              <p class="ref-note">Wrapped as {"code":0,"data":{...},"errorMsg":""}, and area_metadata key order VARIES between entries — some list longitude first.</p>
-              <p class="ref-capture">
-                <span class="ref-capture-label">Capture it</span>
-                <code>curl -4 -s "https://api-open.data.gov.sg/v2/real-time/api/two-hr-forecast" | head -c 2000</code>
-              </p>
-              <pre class="code-block" id="ref-datagov">[PASTE THE REAL RESPONSE HERE — captured by hand on DATE]</pre>
-            </div>
-
-            <div class="ref-item">
-              <div class="prompt-head">
-                <span class="prompt-label">Alpha Vantage · TIME_SERIES_DAILY</span>
-                <button type="button" class="copybtn" data-target="ref-av-ok">Copy</button>
-              </div>
-              <p class="ref-note">Closes are STRINGS, and dates are object keys rather than array entries.</p>
-              <p class="ref-capture">
-                <span class="ref-capture-label">Capture it</span>
-                <code>curl -4 -s "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&amp;symbol=IBM&amp;apikey=$ALPHAVANTAGE_API_KEY" | head -c 2000</code>
-              </p>
-              <pre class="code-block" id="ref-av-ok">[PASTE THE REAL RESPONSE HERE — captured by hand on DATE]</pre>
-            </div>
-
-            <div class="ref-item">
-              <div class="prompt-head">
-                <span class="prompt-label">Alpha Vantage · rate-limited</span>
-                <button type="button" class="copybtn" data-target="ref-av-limit">Copy</button>
-              </div>
-              <p class="ref-note">200 OK carrying an "Information" key and no data at all.</p>
-              <p class="ref-capture">
-                <span class="ref-capture-label">Capture it</span>
-                <code>for i in 1 2 3 4 5 6; do curl -4 -s "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&amp;symbol=IBM&amp;apikey=$ALPHAVANTAGE_API_KEY"; echo; done | tail -3</code>
-                <span class="ref-capture-how">Run it until the free tier cuts you off; the last response is the one to keep.</span>
-              </p>
-              <pre class="code-block" id="ref-av-limit">[PASTE THE REAL RESPONSE HERE — captured by hand on DATE]</pre>
-            </div>
-
-            <div class="ref-item">
-              <div class="prompt-head">
-                <span class="prompt-label">Guardian · search</span>
-                <button type="button" class="copybtn" data-target="ref-guardian">Copy</button>
-              </div>
-              <p class="ref-note">The envelope is nested under "response", with "total" alongside the results.</p>
-              <p class="ref-capture">
-                <span class="ref-capture-label">Capture it</span>
-                <code>curl -4 -s "https://content.guardianapis.com/search?q=singapore&amp;show-fields=body&amp;api-key=$GUARDIAN_API_KEY" | head -c 2000</code>
-              </p>
-              <pre class="code-block" id="ref-guardian">[PASTE THE REAL RESPONSE HERE — captured by hand on DATE]</pre>
-            </div>
-          </div>
-        </details>
 
         <!-- C. The 401 vs 404 pair -->
         <h3>401 vs 404 — the pair that looks identical</h3>
@@ -1517,7 +1305,7 @@ content-length: 0
             <input type="checkbox" id="chk-step-3">
             <label for="chk-step-3">
               <span class="checklist-title">03</span>
-              <span class="checklist-step">Copy the matching block from Reference responses into it where it asks.</span>
+              <span class="checklist-step">Capture the real response by hand and paste it into the prompt where it asks.</span>
             </label>
           </div>
           <div class="checklist-row">

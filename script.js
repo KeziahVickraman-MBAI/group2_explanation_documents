@@ -263,7 +263,7 @@ function initCredentialCheck() {
     renderWarning(plat);
     document.getElementById('cred-command').textContent = buildCredCommand(svc, plat, modeKey);
     document.getElementById('cred-reads').innerHTML = buildCredReads(svc);
-    document.getElementById('cred-checks').innerHTML = buildCredChecks(svc, plat);
+    renderPrompt(svc, plat);
 
     output.hidden = false;
     output.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -371,17 +371,197 @@ function buildCredReads(svc) {
   ).join('');
 }
 
-function buildCredChecks(svc, plat) {
-  const varLine = svc.env
-    ? 'Is the variable actually set? <code>' + plat.inspect(svc.env) + '</code>'
-    : 'There is no variable to check — this service takes no key, so an empty response means the service, not your setup.';
+// ----------------------------------------------------
+// The RGOGC prompt, and the same prompt taken apart.
+// Both come from ONE segment list, so the annotated view can never
+// drift from the text the Copy button hands over.
+// ----------------------------------------------------
+function credPromptSegments(svc, plat) {
+  const keyed = Boolean(svc.env);
+
+  const guardrail = keyed
+    ? ' Make sure package.json contains "type": "module".\n' +
+      ' BEFORE the fetch, if ' + svc.env + ' is missing or empty, return 503 with a message naming\n' +
+      ' that variable, and do not call the upstream at all. A missing variable is sent as the word\n' +
+      ' "undefined" and looks exactly like a wrong credential, so stop it early.\n' +
+      ' AFTER the fetch, check response.ok before reading the body. A refusal often has an empty\n' +
+      ' body, so calling .json() on it throws and my function dies with a 500 instead of telling me\n' +
+      ' what happened. On a non-2xx reply, return the upstream status and a one-line reason in your\n' +
+      ' own JSON.'
+    : ' Make sure package.json contains "type": "module".\n' +
+      ' This service takes no credential, so there is no 503 guard and no refused state — it can be\n' +
+      ' unreachable, never refused. Do not write key-handling code and do not add an environment\n' +
+      ' variable.\n' +
+      ' AFTER the fetch, check response.ok before reading the body. A failure often has an empty\n' +
+      ' body, so calling .json() on it throws and my function dies with a 500 instead of telling me\n' +
+      ' what happened. On a non-2xx reply, return the upstream status and a one-line reason in your\n' +
+      ' own JSON.';
+
+  const context = keyed
+    ? 'CONTEXT: Deployed on Vercel from GitHub. The credential lives only in a Vercel environment\n' +
+      ' variable named ' + svc.env + ', passed as ' + svc.passing + '.\n' +
+      ' Verified from ' + plat.label + ' with ' + plat.exe + ' before any code was written.'
+    : 'CONTEXT: Deployed on Vercel from GitHub. This service takes ' + svc.passing + ', so there is\n' +
+      ' no environment variable to set.\n' +
+      ' Verified from ' + plat.label + ' with ' + plat.exe + ' before any code was written.';
 
   return [
-    '<p>' + varLine + '</p>',
-    '<p>Use <code>-i</code> or <code>-is</code> to see the status line. The browser console hides the headers you need.</p>',
-    '<p>A length of zero means the variable is unset — which produces the same 401 as a wrong key. That is the whole reason <code>/api/health</code> exists.</p>'
-  ].join('');
+    {
+      tag: 'The frame',
+      note: 'Sets the terms before anything else: add to what exists, do not rewrite it.',
+      text: 'ROLE: You are a senior full-stack developer working in my existing project. Do not\n' +
+            'rewrite what is already there; add to it.'
+    },
+    {
+      gap: true,
+      tag: 'User statement',
+      note: 'The user statement — mostly for the UI. What the screen claims today, and what it has to claim truthfully instead.',
+      text: 'GOAL: My screen currently shows [WHICH CLAIM] as a hard-coded value. Replace it with\n' +
+            'real data from ' + svc.label + ', fetched through a serverless function of my own.'
+    },
+    {
+      tag: 'File structure',
+      note: 'To give the exact file structure. One named file, one endpoint, and a hard limit on what comes back.',
+      text: ' 1) api/[NAME].js—calls\n' +
+            '    ' + svc.endpoint + '\n' +
+            '    and returns only the fields my screen needs, and nothing else.'
+    },
+    {
+      tag: 'Health check',
+      note: 'To help us check health status alongside the endpoint connection — is the key configured, and did the upstream answer.',
+      text: ' 2) api/health.js—reports whether the credential is configured (keyConfigured) and\n' +
+            '    whether the upstream answered, including the HTTP status it returned. It must\n' +
+            '    never print the credential or any part of it.'
+    },
+    {
+      tag: 'The four states',
+      note: 'Establishing the four stages properly is the sanity check — it is what lets us diagnose the root cause instead of guessing.',
+      text: ' 3) On the screen, replace the hard-coded value with the live one, and decide what\n' +
+            '    the user sees in each of these four cases: the data is loading, the data is\n' +
+            '    empty, the upstream refused, and the upstream is unreachable. I want four\n' +
+            '    different sentences, not one spinner.'
+    },
+    {
+      gap: true,
+      tag: 'Where the files sit',
+      note: 'File structure, as Prof said in the build tab (5). Where the files have to sit, because that is what decides whether Vercel runs them at all.',
+      text: 'OUTPUT: Both functions at api/ in the PROJECT ROOT, siblings of package.json, never\n' +
+            ' inside src/. If this project has a server entry file, register the same two routes there too,\n' +
+            ' because that is the shape the preview can answer. If it has no server file, skip\n' +
+            ' that and tell me so rather than inventing one.'
+    },
+    {
+      tag: 'Guardrail',
+      note: keyed
+        ? 'Establishing the 503 message loud and clear, so the failure reads as a provider fault and not a fault in our code.'
+        : 'No key means no refused state. Saying so stops the tool inventing key-handling code you would then have to maintain.',
+      text: guardrail
+    },
+    {
+      tag: 'Rate limits',
+      note: 'Rate-limit protection, and a guardrail against sitting in a loading state.',
+      text: ' Cache the response with Cache-Control: ' + svc.cache + ', matching how often the\n' +
+            ' source actually changes.\n' +
+            ' In the footer, credit the source in the exact form the provider\u2019s licence asks for.'
+    },
+    {
+      gap: true,
+      tag: 'The fence',
+      note: 'The guardrails the LLM has to operate within. Do not give it the degree of freedom to make things up. We will cover more of this — but human judgement is still needed.',
+      text: 'GUARDRAILS: Never write the credential into any file, comment or README. Never create\n' +
+            ' a variable whose name starts with VITE_. Never call the upstream from browser code;\n' +
+            ' every call happens inside api/. Never print the credential, or any part of it, in a\n' +
+            ' response or a log. No new npm packages. No database, no login. Leave every screen I\n' +
+            ' already have working exactly as it is.'
+    },
+    {
+      gap: true,
+      tag: 'Where the key lives',
+      note: keyed
+        ? 'Tells the tool where the key lives so it stops guessing. Without this it reaches for a .env file, a config object or a hardcoded constant — all of which end up in the repo.'
+        : 'Says plainly that there is nothing to look for, so the tool does not invent a variable and then ask you to set it.',
+      text: context
+    },
+    {
+      gap: true,
+      tag: 'The real response',
+      note: 'We paste the output because a live response tells you what is not there, beyond just what is.',
+      text: ' A real response from the endpoint, called by hand just now, looks like this:\n' +
+            '[PASTE 15-25 LINES OF THE REAL RESPONSE HERE]'
+    }
+  ];
 }
+
+function segmentsToText(segs) {
+  return segs.map((seg, i) => (i && seg.gap ? '\n' : '') + seg.text).join('\n');
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+// Each chunk is its own block; the stanza breaks the plain text makes with a
+// blank line are made here with a margin instead.
+function segmentsToHtml(segs) {
+  return segs.map((seg, i) =>
+    '<span class="dseg' + (i && seg.gap ? ' dseg-gap' : '') + '" tabindex="0">' +
+    escapeHtml(seg.text) +
+    '<span class="dseg-note" role="note">' +
+    '<span class="dseg-tag">' + escapeHtml(seg.tag) + '</span>' +
+    escapeHtml(seg.note) +
+    '</span></span>'
+  ).join('');
+}
+
+function renderPrompt(svc, plat) {
+  const segs = credPromptSegments(svc, plat);
+  document.getElementById('cred-rgogc').textContent = segmentsToText(segs);
+
+  const view = document.getElementById('cred-decomp');
+  view.innerHTML = '<pre class="decomp-pre">' + segmentsToHtml(segs) + '</pre>';
+
+  // A new service means a new prompt, so close the annotated view rather than
+  // leaving the previous one's highlights on screen
+  setDecomposed(false);
+}
+
+function setDecomposed(on) {
+  const btn = document.getElementById('btn-decompose');
+  document.getElementById('cred-decomp').hidden = !on;
+  document.getElementById('decomp-hint').hidden = !on;
+  btn.setAttribute('aria-expanded', String(on));
+  btn.classList.toggle('active', on);
+  btn.textContent = on ? 'Hide the decomposition' : 'Decompose my RGOGC prompt';
+}
+
+// A note opens downward, unless the chunk sits low enough that downward would
+// put it under the fold — then it opens upward instead.
+function placeNote(seg) {
+  const note = seg.querySelector('.dseg-note');
+  if (!note) return;
+  note.classList.remove('above');
+  const room = window.innerHeight - seg.getBoundingClientRect().bottom;
+  if (room < note.offsetHeight + 24) note.classList.add('above');
+}
+
+function initDecompose() {
+  const btn = document.getElementById('btn-decompose');
+  if (!btn) return;
+
+  btn.addEventListener('click', () => {
+    setDecomposed(document.getElementById('cred-decomp').hidden);
+  });
+
+  const view = document.getElementById('cred-decomp');
+  ['pointerover', 'focusin'].forEach(evt => {
+    view.addEventListener(evt, e => {
+      const seg = e.target.closest('.dseg');
+      if (seg) placeNote(seg);
+    });
+  });
+}
+
+document.addEventListener('DOMContentLoaded', initDecompose);
 
 document.addEventListener('DOMContentLoaded', initCredentialCheck);
 

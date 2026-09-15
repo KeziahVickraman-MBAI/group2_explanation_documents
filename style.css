@@ -2045,39 +2045,8 @@ button.card-head.break-toggle[aria-expanded="true"]::after {
 
 
 /* ----------------------------------------------------
-   TAB 2 · REFERENCE RESPONSES  +  TAB 3 · FIX IT
+   TAB 3 · FIX IT
    ---------------------------------------------------- */
-
-/* ---------- Reference responses (reuses the .keyref-item accordion) ---------- */
-.ref-block {
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  overflow: hidden;
-  background-color: var(--bg-card);
-  margin-bottom: 28px;
-}
-
-.ref-item {
-  margin-top: 18px;
-}
-
-.ref-note {
-  font-size: 0.8rem;
-  line-height: 1.45;
-  color: var(--text-muted);
-  margin-bottom: 8px;
-}
-
-.ref-block pre.code-block {
-  font-family: var(--font-mono);
-  font-size: 0.74rem;
-  line-height: 1.5;
-  white-space: pre-wrap;
-  word-break: break-all;
-  overflow-x: hidden;
-  margin-bottom: 0;
-  color: var(--accent);
-}
 
 /* ---------- Fix it panel ---------- */
 .fix-stack {
@@ -2174,8 +2143,7 @@ button.card-head.break-toggle[aria-expanded="true"]::after {
 }
 
 @media (max-width: 720px) {
-  #panel-fix pre.code-block,
-  .ref-block pre.code-block {
+  #panel-fix pre.code-block {
     font-size: 0.68rem;
   }
 
@@ -2185,15 +2153,12 @@ button.card-head.break-toggle[aria-expanded="true"]::after {
 }
 
 @media print {
-  .ref-block,
   .fix-card,
-  #panel-fix pre.code-block,
-  .ref-block pre.code-block {
+  #panel-fix pre.code-block {
     page-break-inside: avoid;
   }
 
-  #panel-fix pre.code-block,
-  .ref-block pre.code-block {
+  #panel-fix pre.code-block {
     background-color: #F8FAFC !important;
     color: #000000 !important;
     border: 1px solid #CCCCCC !important;
@@ -2589,46 +2554,6 @@ button.card-head.break-toggle[aria-expanded="true"]::after {
   .industry-other-input {
     max-width: 100%;
   }
-}
-
-
-/* Reference responses — the capture line above each paste block */
-.ref-capture {
-  margin: 0 0 8px;
-  padding: 8px 10px;
-  border-radius: 6px;
-  background-color: color-mix(in srgb, var(--primary) 4%, transparent);
-  border: 1px solid var(--border-color);
-}
-
-.ref-capture-label {
-  display: block;
-  font-family: var(--font-body);
-  font-size: 0.6rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 5px;
-}
-
-.ref-capture code {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  line-height: 1.5;
-  word-break: break-all;
-  background: none;
-  padding: 0;
-  color: var(--primary);
-}
-
-.ref-capture-how {
-  display: block;
-  margin-top: 6px;
-  font-size: 0.74rem;
-  font-style: italic;
-  color: var(--text-muted);
 }
 
 
@@ -3037,46 +2962,110 @@ html {
 /* ----------------------------------------------------
    TAB 2 · DECOMPOSING THE PROMPT
    ---------------------------------------------------- */
-.decomp-intro {
-  font-size: 0.88rem;
+
+/* The bar that holds the toggle and, once open, the how-to-read line */
+.decomp-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0 0;
+}
+
+.decomp-hint {
+  font-size: 0.78rem;
+  line-height: 1.45;
   color: var(--text-muted);
-  margin-bottom: 18px;
+  flex: 1 1 260px;
 }
 
-.decomp {
-  margin-bottom: 28px;
+.decomp-view {
+  margin-top: 14px;
 }
 
-.decomp-row {
-  display: grid;
-  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
-  gap: 14px;
-  align-items: start;
-  margin-bottom: 12px;
-}
-
-pre.decomp-code {
+/* One block, not eleven rows — the chunks are marked in place */
+pre.decomp-pre {
   font-family: var(--font-mono);
   font-size: 0.73rem;
-  line-height: 1.55;
+  line-height: 1.7;
   white-space: pre-wrap;
   word-break: break-word;
-  overflow-x: hidden;
+  background-color: var(--primary);
+  color: #E8EDF3;
+  border-radius: 8px;
+  padding: 18px 16px;
   margin-bottom: 0;
-  padding: 12px 14px;
+  overflow: visible;          /* the notes have to escape the block */
 }
 
-/* the note reads as a margin annotation, not a second body of text */
-.decomp-note {
-  border-left: 3px solid var(--accent);
-  background-color: color-mix(in srgb, var(--accent) 6%, transparent);
-  border-radius: 0 6px 6px 0;
-  padding: 11px 14px;
-}
-
-.decomp-tag {
+/* Every chunk is visible as a chunk before anyone hovers anything */
+.dseg {
+  position: relative;
   display: block;
+  border-radius: 4px;
+  border-left: 3px solid transparent;
+  padding: 4px 8px;
+  margin-left: -8px;
+  background-color: color-mix(in srgb, #FFFFFF 5%, transparent);
+  cursor: help;
+  outline: none;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.dseg:nth-child(even) {
+  background-color: color-mix(in srgb, #FFFFFF 10%, transparent);
+}
+
+/* a blank line in the plain text becomes a margin here */
+.dseg-gap {
+  margin-top: 10px;
+}
+
+.dseg:hover,
+.dseg:focus {
+  background-color: color-mix(in srgb, var(--accent) 42%, transparent);
+  border-left-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+  color: #FFFFFF;
+}
+
+/* The message itself — off screen until the chunk is hovered or focused */
+.dseg-note {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 10px);
+  z-index: 20;
+  width: max-content;
+  max-width: min(420px, 78vw);
+  white-space: normal;
   font-family: var(--font-body);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text-main);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  box-shadow: var(--shadow-lg);
+  padding: 11px 14px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-fast);
+}
+
+.dseg-note.above {
+  top: auto;
+  bottom: calc(100% + 10px);
+}
+
+.dseg:hover > .dseg-note,
+.dseg:focus > .dseg-note {
+  opacity: 1;
+  visibility: visible;
+}
+
+.dseg-tag {
+  display: block;
   font-size: 0.6rem;
   font-weight: 800;
   letter-spacing: 0.09em;
@@ -3085,38 +3074,30 @@ pre.decomp-code {
   margin-bottom: 5px;
 }
 
-.decomp-note p {
-  font-size: 0.8rem;
-  line-height: 1.5;
-  color: var(--grey-dark);
-  margin-bottom: 0;
-}
-
 @media (max-width: 720px) {
-  .decomp-row {
-    grid-template-columns: 1fr;
-    gap: 8px;
-    margin-bottom: 18px;
+  pre.decomp-pre {
+    font-size: 0.68rem;
   }
 
-  pre.decomp-code {
-    font-size: 0.68rem;
+  /* Stretched to the chunk's own width, so a note can never hang off the screen */
+  .dseg-note {
+    left: 0;
+    right: 0;
+    width: auto;
+    max-width: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dseg,
+  .dseg-note {
+    transition: none;
   }
 }
 
 @media print {
-  .decomp-row {
-    page-break-inside: avoid;
-  }
-
-  pre.decomp-code {
-    background-color: #F8FAFC !important;
-    color: #000000 !important;
-    border: 1px solid #CCCCCC !important;
-  }
-
-  .decomp-note {
-    border-left: 3px solid #000000 !important;
-    background-color: #FFFFFF !important;
+  .decomp-bar,
+  .decomp-view {
+    display: none;
   }
 }
