@@ -1826,6 +1826,9 @@ try {
               <button type="button" class="toggle-btn" data-demo="hotdesk" aria-pressed="false">Hot-desking</button>
               <button type="button" class="toggle-btn" data-demo="hrmanpower" aria-pressed="false">HR
                 manpower</button>
+              <a class="toggle-btn demo-download" href="group2-slide-deck.pdf" download
+                aria-label="Download our application's slide deck explainer">Slide deck explainer
+                <span aria-hidden="true">↓</span></a>
             </div>
           </div>
 
@@ -2591,7 +2594,7 @@ try {
       function clearDemo() {
         if (!demoKey) return;
         demoKey = null;
-        demoChips.querySelectorAll('.toggle-btn').forEach(b => {
+        demoChips.querySelectorAll('button.toggle-btn').forEach(b => {
           b.classList.remove('active');
           b.setAttribute('aria-pressed', 'false');
         });
@@ -2608,7 +2611,7 @@ try {
       }
 
       demoChips.addEventListener('click', function (e) {
-        const chip = e.target.closest('.toggle-btn');
+        const chip = e.target.closest('button.toggle-btn');   // the deck link is not a loader
         if (!chip) return;
         const key = chip.dataset.demo;
         if (!DEMOS[key]) return;
@@ -2627,7 +2630,7 @@ try {
         const demo = DEMOS[key];
         demoKey = key;
 
-        demoChips.querySelectorAll('.toggle-btn').forEach(b => {
+        demoChips.querySelectorAll('button.toggle-btn').forEach(b => {
           const on = b.dataset.demo === key;
           b.classList.toggle('active', on);
           b.setAttribute('aria-pressed', String(on));
