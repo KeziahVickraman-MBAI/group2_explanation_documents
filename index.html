@@ -113,9 +113,9 @@
           
           <p>That changes what 'finished' means. A screen either renders or it doesn't. A service that calls another service has states, and we have to decide about them in advance.
             So here's the thing we most want you to take from this set: most of the work is not entirely about the code. Most of the work is deciding what your product says when the data isn't there.</p>
-          <p>We have the data now. We need to <strong>reverse engineer our approach to build a UI</strong>. Not just any random UI, but someone that will serve our users well. 
+          <p>We have the data now. We need to <strong>reverse engineer our approach to build a UI</strong>. Not just any random UI, but something that will serve our users well. 
             Well since we are in business school, we will focus on <strong>monetization</strong>. How about selling some convenience to our users. We will start from there.</p>
-          <p>Our bet for today: speed of <strong>experimentation beats speed of execution</strong>. We'd rather rule out five bad
+          <p>Our bet for today: <strong>speed of experimentation beats speed of execution</strong>. We'd rather rule out five bad
             directions as a team, rather than polish one we never tested. This is the start of the questions, not the start
             of the answers—so if something we try today falls apart, that's not a bad demo, that's the point. We will walk you through this—rest assured.</p>
           <span class="attribution">~ Group 2 &middot; Week 4 Problem Solving Leadership Session</span>
@@ -141,7 +141,7 @@
                 <td>Showing a live product where the credential is provably server-side and absent from the repo</td>
               </tr>
               <tr>
-                <td><strong>2. BREAK IT</strong></td>
+                <td><strong>2. BREAK & FIX IT</strong></td>
                 <td>We will intentionally break it to test the resilience of our backend</td>
                 <td class="tint-yes">Four distinguishable screen states: loading, empty, refused, unreachable—plus the <code>/api/health</code> verdict</td>
                 <td>Proving the back end fails in sentences a user can act on, not in a blank screen</td>
@@ -670,8 +670,7 @@ CHECKS
       <!-- Tab 02: Data Simulation -->
       <section class="tab-panel" id="panel-viz" aria-labelledby="viz-title">
         <h2 id="viz-title">Break it — what the screen says when it doesn't work</h2>
-        <p class="panel-intro">Four breaks, performed live, in this order. Each one is a deliberate act with a
-          predicted sentence attached.</p>
+        <p class="panel-intro">Four breaks, we might not have a time for all 4. But you may try this on your own. Have fun 🤩</p>
 
         <!-- A. The premise -->
         <div class="note-box">
@@ -681,8 +680,8 @@ CHECKS
           <p>The only interesting question is what the screen says when it doesn't. A spinner that never resolves, a
             blank panel where a number belongs, a silent fallback to stale data: none of those are bugs in the
             ordinary sense. The code ran. Someone simply never decided what the user should be told.</p>
-          <p>So this tab is not a testing exercise. We will start with something small and subtle (carpark availability data) to deepdive into the error calls. That's the main juju of this exercise.</p>
-          <span class="attribution">~ After you build something, BREAK SOMETHING.</span>
+          <p>So this tab is not a testing exercise. We will start with something <strong>small and subtle</strong>(carpark availability data) to deepdive into the error calls. That's the main juju of this exercise.</p>
+          <span class="attribution">~ After we built something, we BROKE SOMETHING.</span>
         </div>
 
         <p class="broke-link">
@@ -1391,13 +1390,20 @@ content-length: 0
 
       <!-- Tab 03: Fix it -->
       <section class="tab-panel" id="panel-fix" aria-labelledby="fix-title">
-        <h2 id="fix-title">Fix it — the guard that catches each one</h2>
+        <h2 id="fix-title">Fix it—the guard that catches each one</h2>
         <p class="panel-intro">Four breaks, four root causes, four guards. Each fix is a few lines, and each one
           turns a silent failure into a sentence.</p>
 
+        <nav class="mode-toggles fix-jump" aria-label="Jump to a fix">
+          <a class="toggle-btn fix-jump-chip" href="#fix-card-1">01. Loading</a>
+          <a class="toggle-btn fix-jump-chip" href="#fix-card-2">02. Empty</a>
+          <a class="toggle-btn fix-jump-chip" href="#fix-card-3">03. Refused</a>
+          <a class="toggle-btn fix-jump-chip" href="#fix-card-4">04. Unreachable</a>
+        </nav>
+
         <div class="fix-stack">
 
-          <article class="rule-card state-neutral fix-card">
+          <article class="rule-card state-neutral fix-card" id="fix-card-1">
             <div class="card-head">
               <div class="micro-heading">01. Loading</div>
               <span class="status-chip">no status yet</span>
@@ -1495,7 +1501,7 @@ try {
             <p class="fix-know">The panel names the feed and a rough duration instead of spinning, and says so again if it runs long.</p>
           </article>
 
-          <article class="rule-card state-ok fix-card">
+          <article class="rule-card state-ok fix-card" id="fix-card-2">
             <div class="card-head">
               <div class="micro-heading">02. Empty</div>
               <span class="status-chip">200 OK</span>
@@ -1630,7 +1636,7 @@ print('NOT in the payload at all:', [k for k in ['TotalLots', 'Capacity'] if k n
             <p class="fix-know">A carpark with zero lots reads "full"; a carpark missing from the update reads "we do not know" — two different sentences where there was one blank space.</p>
           </article>
 
-          <article class="rule-card state-bad fix-card">
+          <article class="rule-card state-bad fix-card" id="fix-card-3">
             <div class="card-head">
               <div class="micro-heading">03. Refused</div>
               <span class="status-chip">401 / 403 / 404</span>
@@ -1740,7 +1746,7 @@ export function health() {
             <p class="fix-know">Pull the variable and the panel says it was refused instead of showing a crashed function, and /api/health flips to keyConfigured: false.</p>
           </article>
 
-          <article class="rule-card state-warn fix-card">
+          <article class="rule-card state-warn fix-card" id="fix-card-4">
             <div class="card-head">
               <div class="micro-heading">04. Unreachable</div>
               <span class="status-chip">no response · we return 503</span>

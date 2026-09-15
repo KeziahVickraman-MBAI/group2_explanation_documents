@@ -2986,3 +2986,49 @@ details.fix-solution {
 .broke-link-sos .broke-link-label {
   white-space: normal;
 }
+
+
+/* Fix it · jump chips */
+.fix-jump {
+  margin-bottom: 24px;
+}
+
+a.toggle-btn.fix-jump-chip {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  font-size: 0.8rem;
+  padding: 6px 14px;
+}
+
+a.toggle-btn.fix-jump-chip:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background-color: color-mix(in srgb, var(--primary) 6%, transparent);
+}
+
+a.toggle-btn.fix-jump-chip:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* land the card clear of the viewport edge, and ease the jump */
+.fix-card {
+  scroll-margin-top: 24px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+@media print {
+  .fix-jump {
+    display: none !important;
+  }
+}
