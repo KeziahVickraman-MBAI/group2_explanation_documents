@@ -264,7 +264,6 @@ function initCredentialCheck() {
     document.getElementById('cred-command').textContent = buildCredCommand(svc, plat, modeKey);
     document.getElementById('cred-reads').innerHTML = buildCredReads(svc);
     document.getElementById('cred-checks').innerHTML = buildCredChecks(svc, plat);
-    document.getElementById('cred-rgogc').textContent = buildCredPrompt(svc, plat);
 
     output.hidden = false;
     output.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -382,53 +381,6 @@ function buildCredChecks(svc, plat) {
     '<p>Use <code>-i</code> or <code>-is</code> to see the status line. The browser console hides the headers you need.</p>',
     '<p>A length of zero means the variable is unset — which produces the same 401 as a wrong key. That is the whole reason <code>/api/health</code> exists.</p>'
   ].join('');
-}
-
-function buildCredPrompt(svc, plat) {
-  const keyed = Boolean(svc.env);
-  const out = [];
-
-  out.push('ROLE: You are a senior full-stack developer working on a static site deployed to');
-  out.push('  Vercel from GitHub, with serverless functions in api/.');
-  out.push('');
-  out.push('GOAL: One function that calls ' + svc.label + ':');
-  out.push('  ' + svc.endpoint + (svc.query ? '<key>' : ''));
-  out.push('  Plus api/health.js, reporting keyConfigured without revealing the value.');
-  out.push('');
-  out.push('OUTPUT:');
-  out.push('  The handler at the project root in api/, a sibling of package.json. Never inside src/.');
-  out.push('  package.json needs "type": "module", or name the file .mjs.');
-  out.push('  The four screen states as four distinct sentences — loading, empty, refused,');
-  out.push('  unreachable — never a blank space where a value belongs.');
-  out.push('');
-  out.push('GUARDRAILS:');
-  svc.traps.forEach(t => out.push('  - ' + t));
-  if (keyed) {
-    out.push('  - Read ' + svc.env + ' via process.env inside api/ only. Never in browser code.');
-    out.push('  - No variable name starts with VITE_.');
-    out.push('  - Never print the key, or any part of it, in a response or a log.');
-    out.push('  - Guard BEFORE the fetch: no key, no call.');
-  } else {
-    out.push('  - There is no credential for this service, so there is no refused state. Do not');
-    out.push('    write key-handling code, do not add an environment variable, and do not emit a');
-    out.push('    "refused" sentence — it can be unreachable, never refused.');
-    out.push('  - No variable name starts with VITE_.');
-  }
-  out.push('  - Check response.ok BEFORE reading any body.');
-  out.push('  - Cast every number at the boundary. Never render NaN, null or undefined as a value.');
-  out.push('  - No new npm packages. No database. No login.');
-  out.push('');
-  out.push('CONTEXT:');
-  out.push(keyed
-    ? '  The key lives only in a Vercel environment variable named ' + svc.env + ', passed as ' + svc.passing + '.'
-    : '  There is no environment variable. The service takes ' + svc.passing + '.');
-  out.push('  Cache-Control on the data route: ' + svc.cache);
-  out.push('  Verified from ' + plat.label + ' with ' + plat.exe + ' before any code was written.');
-  out.push('');
-  out.push('  PASTE 15-25 LINES OF THE REAL RESPONSE HERE — I called this endpoint by hand first.');
-  out.push('  [paste here]');
-
-  return out.join('\n');
 }
 
 document.addEventListener('DOMContentLoaded', initCredentialCheck);

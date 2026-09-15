@@ -476,38 +476,59 @@
                 <span class="prompt-label">Prompt</span>
                 <button type="button" class="copybtn" data-target="prompt-ex1">Copy</button>
               </div>
-              <pre class="code-block" id="prompt-ex1">ROLE
-You are building a small production web app on Vercel, not a snippet. Assume a public URL.
+              <pre class="code-block" id="prompt-ex1">ROLE: You are a senior full-stack developer working in my existing project. Do not
+rewrite what is already there; add to it.
 
-GOAL
-One page for a driver heading into town: for a chosen carpark, show how many lots are free
-right now and when the next buses reach the stop outside it, so they can decide drive or bus
-before leaving the house.
+GOAL: My screen currently shows how many lots are free at Marina Square, and when the
+next buses reach the stop outside it, as hard-coded values. Replace them with real data
+from data.gov.sg and LTA DataMall, fetched through serverless functions of my own.
+ 1) api/carparks.js—calls
+    https://api.data.gov.sg/v1/transport/carpark-availability?date_time=2026-09-15T09:00:00
+    and returns only CarParkID, AvailableLots and the update timestamp, nothing else.
+    api/bus.js—calls
+    https://datamall2.mytransport.sg/ltaodataservice/v3/BusArrival?BusStopCode=83139
+    with the request header AccountKey set from LTA_ACCOUNT_KEY, and returns only the
+    service number and the next arrival in minutes, nothing else.
+ 2) api/health.js—reports whether the credential is configured (keyConfigured) and
+    whether the upstream answered, including the HTTP status it returned. It must
+    never print the credential or any part of it.
+ 3) On the screen, replace the hard-coded values with the live ones, and decide what
+    the user sees in each of these four cases: the data is loading, the data is
+    empty, the upstream refused, and the upstream is unreachable. I want four
+    different sentences, not one spinner. The carpark panel and the bus panel each
+    render their own four states, because one can be refused while the other works.
 
-OUTPUT
-/api/carparks.js  fetch data.gov.sg carpark availability, return {updatedAt, lots:[...]}
-/api/bus.js       fetch LTA DataMall bus arrival, read LTA_ACCOUNT_KEY from process.env
-/api/health.js    return {ok, keyConfigured: Boolean(process.env.LTA_ACCOUNT_KEY)}
-index.html        two panels, each rendering its own four states independently
-Endpoints:
-  https://api.data.gov.sg/v1/transport/carpark-availability?date_time=2026-09-12T09:00:00
-  https://datamall2.mytransport.sg/ltaodataservice/v3/BusArrival?BusStopCode=83139
-  LTA requires the request header  AccountKey: &lt;LTA_ACCOUNT_KEY&gt;
+OUTPUT: All three functions at api/ in the PROJECT ROOT, siblings of package.json, never
+ inside src/. If this project has a server entry file, register the same routes there too,
+ because that is the shape the preview can answer. If it has no server file, skip
+ that and tell me so rather than inventing one.
+ Make sure package.json contains "type": "module".
+ BEFORE the fetch, if LTA_ACCOUNT_KEY is missing or empty, return 503 with a message
+ naming the variable, and do not call the upstream at all. A missing variable is sent
+ as the word "undefined" and looks exactly like a wrong credential, so stop it early.
+ The carpark feed takes no credential, so it has no such guard and no refused state.
+ AFTER the fetch, check response.ok before reading the body. A refusal often has an
+ empty body, so calling .json() on it throws and my function dies with a 500 instead
+ of telling me what happened. LTA returns nothing at all on a 401. On a non-2xx reply,
+ return the upstream status and a one-line reason in your own JSON.
+ Cache the carpark response for 60 seconds with Cache-Control: s-maxage=60,
+ stale-while-revalidate=120, and the bus response for 20 seconds with
+ Cache-Control: s-maxage=20, stale-while-revalidate=40, matching how often each source
+ actually changes.
+ In the footer, credit the source in the exact form the provider's licence asks for:
+ "Contains information from LTA DataMall and data.gov.sg, accessed [DATE], made
+ available under the terms of the Singapore Open Data Licence version 1.0."
 
-GUARDRAILS
-- LTA_ACCOUNT_KEY is read only inside /api. It never appears in client code, in a query
-  string, or anywhere in a response body.
-- No environment variable name begins VITE_.
-- Cache each upstream response for 60 seconds and print "as of HH:MM" beside the numbers.
-- Four states, four distinct sentences. Never a spinner that has no end condition.
-- /api/health reports keyConfigured as true or false and never the value itself.
+GUARDRAILS: Never write the credential into any file, comment or README. Never create
+ a variable whose name starts with VITE_. Never call the upstream from browser code;
+ every call happens inside api/. Never print the credential, or any part of it, in a
+ response or a log. No new npm packages. No database, no login. Leave every screen I
+ already have working exactly as it is.
 
-CHECKS
-1. curl both endpoints by hand before writing any UI code.
-2. View source on the deployed page and search for the key. Expect zero hits.
-3. Open /api/health. Expect {"ok":true,"keyConfigured":true}.
-4. Unset LTA_ACCOUNT_KEY and redeploy: the bus panel must say refused in words, and the
-   carpark panel must keep working.</pre>
+CONTEXT: Deployed on Vercel from GitHub. The credential lives only in a Vercel
+ environment variable named LTA_ACCOUNT_KEY. A real response from the endpoint,
+ called by hand just now, looks like this:
+[PASTE 15-25 LINES OF THE REAL RESPONSE HERE]</pre>
             </div>
 
           </details>
@@ -551,38 +572,63 @@ CHECKS
                 <span class="prompt-label">Prompt</span>
                 <button type="button" class="copybtn" data-target="prompt-ex2">Copy</button>
               </div>
-              <pre class="code-block" id="prompt-ex2">ROLE
-You are building a small production web app on Vercel with no credentials of any kind.
+              <pre class="code-block" id="prompt-ex2">ROLE: You are a senior full-stack developer working in my existing project. Do not
+rewrite what is already there; add to it.
 
-GOAL
-A quick-getaway planner for an HR team: type a city, see the next seven days of weather and
-any public holidays in that country, so they can pick an offsite date or spot a long-weekend
-clash across markets before booking anything.
+GOAL: My screen currently shows the seven-day outlook and the public holidays for a
+destination as hard-coded values. Replace them with real data from Open-Meteo and
+Nager.Date, fetched through serverless functions of my own.
+ 1) api/geocode.js—calls
+    https://geocoding-api.open-meteo.com/v1/search?name=Penang&amp;count=5&amp;language=en
+    and returns only name, country, countryCode, latitude and longitude, nothing else.
+    api/forecast.js—calls
+    https://api.open-meteo.com/v1/forecast?latitude=5.41&amp;longitude=100.34&amp;daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&amp;timezone=auto&amp;forecast_days=7
+    and returns only the seven daily rows my screen draws, nothing else.
+    api/holidays.js—calls
+    https://date.nager.at/api/v3/PublicHolidays/2026/MY
+    and returns only the date and the local name of each holiday, nothing else.
+ 2) api/health.js—reports whether the credential is configured (keyConfigured) and
+    whether the upstream answered, including the HTTP status it returned. These
+    services take no credential, so keyConfigured is false by design and the field
+    exists to prove there is nothing to leak. It must never print a credential.
+ 3) On the screen, replace the hard-coded values with the live ones, and decide what
+    the user sees in each of these four cases: the data is loading, the data is
+    empty, the upstream refused, and the upstream is unreachable. I want four
+    different sentences, not one spinner. There is no credential here, so the
+    refused case cannot happen and must not be written as if it could; an unlisted
+    country from Nager.Date is an empty state, not a refusal.
 
-OUTPUT
-/api/geocode.js   Open-Meteo geocoding, city name to {name, country, lat, lon, countryCode}
-/api/forecast.js  Open-Meteo 7-day daily forecast for those coordinates
-/api/holidays.js  Nager.Date public holidays for that country code and year
-index.html        search box, 7-day strip, holiday list, all four states per panel
-Endpoints:
-  https://geocoding-api.open-meteo.com/v1/search?name=Penang&amp;count=5&amp;language=en
-  https://api.open-meteo.com/v1/forecast?latitude=5.41&amp;longitude=100.34&amp;daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&amp;timezone=auto&amp;forecast_days=7
-  https://date.nager.at/api/v3/PublicHolidays/2026/MY
+OUTPUT: All four functions at api/ in the PROJECT ROOT, siblings of package.json, never
+ inside src/. If this project has a server entry file, register the same routes there too,
+ because that is the shape the preview can answer. If it has no server file, skip
+ that and tell me so rather than inventing one.
+ Make sure package.json contains "type": "module".
+ BEFORE the fetch there is no credential to guard, so guard the input instead: a search
+ of fewer than two characters returns nothing from the geocoder, so return an empty
+ result with a reason rather than calling the upstream at all.
+ AFTER the fetch, check response.ok before reading the body. A refusal often has an
+ empty body, so calling .json() on it throws and my function dies with a 500 instead
+ of telling me what happened. On a non-2xx reply, return the upstream status and a
+ one-line reason in your own JSON. An empty results array from the geocoder is a 200
+ with nothing in it, which is a different case again and needs its own sentence.
+ Cache geocoding for 24 hours with Cache-Control: s-maxage=86400,
+ stale-while-revalidate=172800, and the forecast for 30 minutes with
+ Cache-Control: s-maxage=1800, stale-while-revalidate=3600, matching how often each
+ source actually changes.
+ In the footer, credit the source in the exact form the provider's licence asks for:
+ "Weather data by Open-Meteo.com, CC-BY 4.0" with a link, and say in the write-up that
+ the free tier is non-commercial.
 
-GUARDRAILS
-- There is no key here, so there is nothing to leak — but the calls still happen in /api, so
-  caching and error handling live in one place if a key ever appears.
-- No environment variable name begins VITE_.
-- Cache geocoding for 24 hours and the forecast for 30 minutes.
-- Four states, four distinct sentences. An empty result is a sentence, never a blank panel.
-- /api/health reports {ok:true, keyConfigured:false} — this product needs no key.
-- Footer must credit Open-Meteo with a link, CC-BY 4.0, non-commercial use.
+GUARDRAILS: Never write the credential into any file, comment or README. Never create
+ a variable whose name starts with VITE_. Never call the upstream from browser code;
+ every call happens inside api/. Never print the credential, or any part of it, in a
+ response or a log. No new npm packages. No database, no login. Leave every screen I
+ already have working exactly as it is.
 
-CHECKS
-1. Call all three endpoints by hand first and read the raw JSON shapes.
-2. Search "Pe" — confirm the empty state renders as a sentence, not a spinner.
-3. Ask for a country Nager.Date does not list and confirm the holiday panel explains itself.
-4. Open /api/health and confirm it answers without any key being set.</pre>
+CONTEXT: Deployed on Vercel from GitHub. There is no credential and no environment
+ variable for this build, which is the whole argument for choosing these sources.
+ A real response from the endpoint, called by hand just now, looks like this:
+[PASTE 15-25 LINES OF THE REAL RESPONSE HERE]</pre>
             </div>
 
           </details>
@@ -623,37 +669,63 @@ CHECKS
                 <span class="prompt-label">Prompt</span>
                 <button type="button" class="copybtn" data-target="prompt-ex3">Copy</button>
               </div>
-              <pre class="code-block" id="prompt-ex3">ROLE
-You are extending the carpark app from example 1 with a signup form, on Vercel.
+              <pre class="code-block" id="prompt-ex3">ROLE: You are a senior full-stack developer working in my existing project. Do not
+rewrite what is already there; add to it.
 
-GOAL
-A commuter who checked the carpark once wants it daily: one email field under the lots panel
-subscribes them to a 7am digest for the carpark they were looking at, and tells them plainly
-whether the subscription worked.
+GOAL: My screen currently shows how many lots are free at Marina Square as a hard-coded
+value, and has no way for anyone to subscribe to it. Replace the value with real data
+from data.gov.sg, and add a signup form that delivers through Web3Forms, fetched through
+a serverless function of my own where a credential is involved.
+ 1) api/carparks.js—calls
+    https://api.data.gov.sg/v1/transport/carpark-availability?date_time=2026-09-15T09:00:00
+    and returns only CarParkID, AvailableLots and the update timestamp, nothing else.
+    The form posts from browser code to https://api.web3forms.com/submit with
+    WEB3FORMS_KEY in the body. This is the one credential that belongs in the browser,
+    because it can do exactly one thing: deliver a message to the inbox that owns it.
+    Put a comment beside it saying so. Do not move it into api/, and do not treat it as
+    a precedent for any other key.
+ 2) api/health.js—reports whether the credential is configured (keyConfigured) and
+    whether the upstream answered, including the HTTP status it returned. It must
+    never print the credential or any part of it.
+ 3) On the screen, replace the hard-coded value with the live one, and decide what
+    the user sees in each of these four cases: the data is loading, the data is
+    empty, the upstream refused, and the upstream is unreachable. I want four
+    different sentences, not one spinner. The form owns four more of its own—
+    submitting, success, rejected, unreachable—rendered separately from the data
+    panel's, because the form can fail while the numbers are fine.
 
-OUTPUT
-index.html        the example 1 panels, plus a form posting to Web3Forms from the browser
-/api/bus.js       unchanged, still reads LTA_ACCOUNT_KEY server-side
-/api/health.js    {ok, keyConfigured} for the LTA key only
-Endpoints:
-  https://api.web3forms.com/submit   POST JSON {access_key, email, carpark}
-  https://api.data.gov.sg/v1/transport/carpark-availability?date_time=2026-09-12T09:00:00
+OUTPUT: Both functions at api/ in the PROJECT ROOT, siblings of package.json, never
+ inside src/. If this project has a server entry file, register the same two routes there too,
+ because that is the shape the preview can answer. If it has no server file, skip
+ that and tell me so rather than inventing one.
+ Make sure package.json contains "type": "module".
+ BEFORE the fetch, if WEB3FORMS_KEY is missing or empty, disable the form and say so on
+ screen rather than posting an empty access_key and reading the rejection as a typo by
+ the user. A missing variable is sent as the word "undefined" and looks exactly like a
+ wrong credential, so stop it early.
+ AFTER the fetch, check response.ok before reading the body. A refusal often has an
+ empty body, so calling .json() on it throws and my function dies with a 500 instead
+ of telling me what happened. On a non-2xx reply, return the upstream status and a
+ one-line reason in your own JSON.
+ Cache the carpark response for 60 seconds with Cache-Control: s-maxage=60,
+ stale-while-revalidate=120, matching how often the source actually changes. The form
+ submission is never cached.
+ In the footer, credit the source in the exact form the provider's licence asks for:
+ "Contains information from data.gov.sg, accessed [DATE], made available under the
+ terms of the Singapore Open Data Licence version 1.0."
 
-GUARDRAILS
-- WEB3FORMS_KEY is the single exception: it belongs in browser code because it can only
-  deliver a message to the inbox that owns it. Say so in a comment beside it.
-- LTA_ACCOUNT_KEY stays inside /api and is never sent to the browser for any reason.
-- No environment variable name begins VITE_.
-- Cache the carpark feed for 60 seconds; the form is never cached.
-- The form has its own four states — submitting, success, rejected, unreachable — rendered
-  separately from the data panel's four, as four distinct sentences.
-- /api/health reports keyConfigured for LTA without revealing the value.
+GUARDRAILS: Never write the credential into any file, comment or README. Never create
+ a variable whose name starts with VITE_. Never call the upstream from browser code;
+ every call happens inside api/—with the single stated exception of the Web3Forms post,
+ which is browser-side by design. Never print the credential, or any part of it, in a
+ response or a log. No new npm packages. No database, no login. Leave every screen I
+ already have working exactly as it is.
 
-CHECKS
-1. POST to Web3Forms by hand with curl before wiring the form.
-2. View source: WEB3FORMS_KEY is visible by design, LTA_ACCOUNT_KEY must not appear at all.
-3. Submit an invalid address and confirm the rejected sentence renders, not a silent reset.
-4. Block api.web3forms.com in devtools and confirm the unreachable sentence appears.</pre>
+CONTEXT: Deployed on Vercel from GitHub. The credential lives in a Vercel environment
+ variable named WEB3FORMS_KEY, and is the one value this project ships to the browser
+ on purpose. A real response from the endpoint, called by hand just now, looks like
+ this:
+[PASTE 15-25 LINES OF THE REAL RESPONSE HERE]</pre>
             </div>
 
           </details>
@@ -1113,11 +1185,128 @@ service and paste it here before sending.</pre>
             <div id="cred-checks"></div>
           </div>
 
-          <div class="prompt-head">
-            <span class="prompt-label">Paste this into your coding tool</span>
-            <button type="button" class="copybtn" data-target="cred-rgogc">Copy</button>
+        </div>
+
+        <!-- B2b. Decomposing the prompt -->
+        <h3>Let's decompose the code to see what we are setting ourselves up for</h3>
+        <p class="decomp-intro">The same five headers you paste into a coding tool, taken apart a chunk at a time.
+          Left is the text itself. Right is what that chunk is actually buying you.</p>
+
+        <div class="decomp">
+
+          <div class="decomp-row">
+            <pre class="code-block decomp-code">ROLE: You are a senior full-stack developer working in my existing project. Do not
+rewrite what is already there; add to it.</pre>
+            <aside class="decomp-note">
+              <span class="decomp-tag">The frame</span>
+              <p>Sets the terms before anything else: add to what exists, do not rewrite it.</p>
+            </aside>
           </div>
-          <pre class="code-block" id="cred-rgogc"></pre>
+
+          <div class="decomp-row">
+            <pre class="code-block decomp-code">GOAL: My screen currently shows [WHICH CLAIM] as a hard-coded value. Replace it with
+real data from [WHICH SERVICE], fetched through a serverless function of my own.</pre>
+            <aside class="decomp-note">
+              <span class="decomp-tag">User statement</span>
+              <p>The user statement — mostly for the UI. What the screen claims today, and what it has to claim truthfully instead.</p>
+            </aside>
+          </div>
+
+          <div class="decomp-row">
+            <pre class="code-block decomp-code"> 1) api/[NAME].js—calls [FULL ENDPOINT URL], returns only the fields my screen
+    needs, and nothing else.</pre>
+            <aside class="decomp-note">
+              <span class="decomp-tag">File structure</span>
+              <p>To give the exact file structure. One named file, one endpoint, and a hard limit on what comes back.</p>
+            </aside>
+          </div>
+
+          <div class="decomp-row">
+            <pre class="code-block decomp-code"> 2) api/health.js—reports whether the credential is configured (keyConfigured) and
+    whether the upstream answered, including the HTTP status it returned. It must
+    never print the credential or any part of it.</pre>
+            <aside class="decomp-note">
+              <span class="decomp-tag">Health check</span>
+              <p>To help us check health status alongside the endpoint connection — is the key configured, and did the upstream answer.</p>
+            </aside>
+          </div>
+
+          <div class="decomp-row">
+            <pre class="code-block decomp-code"> 3) On the screen, replace the hard-coded value with the live one, and decide what
+    the user sees in each of these four cases: the data is loading, the data is
+    empty, the upstream refused, and the upstream is unreachable. I want four
+    different sentences, not one spinner.</pre>
+            <aside class="decomp-note">
+              <span class="decomp-tag">The four states</span>
+              <p>Establishing the four stages properly is the sanity check — it is what lets us diagnose the root cause instead of guessing.</p>
+            </aside>
+          </div>
+
+          <div class="decomp-row">
+            <pre class="code-block decomp-code">OUTPUT: Both functions at api/ in the PROJECT ROOT, siblings of package.json, never
+ inside src/. If this project has a server entry file, register the same two routes there too,
+ because that is the shape the preview can answer. If it has no server file, skip
+ that and tell me so rather than inventing one.</pre>
+            <aside class="decomp-note">
+              <span class="decomp-tag">Where the files sit</span>
+              <p>File structure, as Prof said in the build tab (5). Where the files have to sit, because that is what decides whether Vercel runs them at all.</p>
+            </aside>
+          </div>
+
+          <div class="decomp-row">
+            <pre class="code-block decomp-code"> Make sure package.json contains "type": "module".
+ BEFORE the fetch, if the credential is missing or empty, return 503 with a message
+ naming the variable, and do not call the upstream at all. A missing variable is sent
+ as the word "undefined" and looks exactly like a wrong credential, so stop it early.
+ AFTER the fetch, check response.ok before reading the body. A refusal often has an
+ empty body, so calling .json() on it throws and my function dies with a 500 instead
+ of telling me what happened. On a non-2xx reply, return the upstream status and a
+ one-line reason in your own JSON.</pre>
+            <aside class="decomp-note">
+              <span class="decomp-tag">Guardrail</span>
+              <p>Establishing the 503 message loud and clear, so the failure reads as a provider fault and not a fault in our code.</p>
+            </aside>
+          </div>
+
+          <div class="decomp-row">
+            <pre class="code-block decomp-code"> Cache the response for [HOW LONG] with Cache-Control: s-maxage=[N],
+ stale-while-revalidate=[2N], matching how often the source actually changes.
+ In the footer, credit the source in the exact form the provider's licence asks for.</pre>
+            <aside class="decomp-note">
+              <span class="decomp-tag">Rate limits</span>
+              <p>Rate-limit protection, and a guardrail against sitting in a loading state.</p>
+            </aside>
+          </div>
+
+          <div class="decomp-row">
+            <pre class="code-block decomp-code">GUARDRAILS: Never write the credential into any file, comment or README. Never create
+ a variable whose name starts with VITE_. Never call the upstream from browser code;
+ every call happens inside api/. Never print the credential, or any part of it, in a
+ response or a log. No new npm packages. No database, no login. Leave every screen I
+ already have working exactly as it is.</pre>
+            <aside class="decomp-note">
+              <span class="decomp-tag">The fence</span>
+              <p>The guardrails the LLM has to operate within. Do not give it the degree of freedom to make things up. We will cover more of this — but human judgement is still needed.</p>
+            </aside>
+          </div>
+
+          <div class="decomp-row">
+            <pre class="code-block decomp-code">CONTEXT: Deployed on Vercel from GitHub. The credential lives only in a Vercel
+ environment variable named [VARIABLE_NAME].</pre>
+            <aside class="decomp-note">
+              <span class="decomp-tag">Where the key lives</span>
+              <p>Tells the tool where the key lives so it stops guessing. Without this it reaches for a .env file, a config object or a hardcoded constant — all of which end up in the repo.</p>
+            </aside>
+          </div>
+
+          <div class="decomp-row">
+            <pre class="code-block decomp-code"> A real response from the endpoint, called by hand just now, looks like this:
+[PASTE 15-25 LINES OF THE REAL RESPONSE HERE]</pre>
+            <aside class="decomp-note">
+              <span class="decomp-tag">The real response</span>
+              <p>We paste the output because a live response tells you what is not there, beyond just what is.</p>
+            </aside>
+          </div>
 
         </div>
 

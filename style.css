@@ -3032,3 +3032,91 @@ html {
     display: none !important;
   }
 }
+
+
+/* ----------------------------------------------------
+   TAB 2 · DECOMPOSING THE PROMPT
+   ---------------------------------------------------- */
+.decomp-intro {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin-bottom: 18px;
+}
+
+.decomp {
+  margin-bottom: 28px;
+}
+
+.decomp-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  margin-bottom: 12px;
+}
+
+pre.decomp-code {
+  font-family: var(--font-mono);
+  font-size: 0.73rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-x: hidden;
+  margin-bottom: 0;
+  padding: 12px 14px;
+}
+
+/* the note reads as a margin annotation, not a second body of text */
+.decomp-note {
+  border-left: 3px solid var(--accent);
+  background-color: color-mix(in srgb, var(--accent) 6%, transparent);
+  border-radius: 0 6px 6px 0;
+  padding: 11px 14px;
+}
+
+.decomp-tag {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 5px;
+}
+
+.decomp-note p {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--grey-dark);
+  margin-bottom: 0;
+}
+
+@media (max-width: 720px) {
+  .decomp-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+
+  pre.decomp-code {
+    font-size: 0.68rem;
+  }
+}
+
+@media print {
+  .decomp-row {
+    page-break-inside: avoid;
+  }
+
+  pre.decomp-code {
+    background-color: #F8FAFC !important;
+    color: #000000 !important;
+    border: 1px solid #CCCCCC !important;
+  }
+
+  .decomp-note {
+    border-left: 3px solid #000000 !important;
+    background-color: #FFFFFF !important;
+  }
+}
